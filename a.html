@@ -124,29 +124,43 @@ section{position:relative}
 .statement{padding:clamp(90px,12vw,170px) 0;border-top:1px solid var(--line)}
 .statement .big{font-size:clamp(34px,5.6vw,82px);line-height:1.02;max-width:18ch}
 .statement .big .red{color:var(--red)}
-.statement .big .muted{color:var(--paper-faint)}
-.statement .row{display:grid;grid-template-columns:1fr;gap:clamp(34px,5vw,80px);margin-top:clamp(40px,5vw,72px);align-items:start}
-@media(min-width:900px){.statement .row{grid-template-columns:1.1fr .9fr}}
-.statement .row p{font-size:clamp(16px,1.5vw,19px);color:var(--paper-dim);max-width:54ch}
-.statement .row .lead{font-family:'Fraunces',serif;font-size:clamp(20px,2vw,26px);color:var(--paper);font-style:italic;font-weight:400;line-height:1.4}
+.statement .big .muted{color:var(--paper-dim)}
+.statement .stmt-grid{display:grid;grid-template-columns:1fr;gap:clamp(34px,5vw,64px);align-items:end}
+@media(min-width:900px){.statement .stmt-grid{grid-template-columns:1.25fr .75fr;gap:clamp(48px,6vw,90px)}}
+.statement .lead{font-family:'Fraunces',serif;font-size:clamp(19px,1.9vw,25px);color:var(--paper);font-style:italic;font-weight:400;line-height:1.42;max-width:30ch;margin-top:clamp(34px,4vw,52px)}
+.statement .stmt-fig{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1344/768}
+@media(min-width:900px){.statement .stmt-fig{margin-bottom:clamp(8px,1.5vw,22px);transform:translateY(0)}}
+.statement .stmt-fig img{width:100%;height:100%;object-fit:cover;filter:saturate(.96) contrast(1.04)}
+.statement .stmt-fig::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 90px 18px rgba(12,12,15,.55);pointer-events:none}
 
 /* ---------- SERVICES ---------- */
 .services{padding:clamp(70px,9vw,130px) 0;border-top:1px solid var(--line);background:var(--ink-2)}
-.svc-list{border-top:1px solid var(--line)}
-.svc{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px,4vw,60px);align-items:center;padding:clamp(28px,3.4vw,46px) 0;border-bottom:1px solid var(--line);position:relative;cursor:default;transition:padding-left .45s cubic-bezier(.2,.7,.2,1)}
+.svc-list{border-top:1px solid var(--line);position:relative}
+.svc{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px,4vw,60px);align-items:center;padding:clamp(26px,3.2vw,42px) 0;border-bottom:1px solid var(--line);position:relative;cursor:default;transition:padding-left .45s cubic-bezier(.2,.7,.2,1)}
 .svc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red);transition:width .4s cubic-bezier(.2,.7,.2,1)}
 .svc:hover{padding-left:26px}
 .svc:hover::before{width:3px}
 .svc-n{font-family:'Manrope';font-size:14px;font-weight:700;color:var(--paper-faint);letter-spacing:.05em;transition:color .35s}
 .svc:hover .svc-n{color:var(--red)}
-.svc-main h3{font-size:clamp(26px,3.4vw,46px);font-weight:500;transition:color .35s}
-.svc-main p{color:var(--paper-faint);font-size:15.5px;margin-top:10px;max-width:60ch;transition:color .35s}
-.svc:hover .svc-main p{color:var(--paper-dim)}
+.svc-main h3{font-size:clamp(26px,3.4vw,46px);font-weight:500;transition:color .35s,opacity .35s}
 .svc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .svc-tags span{font-size:12px;letter-spacing:.04em;color:var(--paper-dim);border:1px solid var(--line);border-radius:100px;padding:5px 13px}
 .svc-go{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;transition:.4s;opacity:.5}
 .svc:hover .svc-go{background:var(--red);border-color:var(--red);opacity:1;transform:rotate(-45deg)}
 .svc-go svg{width:20px;height:20px}
+/* small static thumbnail (mobile / no-hover) */
+.svc-thumb{display:none;width:64px;height:48px;border-radius:4px;overflow:hidden;flex:none;border:1px solid var(--line)}
+.svc-thumb img{width:100%;height:100%;object-fit:cover}
+/* floating hover-reveal image (desktop, pointer:fine) */
+.svc-reveal{position:fixed;top:0;left:0;width:clamp(280px,26vw,380px);aspect-ratio:1100/817;border-radius:6px;overflow:hidden;pointer-events:none;z-index:50;opacity:0;transform:translate(-50%,-50%) scale(.92);transition:opacity .4s cubic-bezier(.2,.7,.2,1),transform .4s cubic-bezier(.2,.7,.2,1);box-shadow:0 30px 70px rgba(0,0,0,.6);will-change:transform,opacity}
+.svc-reveal.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.svc-reveal img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .35s ease}
+.svc-reveal img.active{opacity:1}
+.svc-reveal::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px 14px rgba(12,12,15,.5);pointer-events:none}
+@media(hover:hover) and (pointer:fine){
+  .svc-list:hover .svc h3{opacity:.4}
+  .svc:hover h3{opacity:1}
+}
 
 /* ---------- ABOUT ---------- */
 .about{padding:clamp(90px,11vw,160px) 0;border-top:1px solid var(--line)}
@@ -200,6 +214,13 @@ section{position:relative}
 .insta-photo:hover img{transform:scale(1.05)}
 .insta-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,15,.05) 40%,rgba(12,12,15,.7));pointer-events:none}
 .insta-photo-tag{position:absolute;left:18px;bottom:18px;z-index:2;display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:#fff}
+/* cutout variant: portrait with alpha on a branded dark/red panel (distinct from the About portrait) */
+.insta-photo--cutout{aspect-ratio:4/5;background:
+  radial-gradient(120% 90% at 70% 18%,rgba(211,31,38,.34),transparent 58%),
+  linear-gradient(165deg,#1d1820 0%,#121017 60%,#0d0b11 100%)}
+.insta-photo--cutout img{object-fit:contain;object-position:center bottom;filter:none;transform-origin:center bottom}
+.insta-photo--cutout:hover img{transform:scale(1.04)}
+.insta-photo--cutout::after{background:linear-gradient(180deg,transparent 55%,rgba(12,12,15,.55))}
 
 /* ---------- CTA ---------- */
 .cta{padding:clamp(100px,13vw,200px) 0;border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
@@ -232,12 +253,19 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 .rev.in{opacity:1;transform:none}
 .rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
 
+/* devices without real hover (touch): show full-width image strip, hide floating reveal */
+@media(hover:none),(pointer:coarse){
+  .svc-reveal{display:none!important}
+  .svc{grid-template-columns:auto 1fr;grid-auto-flow:row;column-gap:clamp(16px,4vw,24px);row-gap:20px;align-items:start}
+  .svc-n{padding-top:6px}
+  .svc-go{display:none}
+  /* thumbnail becomes a full-width atmospheric strip below the heading */
+  .svc-thumb{display:block;grid-column:1 / -1;width:100%;height:auto;aspect-ratio:16/7;border-radius:5px}
+}
 @media(max-width:880px){
   .nav-links{display:none}
   .nav-cta{display:none}
   .burger{display:block}
-  .svc{grid-template-columns:auto 1fr;gap:18px}
-  .svc-go{display:none}
   .hero-foot{flex-direction:column;align-items:flex-start}
   .scroll-hint{display:none}
 }
@@ -293,7 +321,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     <div class="hero-eyebrow"><span class="dot"></span> Osobní finanční poradce · Brno</div>
     <h1>Finance bez <em>přehnaných</em> <span class="red">formalit.</span></h1>
     <div class="hero-foot">
-      <p>Žádné produkty na prodej. Jen přehledný finanční plán, který dává smysl — postavený s důrazem na profesionalitu a vaše skutečné cíle.</p>
+      <p>Žádné produkty na prodej. Jen plán, který dává smysl.</p>
       <a href="/rezervace" class="hero-cta">Rezervovat konzultaci
         <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -305,8 +333,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Finanční plán <b>*</b> Hypotéky <b>*</b> Investice <b>*</b> Pojištění <b>*</b> Firemní portfolio <b>*</b> Automobily <b>*</b></span>
-    <span>Finanční plán <b>*</b> Hypotéky <b>*</b> Investice <b>*</b> Pojištění <b>*</b> Firemní portfolio <b>*</b> Automobily <b>*</b></span>
+    <span>Kurdiovský <b>*</b> Finance bez formalit <b>*</b> Brno <b>*</b> Kurdiovský <b>*</b> Finance bez formalit <b>*</b> Brno <b>*</b></span>
+    <span>Kurdiovský <b>*</b> Finance bez formalit <b>*</b> Brno <b>*</b> Kurdiovský <b>*</b> Finance bez formalit <b>*</b> Brno <b>*</b></span>
   </div>
 </div>
 
@@ -316,10 +344,14 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     <div class="sec-head rev"><span class="sec-num">01</span>
       <div><div class="sec-kicker">Jak to dělám</div></div>
     </div>
-    <p class="display big rev"><span class="muted">Neprodávám</span> produkty.<br>Tvořím <span class="red">řešení,</span> která dávají smysl.</p>
-    <div class="row">
-      <p class="lead rev d1">Většina poradenství stojí na provizích z produktů. Já jdu obráceně — nejdřív rozumím vašim cílům, pak stavím plán. Produkt je až poslední krok, ne ten první.</p>
-      <p class="rev d2">Výsledkem je jeden přehledný finanční plán, kterému rozumíte. Bez balastu, bez tlaku, bez papírů, které nikdo nikdy nečte. Vykání, slušnost a rovná řeč — tak, jak by poradenství mělo vypadat.</p>
+    <div class="stmt-grid">
+      <div class="stmt-txt">
+        <p class="display big rev"><span class="muted">Neprodávám</span> produkty.<br>Tvořím <span class="red">řešení,</span> která dávají smysl.</p>
+        <p class="lead rev d1">Nejdřív rozumím vašim cílům, pak stavím plán. Produkt je až poslední krok&nbsp;— ne ten první.</p>
+      </div>
+      <figure class="stmt-fig rev d2">
+        <img src="assets/img/stmt-graph.webp" alt="Detail stoupající červené datové linie na tmavém povrchu" loading="lazy" width="1344" height="768">
+      </figure>
     </div>
   </div>
 </section>
@@ -332,43 +364,49 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         <h2 style="font-size:clamp(30px,4.4vw,60px)">Čtyři oblasti, <span style="color:var(--red)">jeden plán.</span></h2>
       </div>
     </div>
-    <div class="svc-list">
-      <div class="svc rev">
+    <div class="svc-list" id="svcList">
+      <div class="svc rev" data-img="0">
         <span class="svc-n">01</span>
         <div class="svc-main">
           <h3>Osobní finanční poradenství</h3>
-          <p>Kompletní finanční plán na míru — od hypotéky přes investice až po pojištění. Vše propojené do jednoho srozumitelného celku.</p>
           <div class="svc-tags"><span>Finanční plán</span><span>Hypotéky</span><span>Investice</span><span>Pojištění</span></div>
         </div>
+        <span class="svc-thumb"><img src="assets/img/svc-plan.webp" alt="Vytištěný finanční plán u svíčky" loading="lazy" width="320" height="140"></span>
         <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
-      <div class="svc rev d1">
+      <div class="svc rev d1" data-img="1">
         <span class="svc-n">02</span>
         <div class="svc-main">
           <h3>Firemní poradenství</h3>
-          <p>Několika firmám spravuji celé finanční portfolio. Specializace na malé a střední podniky — financování, cash flow i zabezpečení majitele.</p>
           <div class="svc-tags"><span>Malé a střední firmy</span><span>Firemní portfolio</span><span>Financování</span></div>
         </div>
+        <span class="svc-thumb"><img src="assets/img/svc-notebook.webp" alt="Otevřený zápisník s perem u svíčky" loading="lazy" width="320" height="140"></span>
         <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
-      <div class="svc rev d2">
+      <div class="svc rev d2" data-img="2">
         <span class="svc-n">03</span>
         <div class="svc-main">
           <h3>Financování a pojištění automobilů</h3>
-          <p>Od výběru financování po správně nastavené pojištění. Bez zbytečných příplatků a s reálným přehledem, kolik vás auto opravdu stojí.</p>
           <div class="svc-tags"><span>Úvěr · leasing</span><span>Pojištění vozidel</span></div>
         </div>
+        <span class="svc-thumb"><img src="assets/img/svc-carkey.webp" alt="Klíč od auta na tmavém dřevě u svíčky" loading="lazy" width="320" height="140"></span>
         <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
-      <div class="svc rev d3">
+      <div class="svc rev d3" data-img="3">
         <span class="svc-n">04</span>
         <div class="svc-main">
           <h3>Investice — konzervativní i moderní</h3>
-          <p>Od opatrných, prověřených nástrojů až po moderní svět krypta. Strategie podle vaší tolerance rizika, ne podle aktuálního trendu.</p>
           <div class="svc-tags"><span>Konzervativní</span><span>Dynamické</span><span>Krypto</span></div>
         </div>
+        <span class="svc-thumb"><img src="assets/img/chart-red.webp" alt="Stoupající červená křivka na tmavém papíře" loading="lazy" width="320" height="140"></span>
         <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       </div>
+    </div>
+    <div class="svc-reveal" id="svcReveal" aria-hidden="true">
+      <img src="assets/img/svc-plan.webp" alt="" data-i="0" loading="lazy">
+      <img src="assets/img/svc-notebook.webp" alt="" data-i="1" loading="lazy">
+      <img src="assets/img/svc-carkey.webp" alt="" data-i="2" loading="lazy">
+      <img src="assets/img/chart-red.webp" alt="" data-i="3" loading="lazy">
     </div>
   </div>
 </section>
@@ -384,9 +422,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     <div class="about-txt">
       <div class="sec-kicker rev">02 — O mně</div>
       <h2 class="rev d1">Poradce, který sám <span class="red">podniká.</span></h2>
-      <p class="rev d1">Jsem Jan Kurdiovský — finanční poradce se složenou oborovou zkouškou <span class="acc">PFP</span> a v rámci EFPA-certifikované komunity. Finance beru jako řemeslo, ne jako prodej.</p>
-      <p class="rev d2">S přítelkyní jsme založili firmu na potisk textilu <span class="acc">SUORIGO</span>. Vím tedy, jak vypadají finance z druhé strany — z pohledu majitele, který řeší cash flow, investice i klid v hlavě. Tu zkušenost přináším každému klientovi.</p>
-      <p class="rev d3">Jsem členem money2u a osvětě o financích se věnuju i na Instagramu @jan_kurdiovsky.</p>
+      <p class="rev d1">Jsem Jan Kurdiovský&nbsp;— finanční poradce se složenou oborovou zkouškou <span class="acc">PFP</span>. Jsem také členem komunity EFPA. Finance beru jako řemeslo, ne jako prodej.</p>
+      <p class="rev d2">S přítelkyní jsme založili firmu na potisk textilu <span class="acc">SUORIGO</span>. Vím proto, jak vypadají finance z&nbsp;druhé strany&nbsp;— z&nbsp;pohledu majitele.</p>
       <div class="about-sign rev d3">
         <span class="mark" style="width:48px;height:48px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line)"><img src="assets/img/jk-logo.webp" alt="" style="width:30px;height:30px;object-fit:contain"></span>
         <div><div class="nm">Jan Kurdiovský</div><div class="rl">Finanční poradce · PFP · member of money2u</div></div>
@@ -401,8 +438,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     <div class="feature-txt">
       <div class="sec-kicker rev">03 — Zázemí</div>
       <h2 class="rev d1">Síla samostatnosti, <span class="red">jistota zázemí.</span></h2>
-      <p class="rev d1">Pracuji nezávisle — to znamená výběr napříč trhem, ne jen z jedné stáje produktů. A přitom mám za zády zázemí money2u, jednoho z respektovaných hráčů v oboru.</p>
-      <p class="rev d2">Pro vás to znamená férové srovnání možností a rozhodnutí, které je opravdu vaše.</p>
+      <p class="rev d1">Pracuji nezávisle&nbsp;— výběr napříč trhem, ne jen z&nbsp;jedné stáje produktů. Za zády mám přitom zázemí money2u.</p>
       <div class="feature-pills rev d3">
         <span class="on">Nezávislé poradenství</span>
         <span>Member of money2u</span>
@@ -422,7 +458,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     <div class="insta-left">
       <div class="sec-kicker rev">04 — Sociální sítě</div>
       <h2 class="rev d1">Finance <span class="red">srozumitelně,</span><br>otevřeně, bez žargonu.</h2>
-      <p class="insta-lead rev d2">Na Instagramu pravidelně sdílím osvětu o financích — srozumitelně a bez prodejních řečí. Pojďte se podívat, jak nad penězi přemýšlím.</p>
+      <p class="insta-lead rev d2">Na Instagramu sdílím osvětu o&nbsp;financích&nbsp;— srozumitelně a&nbsp;bez prodejních řečí.</p>
       <div class="insta-actions rev d3">
         <a href="https://instagram.com/jan_kurdiovsky" class="insta-handle" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
@@ -430,8 +466,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         </a>
       </div>
     </div>
-    <a class="insta-photo rev d2" href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener" aria-label="Otevřít profil @jan_kurdiovsky na Instagramu">
-      <img src="assets/img/jan-portrait.webp" alt="Jan Kurdiovský">
+    <a class="insta-photo insta-photo--cutout rev d2" href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener" aria-label="Otevřít profil @jan_kurdiovsky na Instagramu">
+      <img src="assets/img/jan-cutout.webp" alt="Jan Kurdiovský u stolu se svíčkou">
       <span class="insta-photo-tag">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
         @jan_kurdiovsky
@@ -461,7 +497,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
           <span class="mark"><img src="assets/img/jk-logo.webp" alt="JK logo"></span>
           <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
         </a>
-        <p>Finanční poradenství bez přehnaných formalit, s důrazem na profesionalitu. Neprodávám produkty — tvořím smysluplný plán.</p>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
       </div>
       <div class="foot-col">
         <h4>Navigace</h4>
@@ -501,6 +537,31 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
   },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.rev').forEach(function(el){io.observe(el)});
+
+  /* services hover image reveal — desktop pointer:fine only, respects reduced motion */
+  var fineHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reveal=document.getElementById('svcReveal');
+  var list=document.getElementById('svcList');
+  if(fineHover && !reduceMotion && reveal && list){
+    var imgs=reveal.querySelectorAll('img');
+    var tx=0,ty=0,cx=0,cy=0,raf=null,visible=false;
+    var setActive=function(i){imgs.forEach(function(im){im.classList.toggle('active',+im.dataset.i===i)})};
+    var loop=function(){
+      cx+=(tx-cx)*0.16;cy+=(ty-cy)*0.16;
+      reveal.style.left=cx+'px';reveal.style.top=cy+'px';
+      if(visible || Math.abs(tx-cx)>0.5 || Math.abs(ty-cy)>0.5){raf=requestAnimationFrame(loop)}else{raf=null}
+    };
+    list.querySelectorAll('.svc').forEach(function(svc){
+      svc.addEventListener('mouseenter',function(){
+        setActive(+svc.dataset.img);
+        visible=true;reveal.classList.add('show');
+        if(!raf)raf=requestAnimationFrame(loop);
+      });
+    });
+    list.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;if(!raf)raf=requestAnimationFrame(loop)});
+    list.addEventListener('mouseleave',function(){visible=false;reveal.classList.remove('show')});
+  }
 })();
 </script>
 </body>
