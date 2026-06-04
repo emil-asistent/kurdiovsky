@@ -43,16 +43,23 @@ Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP
 - `assets/src/` — originály z živého webu
 
 ## Deployments
-- Preview variant: Vercel (nový projekt kurdiovsky-redesign)
+- **Preview variant ŽIVÉ: https://kurdiovsky-redesign.vercel.app** (/a, /b, /c; rozcestník na /)
+- Vercel projekt: kurdiovsky-redesign (emilasistent-7377s-projects)
 - Starý návrh: kurdiovsky-web.djai.cz (Coolify :8219) — nemazat, dokud Emil nevybere
 - Produkce (později): kurdiovsky.cz — DNS v CF účtu cbe463a934abec056b2f9c9cb951f116
 
 ## Session Log
-### 2026-06-04 — Setup + varianty
-- Projekt založen, fotky staženy z živého webu + WebP optimalizace
+### 2026-06-04 — Setup + 3 varianty živé
+- Projekt založen, fotky staženy z živého webu + WebP optimalizace (hero 52 KB)
 - Analýza: živý web (WP/Elementor, dark+red, reálný obsah) vs starý návrh (teal/gold, fake obsah, AI-look)
 - Emil: chce 3 varianty k výběru, web včetně klientského portálu
+- Workflow (9 agentů): build → adversariální kritika → fix pro každou variantu, vizuální Playwright smyčky
+- A = tmavá editorial (Fraunces×Manrope, moody hero, číslované služby 01–04, verdict good-with-fixes)
+- B = světlá premium (krém, serif, rámovaná tmavá fotka mimo osu, pullquote „Neprodávám produkty.", verdict excellent)
+- C = bold brutalist (15vw KURDIOVSKÝ, červené plochy, accordion služby, marquee, verdict good-with-fixes)
+- Deploy na Vercel prod, všechny stránky 200, žádné rozbité obrázky
 
 ## Open Threads
-- Emil vybere variantu A/B/C → dotáhnout celý web
+- **Emil vybere variantu A/B/C** → dotáhnout celý web (služby, o mně, rezervace, kontakt, portál login+dashboard)
+- Otevřené drobnosti z kritiky: B hero fotka se sklenkou whisky (alternativy připraveny, výměna v <picture> ~ř. 477–480); ověřit s Janem přesný vztah k EFPA (certifikace vs reference)
 - Rozhodnutí o produkci (nahradit WordPress) — viz coolify-migrace-mapa
