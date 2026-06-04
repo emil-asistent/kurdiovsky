@@ -747,6 +747,11 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   var reveal=document.getElementById('svcReveal');
   var svcList=document.getElementById('svcList');
   var svcImgs=reveal?reveal.querySelectorAll('img'):[];
+  /* lazy + hidden container = obrázky by se stáhly až při prvním hoveru (probliknutí) → na desktopu je přednačti na idle */
+  if(fineHover && svcImgs.length){
+    var preloadSvc=function(){[].forEach.call(svcImgs,function(im){im.loading='eager';if(!im.complete)im.src=im.src})};
+    if('requestIdleCallback' in window)requestIdleCallback(preloadSvc,{timeout:3000});else setTimeout(preloadSvc,1500);
+  }
   var svcVisible=false, svcRx=mx, svcRy=my, svcRot=0;
   // magnetic state
   var magnets=[].map.call(document.querySelectorAll('[data-magnetic]'),function(el){
