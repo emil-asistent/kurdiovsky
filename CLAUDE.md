@@ -4,9 +4,13 @@
 Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP). Nahrazuje starý WordPress/Elementor web i rozdělaný teal/gold návrh (`~/Desktop/Projekty Mac Mini/4 - Webové projekty (dev)/kurdiovsky-web`, preview kurdiovsky-web.djai.cz).
 
 ## Current State
-- Status: VARIANTY — 3 designové směry pro Emilův výběr
+- Status: VARIANTA A VYBRÁNA a po de-AI přestavbě (text −50 %, AI grafika) — další krok: dotáhnout celý web
 - Created: 2026-06-04
 - Last session: 2026-06-04
+
+## AI grafika — POZOR
+- Google/Gemini API MRTVÉ (403 denied oba GCP projekty, i text modely) → grafika se generuje přes **Replicate FLUX**: `flux-kontext-pro` s `input_image` = živá URL hero fotky (grade-match) + „no readable text" v promptu; token v `~/Desktop/Claude code project/AI-API-KEYS.md`; na 429 rate-limit jet sekvenčně s retry (vzor /tmp/kurdiovsky-redesign/gen_replicate2.py)
+- Vygenerováno (assets/img/): svc-plan, svc-notebook, svc-carkey (4:3 moody still-life od svíčky), chart-red + stmt-graph (červená křivka na černém papíře); originály v assets/gen/
 
 ## Reálná fakta (1:1 ze živého webu — NIKDY nevymýšlet!)
 - Jan Kurdiovský, **PFP** (oborová zkouška), reference EFPA
@@ -59,7 +63,16 @@ Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP
 - C = bold brutalist (15vw KURDIOVSKÝ, červené plochy, accordion služby, marquee, verdict good-with-fixes)
 - Deploy na Vercel prod, všechny stránky 200, žádné rozbité obrázky
 
+### 2026-06-04 (večer) — A vybrána + de-AI přestavba
+- Emil vybral A; feedback: moc textu, nesmí vypadat jako AI, grafiku dogenerovat
+- Text seškrtán ~50 % (hero/statement/služby/o mně/money2u/insta/footer)
+- Služby: popisy pryč → hover image reveal (lerp tracking kurzoru, pointer:fine only); mobil = full-width image strip v položce
+- Statement dostal stmt-graph.webp asymetricky; Instagram sekce teď používá jan-cutout na červeném panelu
+- Kritika „excellent", 6 issues opraveno (duplicity obrázků, kontrast, marquee, EFPA formulace)
+- Ověřeno mnou: hover reveal funguje (pozn. v headless testu vyžaduje pohyb myši se steps, ne teleport), mobil OK, live 200
+
 ## Open Threads
-- **Emil vybere variantu A/B/C** → dotáhnout celý web (služby, o mně, rezervace, kontakt, portál login+dashboard)
-- Otevřené drobnosti z kritiky: B hero fotka se sklenkou whisky (alternativy připraveny, výměna v <picture> ~ř. 477–480); ověřit s Janem přesný vztah k EFPA (certifikace vs reference)
+- **Dotáhnout celý web ve stylu A**: služby, o mně, rezervace, kontakt, portál (login+dashboard)
+- Ověřit s Janem přesný vztah k EFPA (certifikace vs reference) PŘED ostrým nasazením
 - Rozhodnutí o produkci (nahradit WordPress) — viz coolify-migrace-mapa
+- Varianty B/C nechány živé na /b /c pro porovnání
