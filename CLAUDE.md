@@ -71,8 +71,16 @@ Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP
 - Kritika „excellent", 6 issues opraveno (duplicity obrázků, kontrast, marquee, EFPA formulace)
 - Ověřeno mnou: hover reveal funguje (pozn. v headless testu vyžaduje pohyb myši se steps, ne teleport), mobil OK, live 200
 
+### 2026-06-04 (noc) — Elevate na Awwwards úroveň
+- Hero VIDEO: fotka rozpohybovaná přes Replicate bytedance/seedance-1-pro (Veo mrtvé) → ořez na stabilní úsek + ping-pong loop + color-match ffmpeg (eq brightness −0.055) → assets/video/hero-loop.mp4 (7,7 s, 1,5 MB) + hero-poster.webp; na mobilu/reduced-motion se video vůbec nenačítá (src vkládá JS jen na desktopu)
+- Motion design: maskované line-revealy (H1 + nadpisy), custom cursor (tečka+lag kroužek), magnetická CTA, parallax fotek, SVG červená křivka kreslená scrollem ve statementu, tilt hover-revealu dle rychlosti myši, 2 protiběžné skloněné marquee (outlined text), PFP badge rotace, full-bleed money2u sekce, ghost „KURDIOVSKÝ" wordmark nad footerem, dýchající glow CTA
+- Jeden sdílený rAF loop, vše vyplé při prefers-reduced-motion, žádný h-overflow 320–1920, konzole čistá
+- Kritici motion+typo (oba good-with-fixes), 6/7 oprav (specificity dim/hover, footer sloupce, ořez Ý, re-routing křivky, full-bleed feature)
+- Můj fix navíc: svc hover-reveal obrázky lazy+hidden = probliknutí na 1. hover → desktop idle preload (requestIdleCallback)
+- POZN. pro testy: hover v headless Playwright vyžaduje mouse.move se steps PŘES element, hover() teleport eventy nespustí
+
 ## Open Threads
 - **Dotáhnout celý web ve stylu A**: služby, o mně, rezervace, kontakt, portál (login+dashboard)
 - Ověřit s Janem přesný vztah k EFPA (certifikace vs reference) PŘED ostrým nasazením
 - Rozhodnutí o produkci (nahradit WordPress) — viz coolify-migrace-mapa
-- Varianty B/C nechány živé na /b /c pro porovnání
+- Varianty B/C nechány živé na /b /c pro porovnání (zatím bez video/motion upgradu)
