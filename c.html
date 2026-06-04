@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jan Kurdiovský — Finanční poradenství bez přehnaných formalit</title>
+<meta name="description" content="Jan Kurdiovský, finanční poradce (PFP). Neprodávám produkty — tvořím smysluplná řešení v přehledném finančním plánu. Bez přehnaných formalit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<style>
+:root{
+  --black:#0c0c0d;
+  --ink:#0c0c0d;
+  --paper:#f4f1ea;
+  --white:#fafafa;
+  --red:#d31f26;
+  --red-dark:#a3151b;
+  --line:#0c0c0d;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"ss01";
+}
+/* noise overlay */
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:9000;
+  opacity:.05;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+
+.display{font-family:'Archivo','Archivo Black',sans-serif;font-weight:900;text-transform:uppercase;line-height:.82;letter-spacing:-.02em}
+.mono-label{font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem}
+
+/* ===== CURSOR DOT ===== */
+.cursor{position:fixed;top:0;left:0;width:14px;height:14px;background:var(--red);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,opacity .25s;mix-blend-mode:difference;opacity:0}
+.cursor.grow{width:64px;height:64px;background:#fff}
+@media (hover:none){.cursor{display:none}}
+
+/* ===== NAV ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:5000;border-bottom:2px solid var(--line);background:var(--paper);transition:transform .4s ease}
+header.hide{transform:translateY(-101%)}
+.nav{display:flex;align-items:stretch;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:12px;padding:0 var(--gutter);border-right:2px solid var(--line)}
+.brand-mark{width:34px;height:34px;background:var(--ink);display:grid;place-items:center;flex-shrink:0}
+.brand-mark img{width:24px;height:24px}
+.brand-name{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.02em;font-size:1rem;line-height:1}
+.brand-name small{display:block;font-size:.55rem;letter-spacing:.22em;font-weight:700;color:var(--red);margin-top:2px}
+.nav-links{display:flex;align-items:stretch}
+.nav-links a{display:flex;align-items:center;padding:0 26px;font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;font-size:.78rem;letter-spacing:.06em;border-left:2px solid var(--line);position:relative;overflow:hidden;transition:color .3s}
+.nav-links a span{position:relative;z-index:2}
+.nav-links a::before{content:"";position:absolute;inset:0;background:var(--red);transform:translateY(101%);transition:transform .35s cubic-bezier(.7,0,.2,1);z-index:1}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::before{transform:translateY(0)}
+.nav-links a.cta{background:var(--ink);color:#fff}
+.nav-links a.cta::before{background:var(--red)}
+.nav-links a.portal{font-size:.66rem;letter-spacing:.1em}
+.burger{display:none;width:64px;border-left:2px solid var(--line);background:var(--ink);color:#fff;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.burger span{width:24px;height:2px;background:#fff;transition:.3s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* mobile menu */
+.mobile-menu{position:fixed;inset:64px 0 0 0;background:var(--ink);z-index:4900;transform:translateY(-100%);transition:transform .5s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;padding:0}
+.mobile-menu.open{transform:translateY(0)}
+.mobile-menu a{color:#fff;font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:2.2rem;letter-spacing:-.01em;padding:22px var(--gutter);border-bottom:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu a .num{font-size:.7rem;color:var(--red);font-weight:700;letter-spacing:.1em}
+.mobile-menu a.cta{background:var(--red);margin-top:auto}
+
+/* ===== HERO ===== */
+.hero{padding-top:64px;border-bottom:2px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:100svh}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-end;padding:18px var(--gutter) 14px;flex-wrap:wrap;gap:12px;border-bottom:2px solid var(--line);position:relative;z-index:7;background:var(--paper)}
+.hero-tag{max-width:42ch;font-size:.95rem;line-height:1.4;font-weight:500}
+.hero-tag b{font-weight:700}
+.hero-avail{display:flex;align-items:center;gap:9px;color:var(--ink);white-space:nowrap}
+.hero-avail .dot{width:9px;height:9px;background:var(--red);position:relative;flex-shrink:0}
+
+.hero-stage{position:relative;padding:clamp(10px,2vh,30px) var(--gutter) 0;flex:1;display:flex;flex-direction:column;justify-content:flex-start}
+.hero-headline{position:relative;z-index:6;pointer-events:none}
+.hero-headline .line{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;line-height:.82;letter-spacing:-.03em;font-size:clamp(3.4rem,10.2vw,9.6rem);display:block;will-change:transform}
+.hero-headline .line.jan{font-size:clamp(2.4rem,7vw,6.4rem);letter-spacing:.02em;-webkit-text-stroke:0;color:var(--ink);margin-bottom:.04em;display:flex;align-items:baseline;gap:.5em}
+.hero-headline .line.jan .pfp{font-size:.28em;letter-spacing:.16em;color:var(--red);font-weight:800;transform:translateY(-.4em)}
+.hero-headline .line.outline{color:var(--ink)}
+.hero-headline .line .red{color:var(--red)}
+/* cutout rises from the bottom-right, over the red plate — NOT over the headline */
+.hero-cutout{position:absolute;right:clamp(-10px,-1vw,0px);bottom:0;width:min(34vw,430px);z-index:4;pointer-events:none}
+.hero-cutout img{width:100%;height:auto;display:block}
+/* red plate behind cutout */
+.hero-plate{position:absolute;right:clamp(0px,2vw,3vw);bottom:0;width:min(26vw,330px);height:min(52vh,480px);background:var(--red);z-index:1}
+.hero-claim{position:relative;z-index:6;margin-top:clamp(18px,3.5vh,40px);max-width:22ch;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase;font-size:clamp(1.05rem,2.2vw,1.9rem);line-height:1.04;letter-spacing:-.01em;pointer-events:none;padding-left:clamp(14px,1.4vw,22px);border-left:3px solid var(--red)}
+.hero-claim .red{color:var(--red)}
+.hero-bottom{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--line);padding:0;margin-top:clamp(14px,3vh,30px)}
+.hero-scroll{padding:16px var(--gutter);font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:.7rem;display:flex;align-items:center;gap:10px}
+.hero-scroll .arrow{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+.hero-cta-btn{background:var(--ink);color:#fff;padding:16px clamp(20px,4vw,46px);font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(.85rem,1.4vw,1.05rem);letter-spacing:.02em;border-left:2px solid var(--line);position:relative;overflow:hidden;align-self:stretch;display:flex;align-items:center;gap:14px}
+.hero-cta-btn span{position:relative;z-index:2}
+.hero-cta-btn::before{content:"";position:absolute;inset:0;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.7,0,.2,1);z-index:1}
+.hero-cta-btn:hover::before{transform:scaleX(1)}
+.hero-cta-btn .ar{transition:transform .4s}
+.hero-cta-btn:hover .ar{transform:translateX(6px)}
+
+/* ===== MARQUEE ===== */
+.marquee{background:var(--red);color:#fff;border-bottom:2px solid var(--line);overflow:hidden;white-space:nowrap;display:flex}
+.marquee-track{display:inline-flex;align-items:center;animation:scroll 28s linear infinite;will-change:transform}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track span{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.5rem,4.6vw,3.4rem);letter-spacing:-.01em;padding:14px 0;display:inline-flex;align-items:center}
+.marquee-track span i{font-style:normal;color:var(--red);-webkit-text-stroke:2px #fff;margin:0 .5em}
+.marquee-track .sep{margin:0 .55em;font-size:.7em;opacity:.85}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===== SECTION HEAD ===== */
+.sec-head{display:flex;align-items:baseline;gap:14px;padding:clamp(40px,7vw,90px) var(--gutter) clamp(20px,3vw,34px)}
+.sec-head .idx{color:var(--red);font-family:'Archivo',sans-serif;font-weight:900;font-size:1rem}
+.sec-head h2{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.8rem,5.5vw,4.4rem);line-height:.9;letter-spacing:-.02em}
+
+/* ===== INTRO / NEPRODÁVÁM ===== */
+.intro{border-bottom:2px solid var(--line);display:grid;grid-template-columns:1.15fr .85fr}
+.intro-text{padding:clamp(40px,6vw,84px) var(--gutter);border-right:2px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+.intro-text .kicker{color:var(--red);font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:.74rem;margin-bottom:24px}
+.big-statement{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(2rem,5vw,4.2rem);line-height:.92;letter-spacing:-.02em;margin-bottom:30px}
+.big-statement .strike{position:relative;color:var(--ink);display:inline-block}
+.big-statement .strike::after{content:"";position:absolute;left:-2%;right:-2%;top:52%;height:.13em;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .6s .3s cubic-bezier(.7,0,.2,1)}
+.intro.in .big-statement .strike::after{transform:scaleX(1)}
+.big-statement .red{color:var(--red)}
+.intro-text p{font-size:clamp(1rem,1.3vw,1.18rem);max-width:46ch;line-height:1.55;margin-bottom:14px}
+.intro-photo{position:relative;overflow:hidden;background:var(--ink);min-height:340px}
+.intro-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(1) contrast(1.08);transition:filter .6s,transform .8s}
+.intro-photo:hover img{filter:grayscale(0) contrast(1);transform:scale(1.04)}
+.intro-photo .tag{position:absolute;left:0;bottom:0;background:var(--red);color:#fff;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase;font-size:.72rem;letter-spacing:.1em;padding:10px 16px;z-index:2}
+
+/* ===== SERVICES ACCORDION ===== */
+.services{border-bottom:2px solid var(--line)}
+.svc-row{border-top:2px solid var(--line);cursor:pointer;position:relative;overflow:hidden;transition:background .35s,color .35s}
+.svc-row:first-child{border-top:none}
+.svc-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,40px);padding:clamp(20px,3.4vw,40px) var(--gutter)}
+.svc-num{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(1.4rem,3vw,2.6rem);color:var(--red);transition:color .35s;line-height:1}
+.svc-title{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.5rem,5vw,4rem);line-height:.92;letter-spacing:-.02em}
+.svc-plus{width:clamp(34px,4vw,52px);height:clamp(34px,4vw,52px);border:2px solid var(--ink);position:relative;flex-shrink:0;transition:border-color .35s,transform .45s}
+.svc-plus::before,.svc-plus::after{content:"";position:absolute;background:var(--ink);transition:background .35s,transform .35s}
+.svc-plus::before{left:50%;top:22%;bottom:22%;width:2px;transform:translateX(-50%)}
+.svc-plus::after{top:50%;left:22%;right:22%;height:2px;transform:translateY(-50%)}
+.svc-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.6,0,.2,1)}
+.svc-body-inner{padding:0 var(--gutter) clamp(26px,3.4vw,40px);display:grid;grid-template-columns:auto 1fr;gap:clamp(14px,3vw,40px)}
+.svc-body-inner .spacer{}
+.svc-body-inner p{max-width:60ch;font-size:clamp(1rem,1.25vw,1.16rem);line-height:1.6}
+.svc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.svc-tags span{font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;font-size:.68rem;letter-spacing:.06em;border:1.5px solid currentColor;padding:6px 12px}
+.svc-row.open .svc-plus{transform:rotate(90deg)}
+.svc-row.open .svc-plus::before{transform:translateX(-50%) scaleY(0)}
+.svc-row.open .svc-body{max-height:420px}
+/* hover invert */
+.svc-row:hover{background:var(--red);color:#fff}
+.svc-row:hover .svc-num{color:#fff}
+.svc-row:hover .svc-plus{border-color:#fff}
+.svc-row:hover .svc-plus::before,.svc-row:hover .svc-plus::after{background:#fff}
+.svc-row.open{background:var(--ink);color:#fff}
+.svc-row.open .svc-num{color:var(--red)}
+.svc-row.open .svc-plus{border-color:#fff}
+.svc-row.open .svc-plus::before,.svc-row.open .svc-plus::after{background:#fff}
+
+/* ===== RED SECTION (firma / suorigo) ===== */
+.red-sec{background:var(--red);color:#fff;border-bottom:2px solid var(--line);position:relative;overflow:hidden}
+.red-sec-grid{display:grid;grid-template-columns:1fr 1fr}
+.red-sec-l{padding:clamp(46px,6vw,96px) var(--gutter);border-right:2px solid #fff}
+.red-sec-l .kicker{font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:.74rem;margin-bottom:26px;opacity:.9}
+.red-sec-l h3{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(2.2rem,5.4vw,5rem);line-height:.86;letter-spacing:-.02em;margin-bottom:28px}
+.red-sec-l h3 .out{color:transparent;-webkit-text-stroke:2px #fff}
+.red-sec-l p{max-width:46ch;font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.55;margin-bottom:14px}
+.red-sec-r{position:relative;overflow:hidden;min-height:380px;background:#000}
+.red-sec-r img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;mix-blend-mode:luminosity;opacity:.92;transition:transform .8s,mix-blend-mode .4s,opacity .4s}
+.red-sec-r:hover img{transform:scale(1.05);mix-blend-mode:normal;opacity:1}
+.red-sec-r .badge{position:absolute;top:0;right:0;background:#fff;color:var(--red);font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:.8rem;letter-spacing:.05em;padding:12px 18px;z-index:2}
+.giant-watermark{position:absolute;bottom:-4vw;left:-1vw;font-family:'Archivo',sans-serif;font-weight:900;font-size:18vw;color:#fff;opacity:.08;text-transform:uppercase;line-height:1;pointer-events:none;letter-spacing:-.03em}
+
+/* ===== APPROACH / O MNĚ STRIP ===== */
+.approach{border-bottom:2px solid var(--line);display:grid;grid-template-columns:1fr 1fr}
+.approach-photo{position:relative;border-right:2px solid var(--line);background:var(--ink);overflow:hidden;min-height:480px}
+.approach-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%;filter:grayscale(.2) contrast(1.05)}
+.approach-photo .mark{position:absolute;left:var(--gutter);top:var(--gutter);width:54px;height:54px;background:var(--ink);display:grid;place-items:center;z-index:2;border:2px solid #fff}
+.approach-photo .mark img{position:static;width:38px;height:38px;filter:none}
+.approach-text{padding:clamp(44px,6vw,92px) var(--gutter);display:flex;flex-direction:column;justify-content:center}
+.approach-text .kicker{color:var(--red);font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:.74rem;margin-bottom:22px}
+.approach-text h3{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.9rem,4.5vw,3.6rem);line-height:.9;letter-spacing:-.02em;margin-bottom:26px}
+.approach-text p{max-width:44ch;font-size:clamp(1rem,1.25vw,1.15rem);line-height:1.6;margin-bottom:16px}
+.credentials{display:flex;flex-wrap:wrap;gap:0;margin-top:14px;border:2px solid var(--line)}
+.credentials .cr{flex:1 1 33%;padding:18px 16px;border-right:2px solid var(--line)}
+.credentials .cr:last-child{border-right:none}
+.credentials .cr b{display:block;font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:1.4rem;color:var(--red);line-height:1}
+.credentials .cr span{display:block;font-size:.78rem;margin-top:7px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+
+/* ===== STEPS ===== */
+.steps{border-bottom:2px solid var(--line)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.step{padding:clamp(34px,4vw,60px) var(--gutter);border-right:2px solid var(--line);position:relative;transition:background .35s,color .35s}
+.step:last-child{border-right:none}
+.step:hover{background:var(--ink);color:#fff}
+.step .n{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(3rem,6vw,5.5rem);color:var(--red);line-height:.8;margin-bottom:24px}
+.step h4{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.1rem,1.8vw,1.5rem);margin-bottom:14px;letter-spacing:-.01em}
+.step p{font-size:.98rem;line-height:1.55;max-width:32ch}
+
+/* ===== SOCIAL ===== */
+.social{border-bottom:2px solid var(--line)}
+.social-grid{display:grid;grid-template-columns:repeat(2,1fr)}
+.social-btn{padding:clamp(30px,4vw,56px) var(--gutter);border-right:2px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-height:200px;transition:color .35s}
+.social-btn:last-child{border-right:none}
+.social-btn::before{content:"";position:absolute;inset:0;background:var(--ink);transform:translateY(101%);transition:transform .4s cubic-bezier(.7,0,.2,1);z-index:0}
+.social-btn:hover{color:#fff}
+.social-btn:hover::before{transform:translateY(0)}
+.social-btn>*{position:relative;z-index:1}
+.social-btn .plat{font-family:'Archivo',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;color:var(--red);margin-bottom:auto}
+.social-btn .handle{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:.95;letter-spacing:-.02em;margin-top:24px}
+.social-btn .ar{position:absolute;top:clamp(24px,3vw,40px);right:var(--gutter);font-size:1.6rem;transition:transform .4s;z-index:1}
+.social-btn:hover .ar{transform:translate(5px,-5px)}
+
+/* ===== CTA BANNER ===== */
+.cta-band{background:var(--ink);color:#fff;border-bottom:2px solid var(--line);overflow:hidden;position:relative}
+.cta-band-inner{padding:clamp(50px,8vw,120px) var(--gutter);text-align:center;position:relative;z-index:2}
+.cta-band h2{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(2.4rem,9vw,8rem);line-height:.84;letter-spacing:-.03em;margin-bottom:34px}
+.cta-band h2 .red{color:var(--red)}
+.cta-band h2 .out{color:transparent;-webkit-text-stroke:2px #fff}
+.cta-big-btn{display:inline-flex;align-items:center;gap:16px;background:var(--red);color:#fff;font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(1rem,1.8vw,1.4rem);padding:20px 44px;letter-spacing:.01em;position:relative;overflow:hidden;border:2px solid var(--red)}
+.cta-big-btn span{position:relative;z-index:2}
+.cta-big-btn::before{content:"";position:absolute;inset:0;background:#fff;transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.7,0,.2,1);z-index:1}
+.cta-big-btn:hover{color:var(--red)}
+.cta-big-btn:hover::before{transform:scaleY(1)}
+.cta-big-btn:hover{border-color:#fff}
+
+/* ===== FOOTER ===== */
+footer{background:var(--paper)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;border-bottom:2px solid var(--line)}
+.foot-col{padding:clamp(34px,4vw,56px) var(--gutter);border-right:2px solid var(--line)}
+.foot-col:last-child{border-right:none}
+.foot-brand .brand-name{font-size:1.5rem}
+.foot-brand p{margin-top:18px;max-width:30ch;font-size:.95rem;line-height:1.55}
+.foot-col h5{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--red);margin-bottom:20px}
+.foot-col a,.foot-col p.line{display:block;font-size:1rem;margin-bottom:12px;font-weight:500;position:relative;width:fit-content}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--red);transition:width .3s}
+.foot-col a:hover::after{width:100%}
+.foot-big{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(3rem,18vw,16rem);line-height:.78;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:2px var(--ink);padding:clamp(20px,3vw,40px) var(--gutter) 0;overflow:hidden;white-space:nowrap}
+.foot-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:18px var(--gutter);border-top:2px solid var(--line)}
+.foot-bar span,.foot-bar a{font-size:.82rem;font-weight:500}
+.foot-bar a:hover{color:var(--red)}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:1024px){
+  .intro{grid-template-columns:1fr}
+  .intro-text{border-right:none;border-bottom:2px solid var(--line)}
+  .red-sec-grid{grid-template-columns:1fr}
+  .red-sec-l{border-right:none;border-bottom:2px solid #fff}
+  .approach{grid-template-columns:1fr}
+  .approach-photo{border-right:none;border-bottom:2px solid var(--line);min-height:420px}
+}
+@media (max-width:860px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .hero-cutout{width:min(58vw,360px)}
+  .hero-plate{width:48vw;height:58%}
+  .steps-grid{grid-template-columns:1fr}
+  .step{border-right:none;border-bottom:2px solid var(--line)}
+  .step:last-child{border-bottom:none}
+  .social-grid{grid-template-columns:1fr}
+  .social-btn{border-right:none;border-bottom:2px solid var(--line)}
+  .social-btn:last-child{border-bottom:none}
+  .foot-grid{grid-template-columns:1fr}
+  .foot-col{border-right:none;border-bottom:2px solid var(--line)}
+  .foot-col:last-child{border-bottom:none}
+  .credentials{flex-direction:column}
+  .credentials .cr{border-right:none;border-bottom:2px solid var(--line)}
+  .credentials .cr:last-child{border-bottom:none}
+}
+@media (max-width:640px){
+  .hero{min-height:0}
+  .hero-stage{padding:clamp(18px,4vh,30px) var(--gutter) 0;justify-content:flex-start}
+  .hero-headline{order:1}
+  .hero-headline{max-width:100%}
+  .hero-headline .line{font-size:clamp(2rem,11.4vw,3.4rem);letter-spacing:-.045em;white-space:nowrap}
+  .hero-headline .line.jan{font-size:clamp(1.5rem,7vw,2.2rem);letter-spacing:0;white-space:normal}
+  .hero-claim{order:2;position:static;margin:22px 0 0;max-width:none;font-size:1.25rem}
+  .hero-cutout{order:3;position:relative;right:auto;width:88%;max-width:360px;margin:18px auto -2px;display:block;z-index:1}
+  .hero-plate{position:absolute;display:block;left:auto;right:6%;bottom:0;width:62%;height:46%;z-index:0}
+  .hero-bottom{flex-direction:column;align-items:stretch;margin-top:0}
+  .hero-cta-btn{border-left:none;border-top:2px solid var(--line);justify-content:center}
+  .svc-head{grid-template-columns:auto 1fr;gap:14px}
+  .svc-plus{grid-column:2;justify-self:end;margin-top:6px}
+  .svc-body-inner{grid-template-columns:1fr}
+  .svc-body-inner .spacer{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .marquee-track{animation:none}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+
+<!-- ===== HEADER ===== -->
+<header id="header">
+  <nav class="nav">
+    <a href="/" class="brand">
+      <span class="brand-mark"><img src="assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span class="brand-name">Kurdiovský<small>Finanční poradce</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="/sluzby"><span>Služby</span></a>
+      <a href="/o-mne"><span>O mně</span></a>
+      <a href="/kontakt"><span>Kontakt</span></a>
+      <a href="/portal" class="portal"><span>Klientský portál</span></a>
+      <a href="/rezervace" class="cta"><span>Rezervovat konzultaci</span></a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/sluzby"><span>Služby</span><span class="num">01</span></a>
+  <a href="/o-mne"><span>O mně</span><span class="num">02</span></a>
+  <a href="/kontakt"><span>Kontakt</span><span class="num">03</span></a>
+  <a href="/portal"><span>Portál</span><span class="num">04</span></a>
+  <a href="/rezervace" class="cta"><span>Rezervovat</span><span class="num">→</span></a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-top">
+    <p class="hero-tag">Finanční poradenství <b>bez přehnaných formalit</b>, s důrazem na profesionalitu.</p>
+    <div class="hero-avail mono-label"><span class="dot"></span>Brno · konzultace</div>
+  </div>
+  <div class="hero-stage">
+    <div class="hero-plate" aria-hidden="true"></div>
+    <div class="hero-cutout">
+      <img src="assets/img/jan-cutout.webp" alt="Jan Kurdiovský u stolu" width="1000" height="1000">
+    </div>
+    <h1 class="hero-headline">
+      <span class="line jan" data-skew>Jan <span class="pfp">PFP</span></span>
+      <span class="line outline" data-skew>Kurdi<span class="red">ov</span>ský</span>
+    </h1>
+    <p class="hero-claim">Neprodávám produkty —<br><span class="red">stavím finanční plán.</span></p>
+  </div>
+  <div class="hero-bottom">
+    <div class="hero-scroll mono-label"><span class="arrow">↓</span> Sjeďte níž</div>
+    <a href="/rezervace" class="hero-cta-btn"><span>Rezervovat konzultaci</span><span class="ar">→</span></a>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Neprodávám produkty<span class="sep">✦</span></span>
+    <span>Finanční plán<span class="sep">✦</span></span>
+    <span>Bez přehnaných formalit<span class="sep">✦</span></span>
+    <span>Hypotéky · Investice · Pojištění<span class="sep">✦</span></span>
+    <span>Neprodávám produkty<span class="sep">✦</span></span>
+    <span>Finanční plán<span class="sep">✦</span></span>
+    <span>Bez přehnaných formalit<span class="sep">✦</span></span>
+    <span>Hypotéky · Investice · Pojištění<span class="sep">✦</span></span>
+  </div>
+</div>
+
+<!-- ===== INTRO / NEPRODÁVÁM ===== -->
+<section class="intro" id="intro">
+  <div class="intro-text reveal">
+    <p class="kicker">[ Jak to dělám ]</p>
+    <h2 class="big-statement">
+      <span class="strike">Neprodávám</span> <span class="red">produkty.</span><br>
+      Tvořím plán.
+    </h2>
+    <p>Většina poradců začíná u produktu a hledá, komu ho prodat. Já začínám u vás — u toho, kde jste teď a kam se chcete dostat. Z toho vznikne přehledný finanční plán, ne hromada smluv.</p>
+    <p>Produkt je až poslední krok. A jen takový, který v tom plánu dává smysl.</p>
+  </div>
+  <div class="intro-photo reveal">
+    <img src="assets/img/hero-table.webp" alt="Jan Kurdiovský u stolu" width="1920" height="1280">
+    <span class="tag">Podkroví · Brno</span>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="services" id="sluzby">
+  <div class="sec-head reveal">
+    <span class="idx">[ 01 ]</span>
+    <h2>Co pro vás dělám</h2>
+  </div>
+  <div class="svc-list">
+    <div class="svc-row" data-svc>
+      <div class="svc-head">
+        <span class="svc-num">01</span>
+        <h3 class="svc-title">Osobní finanční plán</h3>
+        <span class="svc-plus" aria-hidden="true"></span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-body-inner">
+          <span class="spacer"></span>
+          <div>
+            <p>Kompletní pohled na vaše peníze pod jednou střechou — od rezervy přes hypotéku po investice a pojištění. Vše poskládané tak, aby na sebe navazovalo a nešlo si navzájem do cesty.</p>
+            <div class="svc-tags"><span>Finanční plán</span><span>Hypotéky</span><span>Investice</span><span>Pojištění</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="svc-row" data-svc>
+      <div class="svc-head">
+        <span class="svc-num">02</span>
+        <h3 class="svc-title">Firemní poradenství</h3>
+        <span class="svc-plus" aria-hidden="true"></span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-body-inner">
+          <span class="spacer"></span>
+          <div>
+            <p>Několika firmám spravuji celé finanční portfolio. Zaměřuji se na malé a střední firmy — vím, co řeší majitel, protože sám jednu firmu vedu. Finance firmy i majitele dávám do jednoho srozumitelného obrazu.</p>
+            <div class="svc-tags"><span>Malé a střední firmy</span><span>Portfolio firmy</span><span>Cash flow</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="svc-row" data-svc>
+      <div class="svc-head">
+        <span class="svc-num">03</span>
+        <h3 class="svc-title">Auto: financování &amp; pojištění</h3>
+        <span class="svc-plus" aria-hidden="true"></span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-body-inner">
+          <span class="spacer"></span>
+          <div>
+            <p>Pořízení auta umím vyřešit od A do Z — financování i pojištění tak, aby čísla seděla a vy nemuseli řešit papírování. Pro soukromé i firemní vozy.</p>
+            <div class="svc-tags"><span>Úvěr / leasing</span><span>Pojištění vozu</span><span>Firemní flotila</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="svc-row" data-svc>
+      <div class="svc-head">
+        <span class="svc-num">04</span>
+        <h3 class="svc-title">Investice — i ty moderní</h3>
+        <span class="svc-plus" aria-hidden="true"></span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-body-inner">
+          <span class="spacer"></span>
+          <div>
+            <p>Od konzervativních nástrojů po moderní svět včetně krypta. Nastavíme strategii podle toho, kolik rizika vám sedí — bez slibů zázraků a bez prodeje toho, čemu sám nevěřím.</p>
+            <div class="svc-tags"><span>Konzervativní</span><span>Dynamické</span><span>Krypto</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RED SECTION : SUORIGO / MAJITEL ===== -->
+<section class="red-sec" id="firma">
+  <div class="giant-watermark" aria-hidden="true">Suorigo</div>
+  <div class="red-sec-grid">
+    <div class="red-sec-l reveal">
+      <p class="kicker">[ Proč mi firmy věří ]</p>
+      <h3>Rozumím tomu<br><span class="out">z obou stran</span><br>stolu.</h3>
+      <p>S přítelkyní jsme založili SUORIGO — firmu na potisk textilu. Takže nejen radím o financích, ale taky každý měsíc řeším faktury, cash flow a rozhodnutí, kam dát další korunu.</p>
+      <p>Když s vámi sedím nad financemi firmy, mluvíme stejnou řečí. Vím, jak vypadá podnikání zevnitř — ne jen z tabulky.</p>
+    </div>
+    <div class="red-sec-r reveal">
+      <img src="assets/img/jan-portrait.webp" alt="Jan Kurdiovský v kanceláři" width="1200" height="1798">
+      <span class="badge">Majitel SUORIGO</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APPROACH / O MNĚ ===== -->
+<section class="approach" id="o-mne">
+  <div class="approach-photo reveal">
+    <span class="mark"><img src="assets/img/jk-logo.webp" alt="JK logo"></span>
+    <img src="assets/img/jan-money2u.webp" alt="Jan Kurdiovský, member of money2u" width="1600" height="1067">
+  </div>
+  <div class="approach-text reveal">
+    <p class="kicker">[ 02 / Kdo jsem ]</p>
+    <h3>Mladý poradce,<br>co to myslí<br>vážně.</h3>
+    <p>Jsem Jan Kurdiovský. Finance dělám naplno a beru je jako řemeslo, ne jako prodej. Na Instagramu k nim natáčím reels a osvětu — protože věcem o penězích by měl rozumět každý, ne jen lidé v oblecích.</p>
+    <p>Mám složenou oborovou zkoušku PFP a jsem členem sítě money2u. Za kvalitu ručím svým jménem.</p>
+    <div class="credentials">
+      <div class="cr"><b>PFP</b><span>Oborová zkouška</span></div>
+      <div class="cr"><b>EFPA</b><span>Standard oboru</span></div>
+      <div class="cr"><b>money2u</b><span>Člen sítě</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STEPS ===== -->
+<section class="steps">
+  <div class="sec-head reveal">
+    <span class="idx">[ 03 ]</span>
+    <h2>Jak spolupráce vypadá</h2>
+  </div>
+  <div class="steps-grid">
+    <div class="step reveal">
+      <div class="n">01</div>
+      <h4>Sejdeme se</h4>
+      <p>Nezávazná konzultace bez tlaku. Řeknete mi, kde jste a co chcete řešit. Žádné formuláře na úvod.</p>
+    </div>
+    <div class="step reveal">
+      <div class="n">02</div>
+      <h4>Sestavím plán</h4>
+      <p>Dostanete přehledný finanční plán — co, proč a v jakém pořadí. Bez balastu a malých písmen.</p>
+    </div>
+    <div class="step reveal">
+      <div class="n">03</div>
+      <h4>Hlídám to dál</h4>
+      <p>Plán není papír do šuplíku. Vracíme se k němu, ladíme ho a držím vám záda i potom.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOCIAL ===== -->
+<section class="social">
+  <div class="sec-head reveal">
+    <span class="idx">[ 04 ]</span>
+    <h2>Sledujte to ze zákulisí</h2>
+  </div>
+  <div class="social-grid">
+    <a href="https://www.instagram.com/jan_kurdiovsky/" target="_blank" rel="noopener" class="social-btn reveal" data-cursor>
+      <span class="ar">↗</span>
+      <span class="plat">Instagram</span>
+      <span class="handle">@jan_<br>kurdiovsky</span>
+    </a>
+    <a href="https://www.tiktok.com/@jan_kurdiovsky" target="_blank" rel="noopener" class="social-btn reveal" data-cursor>
+      <span class="ar">↗</span>
+      <span class="plat">TikTok</span>
+      <span class="handle">@jan_<br>kurdiovsky</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section class="cta-band">
+  <div class="cta-band-inner reveal">
+    <h2>Pojďme to<br><span class="out">srovnat</span> <span class="red">spolu.</span></h2>
+    <a href="/rezervace" class="cta-big-btn" data-cursor><span>Rezervovat konzultaci</span><span>→</span></a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-col foot-brand">
+      <a href="/" class="brand">
+        <span class="brand-mark"><img src="assets/img/jk-logo.webp" alt="JK logo"></span>
+        <span class="brand-name">Kurdiovský<small>Finanční poradce</small></span>
+      </a>
+      <p>Finanční poradenství bez přehnaných formalit, s důrazem na profesionalitu. Member of money2u.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Kontakt</h5>
+      <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+      <a href="tel:+420799794670">+420 799 794 670</a>
+      <p class="line">Tolstého 35<br>616 00 Brno</p>
+    </div>
+    <div class="foot-col">
+      <h5>Navigace</h5>
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne">O mně</a>
+      <a href="/rezervace">Rezervace</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/portal">Klientský portál</a>
+    </div>
+  </div>
+  <div class="foot-big" aria-hidden="true">Kurdiovský</div>
+  <div class="foot-bar">
+    <span>© 2026 Jan Kurdiovský</span>
+    <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* cursor dot */
+  var cursor = document.getElementById('cursor');
+  if(window.matchMedia('(hover:hover)').matches){
+    var cx=0,cy=0,tx=0,ty=0,shown=false;
+    window.addEventListener('mousemove',function(e){
+      tx=e.clientX;ty=e.clientY;
+      if(!shown){shown=true;cursor.style.opacity=1;}
+    });
+    (function loop(){
+      cx+=(tx-cx)*0.22;cy+=(ty-cy)*0.22;
+      cursor.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a,button,[data-cursor],.svc-row').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cursor.classList.add('grow');});
+      el.addEventListener('mouseleave',function(){cursor.classList.remove('grow');});
+    });
+  }
+
+  /* sticky header hide on scroll down */
+  var header=document.getElementById('header');
+  var lastY=0;
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY;
+    if(y>lastY && y>200){header.classList.add('hide');}
+    else{header.classList.remove('hide');}
+    lastY=y;
+  },{passive:true});
+
+  /* mobile menu */
+  var burger=document.getElementById('burger');
+  var menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){
+    burger.classList.toggle('open');
+    menu.classList.toggle('open');
+    document.body.style.overflow=menu.classList.contains('open')?'hidden':'';
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      burger.classList.remove('open');menu.classList.remove('open');document.body.style.overflow='';
+    });
+  });
+
+  /* services accordion */
+  document.querySelectorAll('[data-svc]').forEach(function(row){
+    row.querySelector('.svc-head').addEventListener('click',function(){
+      var wasOpen=row.classList.contains('open');
+      document.querySelectorAll('[data-svc]').forEach(function(r){r.classList.remove('open');});
+      if(!wasOpen) row.classList.add('open');
+    });
+  });
+
+  /* reveal */
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        if(en.target.closest('.intro')) en.target.closest('.intro').classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  },{threshold:0.16});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  /* subtle skew on scroll for hero lines */
+  if(!reduce){
+    var lines=document.querySelectorAll('[data-skew]');
+    var lastScroll=window.scrollY, raf=null;
+    window.addEventListener('scroll',function(){
+      if(raf) return;
+      raf=requestAnimationFrame(function(){
+        var y=window.scrollY;
+        var v=Math.max(-6,Math.min(6,(y-lastScroll)*0.6));
+        lines.forEach(function(l,i){
+          l.style.transform='translateX('+(v*(i?1:-1)*1.2)+'px)';
+        });
+        lastScroll=y;raf=null;
+      });
+    },{passive:true});
+  }
+})();
+</script>
+</body>
+</html>
