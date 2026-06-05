@@ -1,0 +1,18 @@
+.git
+.gitignore
+.vercel
+node_modules
+.env*
+.DS_Store
+api
+a.html
+b.html
+c.html
+varianty.html
+# originály grafiky — do image nepatří (na webu se používá jen assets/img a assets/video)
+assets/gen
+assets/src
+CLAUDE.md
+FACTS.md
+README.md
+data
