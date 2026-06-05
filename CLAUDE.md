@@ -96,8 +96,19 @@ Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP
 - Workflow 18 agentů (rework→kritika→fix), pak ověřeno Playwright: 0 chyb, 0 overflow, video hraje, revealy 100 %; deploy Vercel prod OK
 - a.html zůstává PŮVODNÍ varianta A (archiv) — aktuální web jen v index.html + podstránky
 
+### 2026-06-05 (večer) — Vlastní rezervační systém (Calendly pryč)
+- Zadání Emil: vlastní „calendly", termíny JEN út/st/čt 15:00, min 7 dní / max 2 měsíce dopředu, 1 termín na den
+- **Backend:** `/api/slots` + `/api/book` (Vercel Functions, `api/_shared.js` = logika oken/termínů v Europe/Prague); úložiště **Vercel Blob** privátní store `kurdiovsky-rezervace` (store_laDiNwKBkqyqN9mm), klíč `bookings/<YYYY-MM-DD>.json`; honeypot pole `web`; dvojitá rezervace → 409
+- **E-maily: Resend z `rezervace@kurdiovsti.cz`** (doména kurdiovsti.cz ověřena v Resend účtu tisk3d — DNS záznamy už v CF zóně byly; kurdiovsky.cz zóna NENÍ v našich tokenech dostupná → až bude, přidat doménu do Resend a přepnout env FROM_EMAIL). Notifikace jde na env `NOTIFY_EMAIL` (zatím emil.asistent@gmail.com — PŘED ostrým provozem přepnout/přidat jan@kurdiovsky.cz!), klient dostává potvrzení s ICS pozvánkou, reply-to jan@kurdiovsky.cz
+- **Frontend:** booking widget na /rezervace (měsíční skupiny karet út/st/čt, výběr → formulář → potvrzení), lazy load přes IntersectionObserver; GDPR stránka aktualizována (Vercel+Resend místo Calendly)
+- Env vars projektu: BLOB_READ_WRITE_TOKEN, RESEND_API_KEY, FROM_EMAIL, NOTIFY_EMAIL (production+development; preview nešlo přes CLI — nevadí)
+- E2E ověřeno dev i PROD: validace (špatný den/okno/e-mail), rezervace, 409 na obsazený, oba e-maily doručeny do inboxu, slot se obsadí a po smazání blobu uvolní; testovací rezervace smazány
+- Admin přehled rezervací zatím není (bloby + e-maily) — kandidát na /admin v další fázi
+- POZOR lokální vývoj: `vercel dev --listen <port>` + `.env.local` (vercel env pull); mazání rezervace: node + @vercel/blob del('bookings/<date>.json')
+
 ## Open Threads
-- **Emil: schválit přecílený web** → pak přepnout kurdiovsky.cz (DNS v CF účtu cbe463a934abec056b2f9c9cb951f116; rozhodnout Vercel vs Coolify dle deploy-routing pravidla)
+- **Emil: schválit přecílený web** → pak přepnout kurdiovsky.cz (DNS v CF účtu cbe463a934abec056b2f9c9cb951f116; rozhodnout Vercel vs Coolify dle deploy-routing pravidla — POZOR: rezervace běží na Vercel Functions + Blob, při přesunu na Coolify nutno přepsat API na Node server + lokální úložiště)
+- **Před ostrým provozem rezervací:** NOTIFY_EMAIL přepnout na jan@kurdiovsky.cz (+ ponechat Emila v kopii?), zvážit FROM rezervace@kurdiovsky.cz (potřeba přístup k CF zóně kurdiovsky.cz)
 - Ověřit s Janem přesný vztah k EFPA (certifikace vs reference) PŘED ostrým nasazením
 - Portál je DEMO — ostrý klientský portál = samostatná budoucí fáze
 - Varianty B/C nechány živé na /b /c pro porovnání (zatím bez video/motion upgradu)
