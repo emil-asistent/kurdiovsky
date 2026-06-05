@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakt — Jan Kurdiovský, finanční poradce Brno</title>
+<meta name="description" content="Napište nebo zavolejte Janovi Kurdiovskému — osobnímu finančnímu poradci z Brna. E-mail, telefon, adresa a sociální sítě.">
+<link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
+<link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kontakt — Jan Kurdiovský, finanční poradce">
+<meta property="og:description" content="Napište nebo zavolejte. Osobní finanční poradce z Brna, PFP.">
+<meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/kontakt">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/hero-poster.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0c0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<style>
+:root{
+  --ink:#0c0c0f;
+  --ink-2:#131318;
+  --ink-3:#1b1b22;
+  --line:rgba(255,255,255,.10);
+  --paper:#efe9e2;
+  --paper-dim:#b6b2ac;
+  --paper-faint:#7d7a76;
+  --red:#d31f26;
+  --red-bright:#ff2d35;
+  --maxw:1340px;
+  --pad:clamp(20px,5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- CUSTOM CURSOR ---------- */
+.cursor-dot,.cursor-ring{display:none;position:fixed;top:0;left:0;z-index:9500;pointer-events:none;border-radius:50%;will-change:transform;opacity:0;transition:opacity .35s ease}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{display:block}
+.cursor-dot{width:8px;height:8px;background:var(--red);margin:-4px 0 0 -4px}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(239,233,226,.55);margin:-17px 0 0 -17px;transition:opacity .35s ease,width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background-color .3s}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{opacity:1}
+body.cursor-on.cursor-hot .cursor-ring{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red);background:rgba(211,31,38,.08)}
+body.cursor-on.cursor-hot .cursor-dot{opacity:0}
+body.cursor-on.cursor-hidden .cursor-dot,body.cursor-on.cursor-hidden .cursor-ring{opacity:0}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button{cursor:none}
+  body.cursor-on input,body.cursor-on textarea,body.cursor-on select,body.cursor-on [contenteditable]{cursor:auto}
+}
+
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:.98;letter-spacing:-.02em}
+.serif-it{font-style:italic;font-weight:400}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s}
+header.scrolled{background:rgba(12,12,15,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .mark{width:42px;height:42px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.brand .mark img{width:26px;height:26px;object-fit:contain}
+.brand small{display:block;font-family:'Manrope';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint)}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--paper-dim);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--red);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+/* active nav item */
+.nav-links a[aria-current="page"]{color:var(--paper)}
+.nav-links a[aria-current="page"]::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-size:14px;font-weight:600;transition:.3s}
+.nav-cta:hover{background:var(--red);border-color:var(--red)}
+.nav-cta::after{display:none}
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:20px;height:1.6px;background:var(--paper);transition:.3s}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:24px}.burger span:nth-child(3){top:30px}
+body.menu-open .burger span:nth-child(1){top:24px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){top:24px;transform:rotate(-45deg)}
+
+.mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ink);transform:translateY(-100%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);visibility:hidden}
+body.menu-open .mobile-menu{transform:translateY(0);visibility:visible}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,52px);font-weight:500;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a span{font-family:'Manrope';font-size:14px;color:var(--red);font-weight:600}
+.mm-foot{margin-top:40px;font-size:15px;color:var(--paper-dim);display:flex;flex-direction:column;gap:6px}
+
+/* ---------- SUBPAGE HERO ---------- */
+.sub-hero{padding-top:clamp(130px,14vw,180px);padding-bottom:clamp(60px,7vw,100px);min-height:clamp(380px,58vh,560px);display:flex;align-items:flex-end;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.sub-hero::before{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background:
+  radial-gradient(80% 100% at 10% 0%,rgba(211,31,38,.10),transparent 60%),
+  linear-gradient(180deg,transparent 30%,rgba(12,12,15,.6) 100%)}
+.sub-hero .wrap{position:relative;z-index:1}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-dim);font-weight:600;margin-bottom:26px}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 14px var(--red)}
+/* masked line reveal */
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.sub-hero.lit .line>span{transform:translateY(0)}
+.sub-hero.lit .line:nth-child(1)>span{transition-delay:.05s}
+.sub-hero.lit .line:nth-child(2)>span{transition-delay:.14s}
+.sub-hero.lit .line:nth-child(3)>span{transition-delay:.23s}
+.hero-eyebrow{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.sub-hero.lit .hero-eyebrow{opacity:1;transform:none;transition-delay:.1s}
+.sub-hero h1{font-size:clamp(46px,8.2vw,118px);line-height:.96}
+
+/* ---------- SECTION SHELL ---------- */
+section{position:relative}
+.sec-num{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--red);padding-top:8px}
+.sec-kicker{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:16px}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(40px,5vw,64px)}
+
+/* ---------- CONTACT MAIN ---------- */
+.contact-main{padding:clamp(70px,9vw,130px) 0;border-bottom:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:clamp(56px,8vw,100px)}
+@media(min-width:960px){.contact-grid{grid-template-columns:1.15fr .85fr;align-items:start;gap:clamp(56px,8vw,110px)}}
+
+/* ---------- BIG CONTACT LINKS ---------- */
+.contact-links{display:flex;flex-direction:column;gap:clamp(30px,4vw,50px)}
+.contact-link-item{border-top:1px solid var(--line);padding-top:clamp(24px,3vw,36px)}
+.contact-link-item .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:12px}
+.contact-link-big{font-family:'Fraunces',serif;font-size:clamp(24px,3.8vw,54px);font-weight:500;line-height:1.04;letter-spacing:-.015em;display:inline-block;position:relative;padding-bottom:4px;border-bottom:1.5px solid transparent;transition:border-color .35s,color .35s}
+.contact-link-big:hover{color:var(--red-bright);border-bottom-color:var(--red)}
+.contact-tel{display:flex;flex-direction:column;gap:6px}
+.contact-tel a{font-family:'Fraunces',serif;font-size:clamp(24px,3.8vw,54px);font-weight:500;line-height:1.04;letter-spacing:-.015em;display:inline-block;position:relative;padding-bottom:4px;border-bottom:1.5px solid transparent;transition:border-color .35s,color .35s}
+.contact-tel a:hover{color:var(--red-bright);border-bottom-color:var(--red)}
+
+/* social pills */
+.social-pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(36px,5vw,56px)}
+.social-pill{display:inline-flex;align-items:center;gap:11px;border:1px solid var(--red);border-radius:100px;padding:14px 24px;font-weight:600;font-size:15px;transition:.35s}
+.social-pill:hover{background:var(--red);color:#fff;transform:translateY(-2px)}
+
+/* ---------- CONTACT SIDE (address + map) ---------- */
+.contact-side{}
+.address-block{margin-bottom:clamp(36px,5vw,52px)}
+.address-block .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:14px}
+.address-block p{color:var(--paper-dim);font-size:clamp(16px,1.3vw,18.5px);line-height:1.7;margin-bottom:6px}
+.address-block p+p{margin-top:0}
+.address-divider{height:1px;background:var(--line);margin:clamp(28px,3.5vw,40px) 0}
+/* billing details */
+.billing-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:440px){.billing-grid{grid-template-columns:1fr}}
+.billing-item .lbl{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:6px}
+.billing-item p{color:var(--paper-dim);font-size:15px;line-height:1.55}
+
+/* map */
+.map-wrap{position:relative;border-radius:6px;overflow:hidden;border:1px solid var(--line);min-height:320px;aspect-ratio:4/3}
+@media(min-width:960px){.map-wrap{aspect-ratio:auto;min-height:clamp(340px,36vw,480px)}}
+.map-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block;filter:grayscale(1) brightness(0.85) contrast(0.95)}
+.map-overlay{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px var(--line)}
+
+/* ---------- CTA SECTION ---------- */
+.cta{padding:clamp(100px,13vw,180px) 0 clamp(60px,8vw,100px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
+.cta::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.2),transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.cta>.wrap{position:relative;z-index:2}
+.cta .lbl{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:30px}
+.cta h2{font-size:clamp(40px,7.5vw,118px);line-height:.96;margin-bottom:40px}
+.cta h2 em{font-style:italic;font-weight:400}
+.cta-btn{display:inline-flex;align-items:center;gap:16px;background:var(--red);color:#fff;padding:21px 38px;border-radius:100px;font-weight:600;font-size:18px;transition:background .35s,color .35s;will-change:transform}
+.cta-btn:hover{background:#fff;color:var(--ink)}
+.cta-btn .arr{transition:transform .35s}.cta-btn:hover .arr{transform:translateX(6px)}
+.cta-mark{position:relative;z-index:1;margin-top:clamp(60px,9vw,120px);overflow:hidden;line-height:.8;pointer-events:none;user-select:none}
+.cta-mark span{display:block;font-family:'Fraunces',serif;font-weight:600;font-size:clamp(54px,15.5vw,240px);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.07);text-stroke:1px rgba(239,233,226,.07);white-space:nowrap}
+.cta-sub{margin-top:40px;color:var(--paper-faint);font-size:16.5px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px}
+.cta-sub .sep{color:var(--line);font-size:14px}
+.cta-sub a{color:var(--paper);font-weight:600;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:2px;transition:.3s}
+.cta-sub a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,7vw,90px) 0 36px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-brand .brand{margin-bottom:22px}
+.foot-brand p{color:var(--paper-faint);max-width:34ch;font-size:15px}
+.foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:600}
+.foot-col p{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px}
+.foot-col{display:flex;flex-direction:column;align-items:flex-start}
+.foot-col a{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px;transition:color .3s;position:relative}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.foot-col a:hover{color:var(--red)}
+.foot-col a:hover::after{transform:scaleX(1);transform-origin:left}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(50px,6vw,80px);padding-top:30px;border-top:1px solid var(--line);font-size:13.5px;color:var(--paper-faint)}
+.foot-bottom a:hover{color:var(--paper-dim)}
+
+/* ---------- REVEAL ---------- */
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
+.rl-mask{display:block;overflow:hidden;padding-bottom:.05em}
+.rl-mask>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.rl-mask.in>span{transform:translateY(0)}
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path .95s cubic-bezier(.16,1,.3,1)}
+.clip.in{clip-path:inset(0 0 0 0)}
+.px{position:relative;overflow:hidden}
+.px>img,.px .px-inner{will-change:transform}
+.magnetic{position:relative}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:880px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.001s!important}
+  .rev{opacity:1;transform:none}
+  .line>span,.rl-mask>span{transform:none!important}
+  .hero-eyebrow{opacity:1!important;transform:none!important}
+  .clip{clip-path:none!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  body{cursor:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="/" class="brand" aria-label="Jan Kurdiovský — domů">
+      <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne">O mně</a>
+      <a href="/kontakt" aria-current="page">Kontakt</a>
+      <a href="/portal">Klientský portál</a>
+    </nav>
+    <a href="/rezervace" class="nav-cta">Rezervovat konzultaci
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/sluzby">Služby <span>01</span></a>
+  <a href="/o-mne">O mně <span>02</span></a>
+  <a href="/rezervace">Rezervace <span>03</span></a>
+  <a href="/kontakt" aria-current="page">Kontakt <span>04</span></a>
+  <a href="/portal">Klientský portál <span>05</span></a>
+  <div class="mm-foot">
+    <span>jan@kurdiovsky.cz</span>
+    <span>+420 799 794 670</span>
+    <span>@jan_kurdiovsky</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="sub-hero" id="subHero">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="dot"></span> Osobní finanční poradce · Brno</div>
+    <h1>
+      <span class="line"><span>Pojďme</span></span>
+      <span class="line"><span><em>mluvit</em></span></span>
+      <span class="line"><span style="color:var(--red)">otevřeně.</span></span>
+    </h1>
+  </div>
+</section>
+
+<!-- CONTACT MAIN -->
+<section class="contact-main">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- LEFT: big contact links + social -->
+      <div>
+        <div class="sec-head rev">
+          <span class="sec-num">01</span>
+          <div><div class="sec-kicker">Přímý kontakt</div></div>
+        </div>
+
+        <div class="contact-links">
+          <div class="contact-link-item rev d1">
+            <div class="lbl">E-mail</div>
+            <a href="mailto:jan@kurdiovsky.cz" class="contact-link-big">jan@kurdiovsky.cz</a>
+          </div>
+
+          <div class="contact-link-item rev d2">
+            <div class="lbl">Telefon</div>
+            <div class="contact-tel">
+              <a href="tel:+420799794670">+420 799 794 670</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="rev d3" style="margin-top:clamp(48px,6vw,72px)">
+          <div class="sec-kicker">Sociální sítě</div>
+          <div class="social-pills">
+            <a href="https://instagram.com/jan_kurdiovsky" class="social-pill" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+              @jan_kurdiovsky
+            </a>
+            <a href="https://www.tiktok.com/@jankurdiovsk" class="social-pill" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+              @jankurdiovsk
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: address + billing + map -->
+      <div class="contact-side rev d2">
+        <div class="sec-head">
+          <span class="sec-num">02</span>
+          <div><div class="sec-kicker">Adresa</div></div>
+        </div>
+
+        <div class="address-block">
+          <div class="lbl">Korespondenční adresa</div>
+          <p>Tolstého&nbsp;35</p>
+          <p>616&nbsp;00&nbsp;Brno</p>
+        </div>
+
+        <!-- MAP -->
+        <div class="map-wrap clip">
+          <iframe
+            title="Poloha kanceláře Jana Kurdiovského — Tolstého 35, Brno"
+            src="https://maps.google.com/maps?q=Tolst%C3%A9ho%2035%2C%20Brno&output=embed"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <div class="map-overlay" aria-hidden="true"></div>
+        </div>
+
+        <div class="address-divider"></div>
+
+        <div class="address-block">
+          <div class="lbl">Fakturační údaje</div>
+          <div class="billing-grid">
+            <div class="billing-item">
+              <div class="lbl">Jméno</div>
+              <p>Jan Kurdiovský</p>
+            </div>
+            <div class="billing-item">
+              <div class="lbl">IČO</div>
+              <p>11762390</p>
+            </div>
+            <div class="billing-item" style="grid-column:1/-1">
+              <div class="lbl">Sídlo</div>
+              <p>Svatopluka Čecha 1939/106a<br>Královo Pole, 612&nbsp;00&nbsp;Brno</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="lbl rev">Domluvit schůzku</div>
+    <h2>
+      <span class="rl-mask"><span>Rezervujte si</span></span>
+      <span class="rl-mask"><span><em>konzultaci.</em></span></span>
+    </h2>
+    <a href="/rezervace" class="cta-btn magnetic rev d2" data-magnetic>Rezervovat konzultaci
+      <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="cta-sub rev d3">Nebo napište rovnou na <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a> <span class="sep">·</span> <a href="tel:+420799794670">+420 799 794 670</a></p>
+  </div>
+  <div class="cta-mark" aria-hidden="true"><span>KURDIOVSKÝ</span></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand">
+          <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+          <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+        </a>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="/sluzby">Služby</a>
+        <a href="/o-mne">O mně</a>
+        <a href="/rezervace">Rezervace</a>
+        <a href="/kontakt">Kontakt</a>
+        <a href="/portal">Klientský portál</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+        <a href="tel:+420799794670">+420 799 794 670</a>
+        <p>Tolstého 35<br>616 00&nbsp;Brno</p>
+        <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jan Kurdiovský · member of money2u</span>
+      <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fineHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var motionOK=fineHover && !reduceMotion;
+  var lerp=function(a,b,t){return a+(b-a)*t};
+  var clamp=function(v,lo,hi){return v<lo?lo:(v>hi?hi:v)};
+
+  /* ---------- HEADER ---------- */
+  var header=document.getElementById('header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>40)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger=document.getElementById('burger');
+  var mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){document.body.classList.toggle('menu-open')});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+
+  /* ---------- SUBPAGE HERO LINE REVEAL ---------- */
+  var subHero=document.getElementById('subHero');
+  if(reduceMotion){subHero.classList.add('lit');}
+  else{requestAnimationFrame(function(){requestAnimationFrame(function(){subHero.classList.add('lit');})});}
+
+  /* ---------- REVEAL OBSERVER (fade + masked-line) ---------- */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev,.rl-mask').forEach(function(el){io.observe(el);});
+
+  /* clip-path wipe: observe unclipped parent, reveal clipped child */
+  var clipEls=[].slice.call(document.querySelectorAll('.clip'));
+  var clipMap=new WeakMap();
+  var clipIo=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var child=clipMap.get(e.target);
+        if(child)child.classList.add('in');
+        clipIo.unobserve(e.target);
+      }
+    });
+  },{threshold:.05,rootMargin:'0px 0px -8% 0px'});
+  clipEls.forEach(function(el){
+    var trigger=el.parentElement||el;
+    clipMap.set(trigger,el);
+    clipIo.observe(trigger);
+  });
+
+  /* ---------- CURSOR + MAGNETIC ---------- */
+  var mx=window.innerWidth/2,my=window.innerHeight/2;
+  var rdx=mx,rdy=my,ringx=mx,ringy=my;
+  var magnets=[].map.call(document.querySelectorAll('[data-magnetic]'),function(el){
+    return {el:el,bx:0,by:0,tx:0,ty:0};
+  });
+  var cursorOn=false;
+  if(motionOK){
+    document.body.classList.add('cursor-on');cursorOn=true;
+    window.addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      var hot=e.target.closest('a,button');
+      var soft=e.target.closest('input,textarea,select,[contenteditable]');
+      document.body.classList.toggle('cursor-hot',!!hot && !soft);
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){document.body.classList.add('cursor-hidden');});
+    document.addEventListener('mouseenter',function(){document.body.classList.remove('cursor-hidden');});
+  }
+  var dotR=document.querySelector('.cursor-dot');
+  var ringR=document.querySelector('.cursor-ring');
+
+  function frame(){
+    if(cursorOn){
+      rdx=lerp(rdx,mx,0.55);rdy=lerp(rdy,my,0.55);
+      ringx=lerp(ringx,mx,0.14);ringy=lerp(ringy,my,0.14);
+      if(dotR)dotR.style.transform='translate('+rdx+'px,'+rdy+'px)';
+      if(ringR)ringR.style.transform='translate('+ringx+'px,'+ringy+'px)';
+    }
+    if(motionOK){
+      for(var i=0;i<magnets.length;i++){
+        var m=magnets[i],r=m.el.getBoundingClientRect();
+        var cx2=r.left+r.width/2,cy2=r.top+r.height/2;
+        var dx=mx-cx2,dy=my-cy2;
+        var dist=Math.hypot(dx,dy);
+        if(dist<r.width/2+80){m.tx=clamp(dx*0.3,-10,10);m.ty=clamp(dy*0.3,-10,10);}
+        else{m.tx=0;m.ty=0;}
+        m.bx=lerp(m.bx,m.tx,0.18);m.by=lerp(m.by,m.ty,0.18);
+        m.el.style.transform='translate('+m.bx.toFixed(2)+'px,'+m.by.toFixed(2)+'px)';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rezervace konzultace — Jan Kurdiovský, PFP</title>
+<meta name="description" content="Domluvme si konzultaci. Vyberte si termín v kalendáři — nebo rovnou napište či zavolejte. Jan Kurdiovský, osobní finanční poradce z Brna.">
+<link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
+<link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rezervace konzultace — Jan Kurdiovský">
+<meta property="og:description" content="Vyberte si termín v kalendáři nebo napište rovnou na jan@kurdiovsky.cz. Finanční poradenství bez přehnaných formalit.">
+<meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/rezervace">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/hero-poster.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0c0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<style>
+:root{
+  --ink:#0c0c0f;
+  --ink-2:#131318;
+  --ink-3:#1b1b22;
+  --line:rgba(255,255,255,.10);
+  --paper:#efe9e2;
+  --paper-dim:#b6b2ac;
+  --paper-faint:#7d7a76;
+  --red:#d31f26;
+  --red-bright:#ff2d35;
+  --maxw:1340px;
+  --pad:clamp(20px,5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- CUSTOM CURSOR ---------- */
+.cursor-dot,.cursor-ring{display:none;position:fixed;top:0;left:0;z-index:9500;pointer-events:none;border-radius:50%;will-change:transform;opacity:0;transition:opacity .35s ease}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{display:block}
+.cursor-dot{width:8px;height:8px;background:var(--red);margin:-4px 0 0 -4px}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(239,233,226,.55);margin:-17px 0 0 -17px;transition:opacity .35s ease,width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background-color .3s}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{opacity:1}
+body.cursor-on.cursor-hot .cursor-ring{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red);background:rgba(211,31,38,.08)}
+body.cursor-on.cursor-hot .cursor-dot{opacity:0}
+body.cursor-on.cursor-hidden .cursor-dot,body.cursor-on.cursor-hidden .cursor-ring{opacity:0}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button{cursor:none}
+  body.cursor-on input,body.cursor-on textarea,body.cursor-on select,body.cursor-on [contenteditable]{cursor:auto}
+}
+
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:.98;letter-spacing:-.02em}
+.serif-it{font-style:italic;font-weight:400}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s}
+header.scrolled{background:rgba(12,12,15,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .mark{width:42px;height:42px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.brand .mark img{width:26px;height:26px;object-fit:contain}
+.brand small{display:block;font-family:'Manrope';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint)}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--paper-dim);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--red);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+/* active nav item */
+.nav-links a[aria-current="page"]{color:var(--paper)}
+.nav-links a[aria-current="page"]::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-size:14px;font-weight:600;transition:.3s}
+.nav-cta:hover{background:var(--red);border-color:var(--red)}
+.nav-cta::after{display:none}
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:20px;height:1.6px;background:var(--paper);transition:.3s}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:24px}.burger span:nth-child(3){top:30px}
+body.menu-open .burger span:nth-child(1){top:24px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){top:24px;transform:rotate(-45deg)}
+
+.mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ink);transform:translateY(-100%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);visibility:hidden}
+body.menu-open .mobile-menu{transform:translateY(0);visibility:visible}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,52px);font-weight:500;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a span{font-family:'Manrope';font-size:14px;color:var(--red);font-weight:600}
+.mm-foot{margin-top:40px;font-size:15px;color:var(--paper-dim);display:flex;flex-direction:column;gap:6px}
+
+/* ---------- SUB-PAGE HERO ---------- */
+.hero-sub{padding-top:clamp(100px,14vw,148px);padding-bottom:clamp(42px,6vw,80px);min-height:clamp(340px,60vh,560px);display:flex;align-items:flex-end;border-bottom:1px solid var(--line);position:relative}
+.hero-sub::before{content:"";position:absolute;left:0;right:0;bottom:0;height:220px;pointer-events:none;background:linear-gradient(to top,var(--ink) 0%,transparent 100%);z-index:0}
+.hero-sub .wrap{position:relative;z-index:1;width:100%}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-dim);font-weight:600;margin-bottom:26px}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 14px var(--red)}
+.hero-sub h1{font-size:clamp(40px,7vw,108px);max-width:14ch}
+/* masked line reveal for subpage h1 */
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.hero-sub.lit .line>span{transform:translateY(0)}
+.hero-sub.lit .line:nth-child(1)>span{transition-delay:.05s}
+.hero-sub.lit .line:nth-child(2)>span{transition-delay:.14s}
+.hero-sub.lit .line:nth-child(3)>span{transition-delay:.23s}
+.hero-eyebrow,.hero-sub-lead{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.hero-sub.lit .hero-eyebrow{opacity:1;transform:none;transition-delay:.08s}
+.hero-sub.lit .hero-sub-lead{opacity:1;transform:none;transition-delay:.42s}
+.hero-sub-lead{max-width:52ch;font-size:clamp(16px,1.4vw,19px);color:var(--paper-dim);margin-top:28px}
+
+/* ---------- SECTION SHELL ---------- */
+section{position:relative}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(40px,5vw,64px)}
+.sec-num{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--red);padding-top:8px}
+.sec-kicker{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:16px}
+
+/* ---------- STEPS SECTION ---------- */
+.steps{padding:clamp(72px,10vw,140px) 0;border-bottom:1px solid var(--line)}
+.steps-grid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:860px){.steps-grid{grid-template-columns:repeat(3,1fr);gap:0}}
+.step{padding:clamp(30px,4vw,54px) clamp(24px,3.6vw,48px);border-top:1px solid var(--line);position:relative}
+@media(min-width:860px){
+  .step{border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .step:first-child{border-left:none}
+}
+.step-n{font-family:'Fraunces',serif;font-size:clamp(54px,7vw,90px);font-weight:600;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.12);text-stroke:1px rgba(239,233,226,.12);margin-bottom:clamp(18px,2.4vw,32px);display:block;transition:-webkit-text-stroke-color .4s}
+.step:hover .step-n{-webkit-text-stroke-color:rgba(211,31,38,.22)}
+.step h3{font-size:clamp(22px,2.4vw,30px);font-weight:500;margin-bottom:14px;line-height:1.1}
+.step h3 .red{color:var(--red)}
+.step p{color:var(--paper-dim);font-size:15.5px;max-width:28ch;line-height:1.65}
+/* connector arrow between steps (desktop) */
+.step-arrow{display:none}
+@media(min-width:860px){
+  .step-arrow{display:block;position:absolute;top:50%;right:-1px;transform:translateY(-50%);z-index:2;pointer-events:none}
+  .step:last-child .step-arrow{display:none}
+}
+
+/* ---------- CALENDLY SECTION ---------- */
+.calendly-sec{padding:clamp(72px,10vw,130px) 0}
+.calendly-card{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper);position:relative}
+/* Calendly inline widget styling */
+.calendly-inline-widget{
+  min-height:700px;
+  width:100%;
+  display:block;
+}
+@media(max-width:640px){
+  .calendly-inline-widget{min-height:1000px}
+}
+/* loading placeholder shown before Calendly JS inits */
+.calendly-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;background:var(--paper);z-index:1;pointer-events:none;
+  transition:opacity .5s ease;
+}
+.calendly-placeholder.hidden{opacity:0;pointer-events:none}
+.calendly-placeholder .spin{
+  width:36px;height:36px;border:2px solid rgba(12,12,15,.15);border-top-color:var(--red);border-radius:50%;
+  animation:rotSpin .8s linear infinite;
+}
+@keyframes rotSpin{to{transform:rotate(360deg)}}
+.calendly-placeholder p{font-size:14px;color:var(--paper-faint);font-family:'Manrope',sans-serif}
+
+/* ---------- DIRECT CONTACT SECTION ---------- */
+.direct{padding:clamp(72px,10vw,130px) 0;border-top:1px solid var(--line)}
+.direct-inner{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,70px);align-items:center}
+@media(min-width:900px){.direct-inner{grid-template-columns:1.1fr .9fr;gap:clamp(60px,7vw,100px)}}
+.direct-txt h2{font-size:clamp(32px,4.8vw,68px);max-width:16ch;margin-bottom:30px;line-height:1.0}
+.direct-txt h2 em{font-style:italic;font-weight:400}
+.direct-txt h2 .red{color:var(--red)}
+.direct-txt p{color:var(--paper-dim);max-width:50ch;margin-bottom:clamp(28px,3.5vw,44px)}
+.direct-links{display:flex;flex-direction:column;gap:22px}
+.direct-link{display:inline-flex;align-items:center;gap:18px;padding:20px 30px;border:1px solid var(--line);border-radius:6px;transition:border-color .35s,background .35s;position:relative;overflow:hidden}
+.direct-link::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red);transition:width .4s cubic-bezier(.2,.7,.2,1);z-index:0}
+.direct-link:hover{border-color:var(--red);background:rgba(211,31,38,.04)}
+.direct-link:hover::before{width:3px}
+.direct-link-icon{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative;z-index:1;transition:border-color .35s,background .35s}
+.direct-link:hover .direct-link-icon{border-color:var(--red);background:rgba(211,31,38,.1)}
+.direct-link-icon svg{color:var(--paper-dim);transition:color .35s}
+.direct-link:hover .direct-link-icon svg{color:var(--red)}
+.direct-link-body{position:relative;z-index:1}
+.direct-link-label{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:4px}
+.direct-link-value{font-family:'Fraunces',serif;font-size:clamp(19px,2vw,26px);font-weight:500;letter-spacing:-.01em;color:var(--paper)}
+.direct-link:hover .direct-link-value{color:var(--paper)}
+/* right side visual — large serif quote */
+.direct-aside{padding:clamp(36px,4.5vw,60px);border:1px solid var(--line);border-radius:6px;background:var(--ink-2);position:relative;overflow:hidden}
+.direct-aside::before{content:"";position:absolute;left:0;top:0;width:3px;bottom:0;background:linear-gradient(var(--red),transparent)}
+.direct-aside blockquote{font-family:'Fraunces',serif;font-size:clamp(18px,2vw,26px);font-weight:400;font-style:italic;line-height:1.4;color:var(--paper);max-width:26ch}
+.direct-aside cite{display:block;margin-top:26px;font-family:'Manrope',sans-serif;font-size:13px;font-style:normal;color:var(--paper-faint);letter-spacing:.06em}
+
+/* ---------- CTA STRIP ---------- */
+.cta-strip{padding:clamp(80px,11vw,160px) 0 clamp(50px,7vw,90px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
+.cta-strip::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.18),transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.cta-strip>.wrap{position:relative;z-index:2}
+.cta-strip .lbl{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:28px}
+.cta-strip h2{font-size:clamp(36px,6.5vw,100px);line-height:.96;margin-bottom:36px}
+.cta-strip h2 em{font-style:italic;font-weight:400}
+.cta-btn{display:inline-flex;align-items:center;gap:16px;background:var(--red);color:#fff;padding:21px 38px;border-radius:100px;font-weight:600;font-size:18px;transition:background .35s,color .35s;will-change:transform}
+.cta-btn:hover{background:#fff;color:var(--ink)}
+.cta-btn .arr{transition:transform .35s}.cta-btn:hover .arr{transform:translateX(6px)}
+.cta-sub{margin-top:36px;color:var(--paper-faint);font-size:16.5px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px}
+.cta-sub .sep{color:var(--line);font-size:14px}
+.cta-sub a{color:var(--paper);font-weight:600;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:2px;transition:.3s}
+.cta-sub a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+/* giant outlined wordmark */
+.cta-mark{position:relative;z-index:1;margin-top:clamp(50px,8vw,110px);overflow:hidden;line-height:.8;pointer-events:none;user-select:none}
+.cta-mark span{display:block;font-family:'Fraunces',serif;font-weight:600;font-size:clamp(54px,15.5vw,240px);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.07);text-stroke:1px rgba(239,233,226,.07);white-space:nowrap}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,7vw,90px) 0 36px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-brand .brand{margin-bottom:22px}
+.foot-brand p{color:var(--paper-faint);max-width:34ch;font-size:15px}
+.foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:600}
+.foot-col p{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px}
+.foot-col{display:flex;flex-direction:column;align-items:flex-start}
+.foot-col a{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px;transition:color .3s;position:relative}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.foot-col a:hover{color:var(--red)}
+.foot-col a:hover::after{transform:scaleX(1);transform-origin:left}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(50px,6vw,80px);padding-top:30px;border-top:1px solid var(--line);font-size:13.5px;color:var(--paper-faint)}
+.foot-bottom a:hover{color:var(--paper-dim)}
+
+/* ---------- REVEAL SYSTEM ---------- */
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
+.rl-mask{display:block;overflow:hidden;padding-bottom:.05em}
+.rl-mask>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.rl-mask.in>span{transform:translateY(0)}
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path .95s cubic-bezier(.16,1,.3,1)}
+.clip.in{clip-path:inset(0 0 0 0)}
+
+/* ---------- MOBILE ---------- */
+@media(max-width:880px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+}
+/* ---------- REDUCED MOTION ---------- */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.001s!important}
+  .rev{opacity:1;transform:none}
+  .line>span,.rl-mask>span{transform:none!important}
+  .hero-eyebrow,.hero-sub-lead{opacity:1!important;transform:none!important}
+  .clip{clip-path:none!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  body{cursor:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="/" class="brand" aria-label="Jan Kurdiovský — domů">
+      <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Hlavní navigace">
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne">O mně</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/portal">Klientský portál</a>
+    </nav>
+    <a href="/rezervace" class="nav-cta" aria-current="page">Rezervovat konzultaci
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="/sluzby">Služby <span>01</span></a>
+  <a href="/o-mne">O mně <span>02</span></a>
+  <a href="/rezervace" aria-current="page">Rezervace <span>03</span></a>
+  <a href="/kontakt">Kontakt <span>04</span></a>
+  <a href="/portal">Klientský portál <span>05</span></a>
+  <div class="mm-foot">
+    <span>jan@kurdiovsky.cz</span>
+    <span>+420 799 794 670</span>
+    <span>@jan_kurdiovsky</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-sub" id="heroSub">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="dot" aria-hidden="true"></span> Rezervace konzultace</div>
+    <h1>
+      <span class="line"><span>Domluvme si</span></span>
+      <span class="line"><span><em style="font-style:italic;font-weight:400">konzultaci.</em></span></span>
+    </h1>
+    <p class="hero-sub-lead">Žádné produkty na prodej&nbsp;— jen rozhovor o&nbsp;tom, kam chcete dojít. Vyberte si termín, který vám vyhovuje.</p>
+  </div>
+</section>
+
+<!-- 01 KROKY -->
+<section class="steps">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-num">01</span>
+      <div>
+        <div class="sec-kicker">Jak to probíhá</div>
+        <h2 style="font-size:clamp(28px,3.8vw,52px)">
+          <span class="rl-mask"><span>Tři kroky, <span style="color:var(--red)">žádné formality.</span></span></span>
+        </h2>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="step rev">
+        <span class="step-n" aria-hidden="true">01</span>
+        <h3>Vyberte si <span class="red">termín</span></h3>
+        <p>V&nbsp;kalendáři níže si vyberte den a&nbsp;čas, který vám vyhovuje. Online i&nbsp;osobně v&nbsp;Brně.</p>
+      </div>
+      <div class="step rev d1">
+        <span class="step-n" aria-hidden="true">02</span>
+        <h3>Potkáme se&nbsp;/ spojíme <span class="red">online</span></h3>
+        <p>Projdeme vaši situaci a&nbsp;cíle. Neptám se zbytečně, neprodávám dopředu.</p>
+      </div>
+      <div class="step rev d2">
+        <span class="step-n" aria-hidden="true">03</span>
+        <h3>Dostanete plán, <span class="red">který dává smysl</span></h3>
+        <p>Konkrétní kroky, ne obecná doporučení. Produkt přijde až na konci&nbsp;— jako nástroj, ne cíl.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 CALENDLY -->
+<section class="calendly-sec" id="calendly-sec">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-num">02</span>
+      <div>
+        <div class="sec-kicker">Vyberte termín</div>
+        <h2 style="font-size:clamp(28px,3.8vw,52px)">
+          <span class="rl-mask"><span>Rezervujte <em style="font-style:italic;font-weight:400">přímo</em> zde.</span></span>
+        </h2>
+      </div>
+    </div>
+    <div class="calendly-card rev d1" id="calendlyCard">
+      <div class="calendly-placeholder" id="calendlyPlaceholder" aria-hidden="true">
+        <span class="spin"></span>
+        <p>Načítám kalendář&hellip;</p>
+      </div>
+      <!-- Calendly inline widget — načteno lazy přes IntersectionObserver -->
+      <div
+        class="calendly-inline-widget"
+        id="calendlyWidget"
+        data-url="https://calendly.com/kurdiovsky?hide_landing_page_details=1&hide_gdpr_banner=1&primary_color=d31f26"
+        aria-label="Calendly rezervační kalendář"
+      ></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PŘÍMÝ KONTAKT -->
+<section class="direct">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-num">03</span>
+      <div>
+        <div class="sec-kicker">Přímý kontakt</div>
+        <h2 style="font-size:clamp(28px,3.8vw,52px)">
+          <span class="rl-mask"><span>Nebo rovnou <span style="color:var(--red)">napište</span></span></span>
+          <span class="rl-mask"><span><em style="font-style:italic;font-weight:400">či zavolejte.</em></span></span>
+        </h2>
+      </div>
+    </div>
+    <div class="direct-inner">
+      <div class="direct-txt">
+        <p class="rev">Pokud se vám chce dřív prohodit pár slov&nbsp;— klidně napište nebo zavolejte přímo. Žádný autoresponder, žádné formuláře.</p>
+        <div class="direct-links">
+          <a href="mailto:jan@kurdiovsky.cz" class="direct-link rev d1" aria-label="Napsat e-mail">
+            <span class="direct-link-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <span class="direct-link-body">
+              <span class="direct-link-label">E-mail</span>
+              <span class="direct-link-value">jan@kurdiovsky.cz</span>
+            </span>
+          </a>
+          <a href="tel:+420799794670" class="direct-link rev d2" aria-label="Zavolat">
+            <span class="direct-link-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5.17 12 19.8 19.8 0 0 1 2.12 3.38 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span class="direct-link-body">
+              <span class="direct-link-label">Telefon</span>
+              <span class="direct-link-value">+420 799 794 670</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <aside class="direct-aside rev d2">
+        <blockquote>
+          „Žádná hra na získání zákazníka, ale opravdový zájem o&nbsp;něj."
+        </blockquote>
+        <cite>— Zdeněk Lengál, klient</cite>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section class="cta-strip">
+  <div class="wrap">
+    <div class="lbl rev">Pojďme začít</div>
+    <h2>
+      <span class="rl-mask"><span>Finanční poradenství</span></span>
+      <span class="rl-mask"><span>bez přehnaných <em>formalit.</em></span></span>
+    </h2>
+    <a href="#calendly-sec" class="cta-btn magnetic rev d2" data-magnetic>Vybrat termín
+      <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="cta-sub rev d3">
+      Nebo napište rovnou na
+      <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+      <span class="sep">·</span>
+      <a href="tel:+420799794670">+420 799 794 670</a>
+    </p>
+  </div>
+  <div class="cta-mark" aria-hidden="true"><span>KURDIOVSKÝ</span></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand">
+          <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+          <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+        </a>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="/sluzby">Služby</a>
+        <a href="/o-mne">O mně</a>
+        <a href="/rezervace">Rezervace</a>
+        <a href="/kontakt">Kontakt</a>
+        <a href="/portal">Klientský portál</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+        <a href="tel:+420799794670">+420 799 794 670</a>
+        <p>Tolstého 35<br>616 00 Brno</p>
+        <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jan Kurdiovský · member of money2u</span>
+      <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fineHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var motionOK = fineHover && !reduceMotion;
+  var lerp = function(a,b,t){return a+(b-a)*t};
+  var clamp = function(v,lo,hi){return v<lo?lo:(v>hi?hi:v)};
+
+  /* ---------- HEADER SCROLL ---------- */
+  var header = document.getElementById('header');
+  var onScroll = function(){header.classList.toggle('scrolled', window.scrollY > 40)};
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger = document.getElementById('burger');
+  var mm = document.getElementById('mobileMenu');
+  burger.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    mm.setAttribute('aria-hidden', open ? 'false' : 'true');
+  });
+  mm.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.body.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+      mm.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  /* ---------- HERO SUBPAGE LINE REVEAL ---------- */
+  var heroSub = document.getElementById('heroSub');
+  if(reduceMotion){
+    heroSub.classList.add('lit');
+  } else {
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        heroSub.classList.add('lit');
+      });
+    });
+  }
+
+  /* ---------- REVEAL OBSERVER (fade / masked-line) ---------- */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev, .rl-mask').forEach(function(el){ io.observe(el); });
+
+  /* clip-path wipe: observe unclipped parent, reveal clipped child */
+  var clipMap = new WeakMap();
+  var clipIo = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var child = clipMap.get(e.target);
+        if(child) child.classList.add('in');
+        clipIo.unobserve(e.target);
+      }
+    });
+  }, {threshold:.05, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.clip').forEach(function(el){
+    var trigger = el.parentElement || el;
+    clipMap.set(trigger, el);
+    clipIo.observe(trigger);
+  });
+
+  /* ---------- CALENDLY LAZY LOAD ---------- */
+  var calendlyCard = document.getElementById('calendlyCard');
+  var calendlyWidget = document.getElementById('calendlyWidget');
+  var calendlyPlaceholder = document.getElementById('calendlyPlaceholder');
+  var calendlyLoaded = false;
+
+  function loadCalendly(){
+    if(calendlyLoaded) return;
+    calendlyLoaded = true;
+    var script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    script.onload = function(){
+      /* Calendly JS scans the DOM for .calendly-inline-widget and inits it */
+      if(calendlyPlaceholder){
+        /* short delay so Calendly iframe has a moment to appear */
+        setTimeout(function(){
+          calendlyPlaceholder.classList.add('hidden');
+        }, 600);
+      }
+    };
+    document.head.appendChild(script);
+  }
+
+  if(calendlyCard){
+    var calIo = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          loadCalendly();
+          calIo.unobserve(e.target);
+        }
+      });
+    }, {threshold:0, rootMargin:'0px 0px 200px 0px'});
+    calIo.observe(calendlyCard);
+  }
+
+  /* ---------- CUSTOM CURSOR ---------- */
+  var mx = window.innerWidth/2, my = window.innerHeight/2;
+  var rdx = mx, rdy = my, ringx = mx, ringy = my;
+  var dotR = document.querySelector('.cursor-dot');
+  var ringR = document.querySelector('.cursor-ring');
+  var cursorOn = false;
+
+  if(motionOK){
+    document.body.classList.add('cursor-on');
+    cursorOn = true;
+    window.addEventListener('mousemove', function(e){
+      mx = e.clientX; my = e.clientY;
+      var hot = e.target.closest('a,button');
+      var soft = e.target.closest('input,textarea,select,[contenteditable]');
+      document.body.classList.toggle('cursor-hot', !!hot && !soft);
+    }, {passive:true});
+    document.addEventListener('mouseleave', function(){ document.body.classList.add('cursor-hidden'); });
+    document.addEventListener('mouseenter', function(){ document.body.classList.remove('cursor-hidden'); });
+  }
+
+  /* ---------- MAGNETIC BUTTONS ---------- */
+  var magnets = [].map.call(document.querySelectorAll('[data-magnetic]'), function(el){
+    return {el:el, bx:0, by:0, tx:0, ty:0};
+  });
+
+  /* ---------- SHARED rAF ---------- */
+  function frame(){
+    if(cursorOn){
+      rdx = lerp(rdx, mx, 0.55); rdy = lerp(rdy, my, 0.55);
+      ringx = lerp(ringx, mx, 0.14); ringy = lerp(ringy, my, 0.14);
+      if(dotR) dotR.style.transform = 'translate('+rdx+'px,'+rdy+'px)';
+      if(ringR) ringR.style.transform = 'translate('+ringx+'px,'+ringy+'px)';
+    }
+    if(motionOK){
+      for(var i=0; i<magnets.length; i++){
+        var m = magnets[i];
+        var r = m.el.getBoundingClientRect();
+        var cx = r.left + r.width/2, cy = r.top + r.height/2;
+        var dx = mx - cx, dy = my - cy;
+        var dist = Math.hypot(dx, dy);
+        if(dist < r.width/2 + 80){ m.tx = clamp(dx*0.3,-10,10); m.ty = clamp(dy*0.3,-10,10); }
+        else { m.tx = 0; m.ty = 0; }
+        m.bx = lerp(m.bx, m.tx, 0.18); m.by = lerp(m.by, m.ty, 0.18);
+        m.el.style.transform = 'translate('+m.bx.toFixed(2)+'px,'+m.by.toFixed(2)+'px)';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+})();
+</script>
+</body>
+</html>

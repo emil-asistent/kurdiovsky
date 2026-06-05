@@ -1,31 +1,865 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>kurdiovsky.cz — výběr varianty redesignu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jan Kurdiovský — Finanční poradenství bez přehnaných formalit</title>
+<meta name="description" content="Jan Kurdiovský, PFP. Osobní finanční poradce z Brna. Finance bez přehnaných formalit — neprodávám produkty, tvořím plán, který dává smysl.">
+<link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
+<link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jan Kurdiovský — Finance bez přehnaných formalit">
+<meta property="og:description" content="Osobní finanční poradce z Brna, PFP. Neprodávám produkty — tvořím plán, který dává smysl.">
+<meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/hero-poster.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0c0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
 <style>
+:root{
+  --ink:#0c0c0f;
+  --ink-2:#131318;
+  --ink-3:#1b1b22;
+  --line:rgba(255,255,255,.10);
+  --paper:#efe9e2;
+  --paper-dim:#b6b2ac;
+  --paper-faint:#7d7a76;
+  --red:#d31f26;
+  --red-bright:#ff2d35;
+  --maxw:1340px;
+  --pad:clamp(20px,5vw,72px);
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#101013;color:#f4f1ea;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;gap:40px}
-h1{font-size:clamp(24px,4vw,40px);font-weight:800;letter-spacing:-.02em;text-align:center}
-h1 span{color:#d31f26}
-p.sub{color:#9a968e;text-align:center;max-width:520px;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%;max-width:1080px}
-a.card{display:block;border:1px solid #2a2a30;padding:32px 28px;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s;background:#16161a}
-a.card:hover{border-color:#d31f26;transform:translateY(-4px)}
-.tag{font-size:12px;font-weight:700;letter-spacing:.14em;color:#d31f26;text-transform:uppercase;margin-bottom:12px}
-h2{font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
-.card p{font-size:14px;color:#9a968e;line-height:1.6}
-@media(max-width:860px){.grid{grid-template-columns:1fr}}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- CUSTOM CURSOR ---------- */
+.cursor-dot,.cursor-ring{display:none;position:fixed;top:0;left:0;z-index:9500;pointer-events:none;border-radius:50%;will-change:transform;opacity:0;transition:opacity .35s ease}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{display:block}
+.cursor-dot{width:8px;height:8px;background:var(--red);margin:-4px 0 0 -4px}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(239,233,226,.55);margin:-17px 0 0 -17px;transition:opacity .35s ease,width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background-color .3s}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{opacity:1}
+body.cursor-on.cursor-hot .cursor-ring{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red);background:rgba(211,31,38,.08)}
+body.cursor-on.cursor-hot .cursor-dot{opacity:0}
+body.cursor-on.cursor-hidden .cursor-dot,body.cursor-on.cursor-hidden .cursor-ring{opacity:0}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button,body.cursor-on .svc{cursor:none}
+  body.cursor-on input,body.cursor-on textarea,body.cursor-on select,body.cursor-on [contenteditable]{cursor:auto}
+}
+
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:.98;letter-spacing:-.02em}
+.serif-it{font-style:italic;font-weight:400}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s}
+header.scrolled{background:rgba(12,12,15,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .mark{width:42px;height:42px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.brand .mark img{width:26px;height:26px;object-fit:contain}
+.brand small{display:block;font-family:'Manrope';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint)}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--paper-dim);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--red);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-size:14px;font-weight:600;transition:.3s}
+.nav-cta:hover{background:var(--red);border-color:var(--red)}
+.nav-cta::after{display:none}
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:20px;height:1.6px;background:var(--paper);transition:.3s}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:24px}.burger span:nth-child(3){top:30px}
+body.menu-open .burger span:nth-child(1){top:24px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){top:24px;transform:rotate(-45deg)}
+
+.mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ink);transform:translateY(-100%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);visibility:hidden}
+body.menu-open .mobile-menu{transform:translateY(0);visibility:visible}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,52px);font-weight:500;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a span{font-family:'Manrope';font-size:14px;color:var(--red);font-weight:600}
+.mm-foot{margin-top:40px;font-size:15px;color:var(--paper-dim);display:flex;flex-direction:column;gap:6px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img,.hero-bg video{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-bg video{position:absolute;inset:0;opacity:0;transition:opacity 1s ease}
+.hero-bg video.ready{opacity:1}
+.hero-bg::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(12,12,15,.55) 0%,rgba(12,12,15,.05) 26%,rgba(12,12,15,.2) 52%,rgba(12,12,15,.94) 100%),
+  linear-gradient(90deg,rgba(12,12,15,.62) 0%,rgba(12,12,15,.12) 38%,transparent 62%),
+  radial-gradient(120% 80% at 80% 28%,transparent 32%,rgba(12,12,15,.45) 100%)}
+/* extra localized scrim behind the headline block (bottom-left) so claim never sits on lit hand/skin */
+.hero-bg::before{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;z-index:1;pointer-events:none;background:
+  linear-gradient(to top,rgba(12,12,15,.9) 0%,rgba(12,12,15,.62) 30%,rgba(12,12,15,.18) 70%,transparent 100%),
+  linear-gradient(90deg,rgba(12,12,15,.82) 0%,rgba(12,12,15,.5) 32%,rgba(12,12,15,.08) 60%,transparent 78%)}
+.hero-inner{position:relative;z-index:2;width:100%;padding-bottom:clamp(48px,7vw,96px);padding-top:120px}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-dim);font-weight:600;margin-bottom:26px}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 14px var(--red)}
+.hero h1{font-size:clamp(44px,7.8vw,116px);max-width:13ch;text-shadow:0 2px 36px rgba(8,8,10,.7),0 1px 4px rgba(8,8,10,.55)}
+.hero h1 .red{color:var(--red-bright);text-shadow:0 2px 26px rgba(8,8,10,.85),0 1px 6px rgba(8,8,10,.7)}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--paper);text-shadow:0 2px 28px rgba(8,8,10,.85),0 1px 6px rgba(8,8,10,.7)}
+/* masked line reveal for hero headline */
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.hero.lit .line>span{transform:translateY(0)}
+.hero.lit .line:nth-child(1)>span{transition-delay:.05s}
+.hero.lit .line:nth-child(2)>span{transition-delay:.14s}
+.hero.lit .line:nth-child(3)>span{transition-delay:.23s}
+.hero-eyebrow,.hero-foot{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.hero.lit .hero-eyebrow{opacity:1;transform:none;transition-delay:.1s}
+.hero.lit .hero-foot{opacity:1;transform:none;transition-delay:.5s}
+.hero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;margin-top:42px}
+.hero-foot p{max-width:46ch;font-size:clamp(16px,1.4vw,19px);color:var(--paper-dim)}
+.hero-cta{display:inline-flex;align-items:center;gap:14px;background:var(--red);color:#fff;padding:18px 30px;border-radius:100px;font-weight:600;font-size:16px;transition:background .35s,color .35s;white-space:nowrap;will-change:transform}
+.hero-cta:hover{background:#fff;color:var(--ink)}
+.hero-cta .arr{transition:transform .35s}
+.hero-cta:hover .arr{transform:translateX(5px)}
+.magnetic{position:relative}
+.scroll-hint{position:absolute;right:var(--pad);bottom:clamp(48px,7vw,96px);z-index:2;writing-mode:vertical-rl;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--paper-faint);display:flex;align-items:center;gap:14px}
+.scroll-hint .ln{width:1px;height:54px;background:linear-gradient(var(--red),transparent);animation:scrolly 2.2s infinite}
+@keyframes scrolly{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- MARQUEE ---------- */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--ink-2);padding:clamp(26px,4vw,46px) 0;position:relative}
+.marquee-row{overflow:hidden;display:flex;transform:rotate(-2deg)}
+.marquee-row+.marquee-row{margin-top:clamp(10px,1.4vw,18px)}
+.marquee-track{display:flex;gap:0;white-space:nowrap;animation:march 38s linear infinite;will-change:transform}
+.marquee-row--rev .marquee-track{animation:march-rev 44s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track .item{font-family:'Fraunces',serif;font-size:clamp(20px,2.6vw,38px);font-weight:500;padding:0 26px;display:inline-flex;align-items:center;gap:26px;color:var(--paper);letter-spacing:-.01em}
+.marquee-track .item.ghost{color:transparent;-webkit-text-stroke:1px var(--paper-faint);text-stroke:1px var(--paper-faint)}
+.marquee-track .star{color:var(--red);font-size:.7em}
+@keyframes march{to{transform:translateX(-50%)}}
+@keyframes march-rev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+/* ---------- SECTION SHELL ---------- */
+section{position:relative}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(40px,5vw,64px)}
+.sec-num{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--red);padding-top:8px}
+.sec-kicker{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:16px}
+
+/* ---------- STATEMENT ---------- */
+.statement{padding:clamp(90px,12vw,170px) 0;border-top:1px solid var(--line);position:relative;overflow:hidden}
+/* signature drawn curve behind the statement display */
+.stmt-curve{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;height:clamp(220px,40vw,460px);z-index:0;pointer-events:none;opacity:.9}
+.stmt-curve svg{width:100%;height:100%;overflow:visible}
+.stmt-curve .ln{fill:none;stroke:var(--red);stroke-width:1.4;stroke-linecap:round;opacity:.55;filter:drop-shadow(0 0 10px rgba(211,31,38,.35))}
+.stmt-curve .dot{fill:var(--red-bright);transform-box:fill-box;transform-origin:center;transform:scale(0);filter:drop-shadow(0 0 8px rgba(255,45,53,.7))}
+.statement .wrap{position:relative;z-index:1}
+.statement .big{font-size:clamp(34px,5.6vw,82px);line-height:1.02;max-width:18ch}
+.statement .big .red{color:var(--red)}
+.statement .big .muted{color:var(--paper-dim)}
+.statement .stmt-grid{display:grid;grid-template-columns:1fr;gap:clamp(34px,5vw,64px);align-items:end}
+@media(min-width:900px){.statement .stmt-grid{grid-template-columns:1.25fr .75fr;gap:clamp(48px,6vw,90px)}}
+.statement .lead{font-family:'Fraunces',serif;font-size:clamp(19px,1.9vw,25px);color:var(--paper);font-style:italic;font-weight:400;line-height:1.42;max-width:30ch;margin-top:clamp(34px,4vw,52px)}
+.statement .stmt-fig{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1344/768}
+@media(min-width:900px){.statement .stmt-fig{margin-bottom:clamp(8px,1.5vw,22px);transform:translateY(0)}}
+.statement .stmt-fig img{width:100%;height:100%;object-fit:cover;filter:saturate(.96) contrast(1.04);will-change:transform;transform:scale(1.12)}
+.statement .stmt-fig::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 90px 18px rgba(12,12,15,.55);pointer-events:none}
+
+/* ---------- SERVICES ---------- */
+.services{padding:clamp(70px,9vw,130px) 0;border-top:1px solid var(--line);background:var(--ink-2)}
+.svc-list{border-top:1px solid var(--line);position:relative}
+.svc{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px,4vw,60px);align-items:center;padding:clamp(26px,3.2vw,42px) 0;position:relative;cursor:default;transition:padding-left .45s cubic-bezier(.2,.7,.2,1)}
+/* animated bottom border (scaleX reveal on scroll) */
+.svc::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.svc.in::after{transform:scaleX(1)}
+.svc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red);transition:width .4s cubic-bezier(.2,.7,.2,1);z-index:2}
+.svc:hover{padding-left:26px}
+.svc:hover::before{width:3px}
+/* giant outlined ghost number per row */
+.svc-ghost{position:absolute;right:clamp(10px,6vw,90px);top:50%;transform:translateY(-50%);font-family:'Fraunces',serif;font-size:clamp(80px,11vw,150px);font-weight:600;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.08);text-stroke:1px rgba(239,233,226,.08);pointer-events:none;z-index:0;transition:-webkit-text-stroke-color .4s;user-select:none}
+.svc:hover .svc-ghost{-webkit-text-stroke-color:rgba(211,31,38,.18)}
+.svc-n{font-family:'Manrope';font-size:14px;font-weight:700;color:var(--paper-faint);letter-spacing:.05em;transition:color .35s;position:relative;z-index:1}
+.svc:hover .svc-n{color:var(--red)}
+.svc-main{position:relative;z-index:1;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.svc:hover .svc-main{transform:translateX(12px)}
+.svc-main h3{font-size:clamp(26px,3.4vw,46px);font-weight:500;transition:color .35s,opacity .35s}
+.svc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.svc-tags span{font-size:12px;letter-spacing:.04em;color:var(--paper-dim);border:1px solid var(--line);border-radius:100px;padding:5px 13px}
+.svc-go{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative;overflow:hidden;opacity:.6;transition:opacity .4s;z-index:1}
+.svc-go::before{content:"";position:absolute;inset:0;background:var(--red);border-radius:50%;transform:scale(0);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.svc:hover .svc-go{opacity:1;border-color:var(--red)}
+.svc:hover .svc-go::before{transform:scale(1)}
+.svc-go svg{width:20px;height:20px;position:relative;z-index:1;transform:rotate(-45deg);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.svc:hover .svc-go svg{transform:rotate(0deg)}
+/* small static thumbnail (mobile / no-hover) */
+.svc-thumb{display:none;width:64px;height:48px;border-radius:4px;overflow:hidden;flex:none;border:1px solid var(--line)}
+.svc-thumb img{width:100%;height:100%;object-fit:cover}
+/* floating hover-reveal image (desktop, pointer:fine) */
+.svc-reveal{position:fixed;top:0;left:0;width:clamp(280px,26vw,380px);aspect-ratio:1100/817;border-radius:6px;overflow:hidden;pointer-events:none;z-index:50;opacity:0;--rot:0deg;--sc:.92;transform:translate(-50%,-50%) rotate(var(--rot)) scale(var(--sc));transition:opacity .4s cubic-bezier(.2,.7,.2,1);box-shadow:0 30px 70px rgba(0,0,0,.6);will-change:transform,opacity}
+.svc-reveal.show{opacity:1;--sc:1}
+.svc-reveal img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .35s ease}
+.svc-reveal img.active{opacity:1}
+.svc-reveal::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px 14px rgba(12,12,15,.5);pointer-events:none}
+@media(hover:hover) and (pointer:fine){
+  .svc-list:hover .svc h3{opacity:.4}
+  .svc-list:hover .svc:hover h3{opacity:1}
+}
+
+/* ---------- ABOUT ---------- */
+.about{padding:clamp(90px,11vw,160px) 0;border-top:1px solid var(--line)}
+.about-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,70px);align-items:center}
+@media(min-width:960px){.about-grid{grid-template-columns:.85fr 1.15fr}}
+.about-photo{position:relative}
+.about-photo .frame{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1200/1500}
+.about-photo .frame img{width:100%;height:100%;object-fit:cover;object-position:center 18%;filter:saturate(.92) contrast(1.03);will-change:transform;transform:scale(1.12)}
+.about-photo .frame::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 120px 30px rgba(12,12,15,.6);pointer-events:none;z-index:2}
+.about-photo .tag{position:absolute;left:-14px;bottom:34px;background:var(--red);color:#fff;font-weight:600;font-size:13px;letter-spacing:.04em;padding:11px 20px;border-radius:4px;box-shadow:0 18px 40px rgba(0,0,0,.45);z-index:3}
+.about-photo .badge{position:absolute;top:-18px;right:-12px;background:var(--ink-3);border:1px solid var(--line);border-radius:50%;width:96px;height:96px;display:grid;place-items:center;text-align:center;font-family:'Fraunces',serif;font-size:13px;line-height:1.15;color:var(--paper);z-index:3}
+.about-photo .badge b{display:block;font-size:30px;color:var(--red);font-weight:600}
+.badge-spin{animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.about-txt h2{font-size:clamp(32px,4.6vw,64px);max-width:16ch;margin-bottom:30px}
+.about-txt h2 .red{color:var(--red)}
+.about-txt p{color:var(--paper-dim);margin-bottom:20px;max-width:56ch}
+/* inline accent — used sparingly on 1–2 truly key terms, never as scattered bold */
+.acc{color:var(--red-bright);font-weight:600}
+.about-sign{display:flex;align-items:center;gap:18px;margin-top:34px;padding-top:30px;border-top:1px solid var(--line)}
+.about-sign .nm{font-family:'Fraunces',serif;font-size:24px;font-weight:500;position:relative;display:inline-block;padding-bottom:5px}
+.about-sign .nm::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1) .25s}
+.about-sign.in .nm::after{transform:scaleX(1)}
+.about-sign .rl{font-size:13px;color:var(--paper-faint);letter-spacing:.06em}
+
+/* ---------- MONEY2U FEATURE ---------- */
+.feature{padding:clamp(70px,9vw,130px) 0;border-top:1px solid var(--line);position:relative;background:
+  radial-gradient(90% 120% at 8% 0%,rgba(211,31,38,.14),transparent 58%),
+  linear-gradient(180deg,#17131a 0%,#141118 100%)}
+.feature::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),transparent)}
+.feature-grid{display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,64px);align-items:center}
+@media(min-width:960px){.feature-grid{grid-template-columns:1.1fr .9fr}}
+/* full-bleed beat: on wide screens the money2u panel breaks out of --maxw to the right viewport edge */
+@media(min-width:1180px){
+  .feature .feature-grid{max-width:none;width:auto;margin-right:calc(50% - 50vw);padding-right:0;grid-template-columns:1.05fr 1fr;gap:clamp(48px,6vw,80px);align-items:stretch}
+  .feature .feature-txt{align-self:center;max-width:560px}
+  .feature-photo{border-radius:6px 0 0 6px;min-height:clamp(420px,46vw,640px)}
+  .feature-photo img{position:absolute;inset:0}
+}
+.feature-txt h2{font-size:clamp(28px,3.8vw,52px);max-width:15ch;margin-bottom:24px}
+.feature-txt h2 .red{color:var(--red)}
+.feature-txt p{color:var(--paper-dim);max-width:52ch;margin-bottom:18px}
+.feature-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.feature-pills span{font-size:13px;font-weight:600;letter-spacing:.05em;border:1px solid var(--line);border-radius:100px;padding:9px 17px;color:var(--paper-dim)}
+.feature-pills span.on{border-color:var(--red);color:var(--paper)}
+.feature-photo{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1600/1067}
+.feature-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(.95);will-change:transform;transform:scale(1.12)}
+.feature-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(12,12,15,.5));pointer-events:none}
+
+/* ---------- INSTAGRAM ---------- */
+.insta{padding:clamp(80px,10vw,150px) 0;border-top:1px solid var(--line)}
+.insta-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,72px);align-items:center}
+@media(min-width:900px){.insta-grid{grid-template-columns:1.15fr .85fr}}
+.insta-left h2{font-size:clamp(32px,4.6vw,64px);max-width:14ch;margin:14px 0 24px}
+.insta-left h2 .red{color:var(--red)}
+.insta-lead{color:var(--paper-dim);max-width:48ch;font-size:clamp(16px,1.4vw,18px);margin-bottom:34px}
+.insta-actions{display:flex;flex-wrap:wrap;gap:14px}
+.insta-handle{display:inline-flex;align-items:center;gap:11px;border:1px solid var(--red);border-radius:100px;padding:14px 24px;font-weight:600;font-size:15px;transition:.35s}
+.insta-handle:hover{background:var(--red);color:#fff;transform:translateY(-2px)}
+.insta-photo{position:relative;display:block;border-radius:6px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/5;background:var(--ink-3)}
+.insta-photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%;transition:transform .7s cubic-bezier(.2,.7,.2,1);filter:saturate(.92)}
+.insta-photo:hover img{transform:scale(1.05)}
+.insta-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,15,.05) 40%,rgba(12,12,15,.7));pointer-events:none}
+.insta-photo-tag{position:absolute;left:18px;bottom:18px;z-index:2;display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:#fff}
+/* cutout variant: portrait with alpha on a branded dark/red panel (distinct from the About portrait) */
+.insta-photo--cutout{aspect-ratio:4/5;background:
+  radial-gradient(120% 90% at 70% 18%,rgba(211,31,38,.34),transparent 58%),
+  linear-gradient(165deg,#1d1820 0%,#121017 60%,#0d0b11 100%)}
+.insta-photo--cutout img{object-fit:contain;object-position:center bottom;filter:none;transform-origin:center bottom}
+.insta-photo--cutout:hover img{transform:scale(1.04)}
+.insta-photo--cutout::after{background:linear-gradient(180deg,transparent 55%,rgba(12,12,15,.55))}
+
+/* ---------- CTA ---------- */
+.cta{padding:clamp(100px,13vw,200px) 0 clamp(60px,8vw,110px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
+.cta::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.2),transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.cta>.wrap{position:relative;z-index:2}
+.cta .lbl{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:30px}
+.cta h2{font-size:clamp(40px,7.5vw,118px);line-height:.96;margin-bottom:40px}
+.cta h2 em{font-style:italic;font-weight:400}
+.cta-btn{display:inline-flex;align-items:center;gap:16px;background:var(--red);color:#fff;padding:21px 38px;border-radius:100px;font-weight:600;font-size:18px;transition:background .35s,color .35s;will-change:transform}
+.cta-btn:hover{background:#fff;color:var(--ink)}
+.cta-btn .arr{transition:transform .35s}.cta-btn:hover .arr{transform:translateX(6px)}
+/* giant outlined wordmark above footer */
+.cta-mark{position:relative;z-index:1;margin-top:clamp(60px,9vw,120px);overflow:hidden;line-height:.8;pointer-events:none;user-select:none}
+.cta-mark span{display:block;font-family:'Fraunces',serif;font-weight:600;font-size:clamp(54px,15.5vw,240px);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.07);text-stroke:1px rgba(239,233,226,.07);white-space:nowrap}
+.cta-sub{margin-top:40px;color:var(--paper-faint);font-size:16.5px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px}
+.cta-sub .sep{color:var(--line);font-size:14px}
+.cta-sub a{color:var(--paper);font-weight:600;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:2px;transition:.3s}
+.cta-sub a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,7vw,90px) 0 36px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-brand .brand{margin-bottom:22px}
+.foot-brand p{color:var(--paper-faint);max-width:34ch;font-size:15px}
+.foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:600}
+.foot-col p{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px}
+.foot-col{display:flex;flex-direction:column;align-items:flex-start}
+.foot-col a{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px;transition:color .3s;position:relative}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.foot-col a:hover{color:var(--red)}
+.foot-col a:hover::after{transform:scaleX(1);transform-origin:left}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(50px,6vw,80px);padding-top:30px;border-top:1px solid var(--line);font-size:13.5px;color:var(--paper-faint)}
+.foot-bottom a:hover{color:var(--paper-dim)}
+
+/* reveal — base fade/translate */
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
+
+/* reveal — masked line for headings (display/statement/section h2) */
+.rl-mask{display:block;overflow:hidden;padding-bottom:.05em}
+.rl-mask>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.rl-mask.in>span{transform:translateY(0)}
+
+/* reveal — clip-path wipe for images (inset from left) */
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path .95s cubic-bezier(.16,1,.3,1)}
+.clip.in{clip-path:inset(0 0 0 0)}
+
+/* parallax frame — inner element scaled, translated by shared rAF */
+.px{position:relative;overflow:hidden}
+.px>img,.px .px-inner{will-change:transform}
+
+/* devices without real hover (touch): show full-width image strip, hide floating reveal */
+@media(hover:none),(pointer:coarse){
+  .svc-reveal{display:none!important}
+  .svc{grid-template-columns:auto 1fr;grid-auto-flow:row;column-gap:clamp(16px,4vw,24px);row-gap:20px;align-items:start}
+  .svc-n{padding-top:6px}
+  .svc-go{display:none}
+  /* thumbnail becomes a full-width atmospheric strip below the heading */
+  .svc-thumb{display:block;grid-column:1 / -1;width:100%;height:auto;aspect-ratio:16/7;border-radius:5px}
+}
+@media(max-width:880px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+  .hero-foot{flex-direction:column;align-items:flex-start}
+  .scroll-hint{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.001s!important}
+  .rev{opacity:1;transform:none}
+  .line>span,.rl-mask>span{transform:none!important}
+  .hero-eyebrow,.hero-foot{opacity:1!important;transform:none!important}
+  .clip{clip-path:none!important}
+  .svc::after{transform:scaleX(1)!important}
+  .about-sign .nm::after{transform:scaleX(1)!important}
+  .stmt-curve .dot{transform:scale(1)!important}
+  .stmt-curve .ln{stroke-dashoffset:0!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  body{cursor:auto!important}
+}
 </style>
 </head>
 <body>
-<h1>Redesign <span>kurdiovsky.cz</span> — vyber směr</h1>
-<p class="sub">Tři odlišné designové směry postavené na reálném obsahu. Vybraný směr dotáhneme do celého webu včetně klientského portálu.</p>
-<div class="grid">
-  <a class="card" href="/a"><div class="tag">Varianta A</div><h2>Tmavá editorial</h2><p>Věrná JK brandu — tmavá, červený akcent, moody fotky, prémiová typografie.</p></a>
-  <a class="card" href="/b"><div class="tag">Varianta B</div><h2>Světlá premium</h2><p>Krém + černá s červeným akcentem, hodně vzduchu, serif titulky, klid privátního bankéře.</p></a>
-  <a class="card" href="/c"><div class="tag">Varianta C</div><h2>Bold brutalist</h2><p>Obří typografie, červené plochy, ostré řezy — drzé a mladé, jako Janovy reels.</p></a>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="/" class="brand" aria-label="Jan Kurdiovský — domů">
+      <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne">O mně</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/portal">Klientský portál</a>
+    </nav>
+    <a href="/rezervace" class="nav-cta">Rezervovat konzultaci
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/sluzby">Služby <span>01</span></a>
+  <a href="/o-mne">O mně <span>02</span></a>
+  <a href="/rezervace">Rezervace <span>03</span></a>
+  <a href="/kontakt">Kontakt <span>04</span></a>
+  <a href="/portal">Klientský portál <span>05</span></a>
+  <div class="mm-foot">
+    <span>jan@kurdiovsky.cz</span>
+    <span>+420 799 794 670</span>
+    <span>@jan_kurdiovsky</span>
+  </div>
 </div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <picture>
+      <source media="(max-width:760px)" srcset="/assets/img/hero-table-mobile.webp">
+      <img src="/assets/img/hero-poster.webp" alt="Jan Kurdiovský u stolu se svíčkou" fetchpriority="high">
+    </picture>
+    <video id="heroVideo" muted loop playsinline preload="none" poster="/assets/img/hero-poster.webp" data-src="/assets/video/hero-loop.mp4" aria-hidden="true"></video>
+  </div>
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow"><span class="dot"></span> Osobní finanční poradce · Brno</div>
+    <h1>
+      <span class="line"><span>Finance bez</span></span>
+      <span class="line"><span><em>přehnaných</em></span></span>
+      <span class="line"><span><span class="red">formalit.</span></span></span>
+    </h1>
+    <div class="hero-foot">
+      <p>Žádné produkty na prodej. Jen plán, který dává smysl.</p>
+      <a href="/rezervace" class="hero-cta magnetic" data-magnetic>Rezervovat konzultaci
+        <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Posouvejte</span><span class="ln"></span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-row">
+    <div class="marquee-track">
+      <span class="item">Kurdiovský <span class="star">✦</span></span><span class="item ghost">Finance bez formalit <span class="star">✦</span></span><span class="item">Brno <span class="star">✦</span></span><span class="item ghost">Kurdiovský <span class="star">✦</span></span><span class="item">Finance bez formalit <span class="star">✦</span></span><span class="item ghost">Brno <span class="star">✦</span></span>
+      <span class="item">Kurdiovský <span class="star">✦</span></span><span class="item ghost">Finance bez formalit <span class="star">✦</span></span><span class="item">Brno <span class="star">✦</span></span><span class="item ghost">Kurdiovský <span class="star">✦</span></span><span class="item">Finance bez formalit <span class="star">✦</span></span><span class="item ghost">Brno <span class="star">✦</span></span>
+    </div>
+  </div>
+  <div class="marquee-row marquee-row--rev">
+    <div class="marquee-track">
+      <span class="item ghost">Brno <span class="star">✦</span></span><span class="item">Finance bez formalit <span class="star">✦</span></span><span class="item ghost">Kurdiovský <span class="star">✦</span></span><span class="item">Brno <span class="star">✦</span></span><span class="item ghost">Finance bez formalit <span class="star">✦</span></span><span class="item">Kurdiovský <span class="star">✦</span></span>
+      <span class="item ghost">Brno <span class="star">✦</span></span><span class="item">Finance bez formalit <span class="star">✦</span></span><span class="item ghost">Kurdiovský <span class="star">✦</span></span><span class="item">Brno <span class="star">✦</span></span><span class="item ghost">Finance bez formalit <span class="star">✦</span></span><span class="item">Kurdiovský <span class="star">✦</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- STATEMENT -->
+<section class="statement" id="statement">
+  <div class="stmt-curve" aria-hidden="true">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <path class="ln" id="stmtCurve" d="M0,278 C200,276 420,272 600,262 C720,255 760,210 860,150 C960,92 1060,40 1200,14"/>
+      <circle class="dot" data-p="0.06" cx="72" cy="277" r="6"/>
+      <circle class="dot" data-p="0.40" cx="540" cy="266" r="6"/>
+      <circle class="dot" data-p="0.62" cx="812" cy="178" r="6"/>
+      <circle class="dot" data-p="0.82" cx="980" cy="80" r="6"/>
+      <circle class="dot" data-p="0.97" cx="1164" cy="18" r="6"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="sec-head rev"><span class="sec-num">01</span>
+      <div><div class="sec-kicker">Jak to dělám</div></div>
+    </div>
+    <div class="stmt-grid">
+      <div class="stmt-txt">
+        <h2 class="display big">
+          <span class="rl-mask"><span><span class="muted">Neprodávám</span> produkty.</span></span>
+          <span class="rl-mask"><span>Tvořím <span class="red">řešení,</span></span></span>
+          <span class="rl-mask"><span>která dávají smysl.</span></span>
+        </h2>
+        <p class="lead rev d2">Nejdřív rozumím vašim cílům, pak stavím plán. Produkt je až poslední krok&nbsp;— ne ten první.</p>
+      </div>
+      <figure class="stmt-fig px clip">
+        <img src="/assets/img/stmt-graph.webp" alt="Detail stoupající červené datové linie na tmavém povrchu" loading="lazy" width="1344" height="768" data-parallax="0.06">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="sluzby-anchor">
+  <div class="wrap">
+    <div class="sec-head rev"><span class="sec-num">02</span>
+      <div><div class="sec-kicker">S čím pomáhám</div>
+        <h2 style="font-size:clamp(30px,4.4vw,60px)"><span class="rl-mask"><span>Čtyři oblasti, <span style="color:var(--red)">jeden plán.</span></span></span></h2>
+      </div>
+    </div>
+    <div class="svc-list" id="svcList">
+      <div class="svc rev" data-img="0">
+        <span class="svc-ghost" aria-hidden="true">01</span>
+        <span class="svc-n">01</span>
+        <div class="svc-main">
+          <h3>Osobní finanční poradenství</h3>
+          <div class="svc-tags"><span>Finanční plán</span><span>Hypotéky</span><span>Investice</span><span>Pojištění</span></div>
+        </div>
+        <span class="svc-thumb"><img src="/assets/img/svc-plan.webp" alt="Vytištěný finanční plán u svíčky" loading="lazy" width="320" height="140"></span>
+        <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="svc rev d1" data-img="1">
+        <span class="svc-ghost" aria-hidden="true">02</span>
+        <span class="svc-n">02</span>
+        <div class="svc-main">
+          <h3>Firemní poradenství</h3>
+          <div class="svc-tags"><span>Malé a střední firmy</span><span>Firemní portfolio</span><span>Financování</span></div>
+        </div>
+        <span class="svc-thumb"><img src="/assets/img/svc-notebook.webp" alt="Otevřený zápisník s perem u svíčky" loading="lazy" width="320" height="140"></span>
+        <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="svc rev d2" data-img="2">
+        <span class="svc-ghost" aria-hidden="true">03</span>
+        <span class="svc-n">03</span>
+        <div class="svc-main">
+          <h3>Financování a pojištění automobilů</h3>
+          <div class="svc-tags"><span>Úvěr · leasing</span><span>Pojištění vozidel</span></div>
+        </div>
+        <span class="svc-thumb"><img src="/assets/img/svc-carkey.webp" alt="Klíč od auta na tmavém dřevě u svíčky" loading="lazy" width="320" height="140"></span>
+        <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="svc rev d3" data-img="3">
+        <span class="svc-ghost" aria-hidden="true">04</span>
+        <span class="svc-n">04</span>
+        <div class="svc-main">
+          <h3>Investice — konzervativní i moderní</h3>
+          <div class="svc-tags"><span>Konzervativní</span><span>Dynamické</span><span>Krypto</span></div>
+        </div>
+        <span class="svc-thumb"><img src="/assets/img/chart-red.webp" alt="Stoupající červená křivka na tmavém papíře" loading="lazy" width="320" height="140"></span>
+        <a href="/sluzby" class="svc-go" aria-label="Více"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </div>
+    </div>
+    <div class="svc-reveal" id="svcReveal" aria-hidden="true">
+      <img src="/assets/img/svc-plan.webp" alt="" data-i="0" loading="lazy">
+      <img src="/assets/img/svc-notebook.webp" alt="" data-i="1" loading="lazy">
+      <img src="/assets/img/svc-carkey.webp" alt="" data-i="2" loading="lazy">
+      <img src="/assets/img/chart-red.webp" alt="" data-i="3" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="o-mne-anchor">
+  <div class="wrap about-grid">
+    <div class="about-photo rev">
+      <div class="frame px clip"><img src="/assets/img/jan-portrait.webp" alt="Jan Kurdiovský ve své kanceláři" data-parallax="0.05" loading="lazy"></div>
+      <span class="tag">Brno · Tolstého 35</span>
+      <span class="badge badge-spin">složená<b>PFP</b>zkouška</span>
+    </div>
+    <div class="about-txt">
+      <div class="sec-kicker rev">02 — O mně</div>
+      <h2 class="rev d1">Poradce, který sám <span class="red">podniká.</span></h2>
+      <p class="rev d1">Jsem Jan Kurdiovský&nbsp;— finanční poradce se složenou oborovou zkouškou <span class="acc">PFP</span>. Jsem také členem komunity EFPA. Finance beru jako řemeslo, ne jako prodej.</p>
+      <p class="rev d2">S přítelkyní jsme založili firmu na potisk textilu <span class="acc">SUORIGO</span>. Vím proto, jak vypadají finance z&nbsp;druhé strany&nbsp;— z&nbsp;pohledu majitele.</p>
+      <div class="about-sign rev d3">
+        <span class="mark" style="width:48px;height:48px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line)"><img src="/assets/img/jk-logo.webp" alt="" style="width:30px;height:30px;object-fit:contain"></span>
+        <div><div class="nm">Jan Kurdiovský</div><div class="rl">Finanční poradce · PFP · member of money2u</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONEY2U FEATURE -->
+<section class="feature">
+  <div class="wrap feature-grid">
+    <div class="feature-txt">
+      <div class="sec-kicker rev">03 — Zázemí</div>
+      <h2 class="rev d1">Síla samostatnosti, <span class="red">jistota zázemí.</span></h2>
+      <p class="rev d1">Pracuji nezávisle&nbsp;— výběr napříč trhem, ne jen z&nbsp;jedné stáje produktů. Za zády mám přitom zázemí money2u.</p>
+      <div class="feature-pills rev d3">
+        <span class="on">Nezávislé poradenství</span>
+        <span>Member of money2u</span>
+        <span>Zkouška PFP</span>
+        <span>EFPA</span>
+      </div>
+    </div>
+    <div class="feature-photo px clip">
+      <img src="/assets/img/jan-money2u.webp" alt="Jan Kurdiovský před stěnou money2u" data-parallax="0.05" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="insta">
+  <div class="wrap insta-grid">
+    <div class="insta-left">
+      <div class="sec-kicker rev">04 — Sociální sítě</div>
+      <h2><span class="rl-mask"><span>Finance <span class="red">srozumitelně,</span></span></span><span class="rl-mask"><span>otevřeně, bez žargonu.</span></span></h2>
+      <p class="insta-lead rev d2">Na Instagramu sdílím osvětu o&nbsp;financích&nbsp;— srozumitelně a&nbsp;bez prodejních řečí.</p>
+      <div class="insta-actions rev d3">
+        <a href="https://instagram.com/jan_kurdiovsky" class="insta-handle" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          Sledovat @jan_kurdiovsky
+        </a>
+      </div>
+    </div>
+    <a class="insta-photo insta-photo--cutout clip" href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener" aria-label="Otevřít profil @jan_kurdiovsky na Instagramu">
+      <img src="/assets/img/jan-cutout.webp" alt="Jan Kurdiovský u stolu se svíčkou" loading="lazy">
+      <span class="insta-photo-tag">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        @jan_kurdiovsky
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="lbl rev">Pojďme začít</div>
+    <h2><span class="rl-mask"><span>Domluvme si</span></span><span class="rl-mask"><span><em>konzultaci.</em></span></span></h2>
+    <a href="/rezervace" class="cta-btn magnetic rev d2" data-magnetic>Rezervovat konzultaci
+      <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="cta-sub rev d3">Nebo napište rovnou na <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a> <span class="sep">·</span> <a href="tel:+420799794670">+420 799 794 670</a></p>
+  </div>
+  <div class="cta-mark" aria-hidden="true"><span>KURDIOVSKÝ</span></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand">
+          <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+          <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+        </a>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="/sluzby">Služby</a>
+        <a href="/o-mne">O mně</a>
+        <a href="/rezervace">Rezervace</a>
+        <a href="/kontakt">Kontakt</a>
+        <a href="/portal">Klientský portál</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+        <a href="tel:+420799794670">+420 799 794 670</a>
+        <p>Tolstého 35<br>616 00 Brno</p>
+        <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jan Kurdiovský · member of money2u</span>
+      <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fineHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var motionOK=fineHover && !reduceMotion;
+  var lerp=function(a,b,t){return a+(b-a)*t};
+  var clamp=function(v,lo,hi){return v<lo?lo:(v>hi?hi:v)};
+
+  /* ---------- HEADER ---------- */
+  var header=document.getElementById('header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>40)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger=document.getElementById('burger');
+  var mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){document.body.classList.toggle('menu-open')});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+
+  /* ---------- HERO H1 LINE REVEAL + VIDEO ---------- */
+  var hero=document.getElementById('hero');
+  if(reduceMotion){hero.classList.add('lit');}
+  else{requestAnimationFrame(function(){requestAnimationFrame(function(){hero.classList.add('lit');})});}
+
+  var heroVideo=document.getElementById('heroVideo');
+  // only load + play the hero video on desktop with motion enabled (not mobile, not reduced-motion)
+  var allowVideo=heroVideo && !reduceMotion && window.matchMedia('(min-width:761px)').matches;
+  if(allowVideo){
+    var startVideo=function(){
+      var pr=heroVideo.play();
+      if(pr&&pr.then){pr.then(function(){heroVideo.classList.add('ready');}).catch(function(){});}
+    };
+    heroVideo.addEventListener('loadeddata',function(){heroVideo.classList.add('ready');});
+    heroVideo.addEventListener('canplay',startVideo,{once:true});
+    heroVideo.src=heroVideo.dataset.src; // inject source only now → no mobile load
+    heroVideo.load();
+  }
+
+  /* ---------- REVEAL OBSERVER (fade / masked-line / borders / sign) ---------- */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev,.rl-mask,.svc,.about-sign').forEach(function(el){io.observe(el);});
+
+  /* clip-path wipe: clip-path:inset(...100%...) zeroes the element's IntersectionObserver
+     ratio (it never re-triggers on scroll). So observe an UNCLIPPED parent and reveal the
+     clipped child when the parent enters view. */
+  var clipEls=[].slice.call(document.querySelectorAll('.clip'));
+  var clipMap=new WeakMap();
+  var clipIo=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var child=clipMap.get(e.target);
+        if(child)child.classList.add('in');
+        clipIo.unobserve(e.target);
+      }
+    });
+  },{threshold:.05,rootMargin:'0px 0px -8% 0px'});
+  clipEls.forEach(function(el){
+    var trigger=el.parentElement||el;
+    clipMap.set(trigger,el);
+    clipIo.observe(trigger);
+  });
+
+  /* ---------- SVG SIGNATURE CURVE (scroll-driven draw) ---------- */
+  var stmtSec=document.getElementById('statement');
+  var curve=document.getElementById('stmtCurve');
+  var dots=document.querySelectorAll('.stmt-curve .dot');
+  var curveLen=0;
+  if(curve){
+    try{curveLen=curve.getTotalLength();}catch(e){curveLen=2000;}
+    if(reduceMotion){
+      curve.style.strokeDasharray='none';curve.style.strokeDashoffset='0';
+      dots.forEach(function(d){d.style.transform='scale(1)';});
+    }else{
+      curve.style.strokeDasharray=curveLen;
+      curve.style.strokeDashoffset=curveLen;
+    }
+  }
+
+  /* ---------- SHARED rAF: cursor + parallax + svc-reveal + curve ---------- */
+  // pointer state
+  var mx=window.innerWidth/2,my=window.innerHeight/2;          // target mouse
+  var rdx=mx,rdy=my, ringx=mx,ringy=my;                         // dot(instant-ish) + ring(lag)
+  var lastMx=mx, velX=0;                                        // for svc-reveal tilt
+  // svc reveal state
+  var reveal=document.getElementById('svcReveal');
+  var svcList=document.getElementById('svcList');
+  var svcImgs=reveal?reveal.querySelectorAll('img'):[];
+  /* lazy + hidden container = obrázky by se stáhly až při prvním hoveru (probliknutí) → na desktopu je přednačti na idle */
+  if(fineHover && svcImgs.length){
+    var preloadSvc=function(){[].forEach.call(svcImgs,function(im){im.loading='eager';if(!im.complete)im.src=im.src})};
+    if('requestIdleCallback' in window)requestIdleCallback(preloadSvc,{timeout:3000});else setTimeout(preloadSvc,1500);
+  }
+  var svcVisible=false, svcRx=mx, svcRy=my, svcRot=0;
+  // magnetic state
+  var magnets=[].map.call(document.querySelectorAll('[data-magnetic]'),function(el){
+    return {el:el,bx:0,by:0,tx:0,ty:0,active:false};
+  });
+  // parallax targets
+  var pxItems=[].map.call(document.querySelectorAll('[data-parallax]'),function(el){
+    return {el:el,frame:el.closest('.px')||el.parentElement,amt:parseFloat(el.dataset.parallax)||0.05,cur:0};
+  });
+
+  var cursorOn=false;
+  if(motionOK){
+    document.body.classList.add('cursor-on');cursorOn=true;
+    window.addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      // hot state on interactive
+      var hot=e.target.closest('a,button,.svc');
+      var soft=e.target.closest('input,textarea,select,[contenteditable]');
+      document.body.classList.toggle('cursor-hot',!!hot && !soft);
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){document.body.classList.add('cursor-hidden');});
+    document.addEventListener('mouseenter',function(){document.body.classList.remove('cursor-hidden');});
+
+    // magnetic proximity (measured in loop using mx/my)
+    magnets.forEach(function(m){
+      m.el.addEventListener('mouseleave',function(){m.active=false;});
+    });
+
+    // svc-reveal: which image + show/hide
+    if(reveal && svcList){
+      var setActive=function(i){[].forEach.call(svcImgs,function(im){im.classList.toggle('active',+im.dataset.i===i);});};
+      svcList.querySelectorAll('.svc').forEach(function(svc){
+        svc.addEventListener('mouseenter',function(){setActive(+svc.dataset.img);svcVisible=true;reveal.classList.add('show');});
+      });
+      svcList.addEventListener('mouseleave',function(){svcVisible=false;reveal.classList.remove('show');});
+    }
+  }
+
+  var dotR=document.querySelector('.cursor-dot');
+  var ringR=document.querySelector('.cursor-ring');
+
+  function frame(){
+    // ---- cursor ----
+    if(cursorOn){
+      rdx=lerp(rdx,mx,0.55);rdy=lerp(rdy,my,0.55);
+      ringx=lerp(ringx,mx,0.14);ringy=lerp(ringy,my,0.14);
+      if(dotR)dotR.style.transform='translate('+rdx+'px,'+rdy+'px)';
+      if(ringR)ringR.style.transform='translate('+ringx+'px,'+ringy+'px)';
+    }
+    // ---- velocity (for svc tilt) ----
+    velX=lerp(velX,mx-lastMx,0.3);lastMx=mx;
+    // ---- svc reveal follow + tilt ----
+    if(reveal && motionOK){
+      svcRx=lerp(svcRx,mx,0.16);svcRy=lerp(svcRy,my,0.16);
+      // tilt = velocity sweep + position-lag lean (card leans toward where it's chasing)
+      var lagTilt=clamp((mx-svcRx)*0.05,-3.5,3.5);
+      var velTilt=clamp(velX*0.55,-5,5);
+      var targetRot=svcVisible?clamp(velTilt+lagTilt,-6,6):0;
+      svcRot=lerp(svcRot,targetRot,0.12);
+      reveal.style.left=svcRx+'px';reveal.style.top=svcRy+'px';
+      reveal.style.setProperty('--rot',svcRot.toFixed(2)+'deg');
+    }
+    // ---- magnetic buttons ----
+    if(motionOK){
+      for(var i=0;i<magnets.length;i++){
+        var m=magnets[i],r=m.el.getBoundingClientRect();
+        var cx2=r.left+r.width/2,cy2=r.top+r.height/2;
+        var dx=mx-cx2,dy=my-cy2;
+        var dist=Math.hypot(dx,dy);
+        if(dist<r.width/2+80){m.tx=clamp(dx*0.3,-10,10);m.ty=clamp(dy*0.3,-10,10);}
+        else{m.tx=0;m.ty=0;}
+        m.bx=lerp(m.bx,m.tx,0.18);m.by=lerp(m.by,m.ty,0.18);
+        m.el.style.transform='translate('+m.bx.toFixed(2)+'px,'+m.by.toFixed(2)+'px)';
+      }
+    }
+    // ---- parallax photos ----
+    if(motionOK){
+      var vh=window.innerHeight;
+      for(var p=0;p<pxItems.length;p++){
+        var it=pxItems[p],fr=it.frame.getBoundingClientRect();
+        if(fr.bottom<-100||fr.top>vh+100)continue;
+        var center=fr.top+fr.height/2;
+        var prog=clamp((center-vh/2)/(vh/2+fr.height/2),-1,1); // -1..1
+        // scale 1.12 gives ~6% overflow each side; keep translate within that
+        var maxPx=fr.height*0.05;
+        var target=clamp(prog*it.amt*fr.height,-maxPx,maxPx);
+        it.cur=lerp(it.cur,target,0.12);
+        it.el.style.transform='translate3d(0,'+it.cur.toFixed(2)+'px,0) scale(1.12)';
+      }
+    }
+    // ---- curve draw (scroll progress of statement) ----
+    if(curve && stmtSec && !reduceMotion){
+      var sr=stmtSec.getBoundingClientRect();
+      var vh2=window.innerHeight;
+      // progress: 0 when section enters bottom, 1 when its mid passes ~40% viewport
+      var prog2=clamp((vh2*0.85-sr.top)/(sr.height*0.65),0,1);
+      curve.style.strokeDashoffset=(curveLen*(1-prog2)).toFixed(1);
+      for(var d=0;d<dots.length;d++){
+        var dp=parseFloat(dots[d].getAttribute('data-p'))||0;
+        var on=prog2>=dp;
+        dots[d].style.transform='scale('+(on?1:0)+')';
+        dots[d].style.transition='transform .5s cubic-bezier(.2,.7,.2,1)';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O mně — Jan Kurdiovský, finanční poradce PFP z Brna</title>
+<meta name="description" content="Jan Kurdiovský — finanční poradce se složenou zkouškou PFP, člen komunity EFPA. Sám podniká (SUORIGO), finance bere jako řemeslo, ne jako prodej. Zázemí money2u.">
+<link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
+<link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="O mně — Jan Kurdiovský, finanční poradce PFP">
+<meta property="og:description" content="Poradce, který sám podniká. Finance jako řemeslo, ne jako prodej. PFP, člen komunity EFPA, zázemí money2u.">
+<meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/o-mne">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/jan-portrait.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0c0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<style>
+:root{
+  --ink:#0c0c0f;
+  --ink-2:#131318;
+  --ink-3:#1b1b22;
+  --line:rgba(255,255,255,.10);
+  --paper:#efe9e2;
+  --paper-dim:#b6b2ac;
+  --paper-faint:#7d7a76;
+  --red:#d31f26;
+  --red-bright:#ff2d35;
+  --maxw:1340px;
+  --pad:clamp(20px,5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- CUSTOM CURSOR ---------- */
+.cursor-dot,.cursor-ring{display:none;position:fixed;top:0;left:0;z-index:9500;pointer-events:none;border-radius:50%;will-change:transform;opacity:0;transition:opacity .35s ease}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{display:block}
+.cursor-dot{width:8px;height:8px;background:var(--red);margin:-4px 0 0 -4px}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(239,233,226,.55);margin:-17px 0 0 -17px;transition:opacity .35s ease,width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background-color .3s}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{opacity:1}
+body.cursor-on.cursor-hot .cursor-ring{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red);background:rgba(211,31,38,.08)}
+body.cursor-on.cursor-hot .cursor-dot{opacity:0}
+body.cursor-on.cursor-hidden .cursor-dot,body.cursor-on.cursor-hidden .cursor-ring{opacity:0}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button{cursor:none}
+  body.cursor-on input,body.cursor-on textarea,body.cursor-on select,body.cursor-on [contenteditable]{cursor:auto}
+}
+
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:.98;letter-spacing:-.02em}
+.serif-it{font-style:italic;font-weight:400}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s}
+header.scrolled{background:rgba(12,12,15,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .mark{width:42px;height:42px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.brand .mark img{width:26px;height:26px;object-fit:contain}
+.brand small{display:block;font-family:'Manrope';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint)}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--paper-dim);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--red);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+/* aktivní položka — decentní trvalé červené podtržení */
+.nav-links a[aria-current="page"]{color:var(--paper)}
+.nav-links a[aria-current="page"]::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-size:14px;font-weight:600;transition:.3s}
+.nav-cta:hover{background:var(--red);border-color:var(--red)}
+.nav-cta::after{display:none}
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:20px;height:1.6px;background:var(--paper);transition:.3s}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:24px}.burger span:nth-child(3){top:30px}
+body.menu-open .burger span:nth-child(1){top:24px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){top:24px;transform:rotate(-45deg)}
+
+.mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ink);transform:translateY(-100%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);visibility:hidden}
+body.menu-open .mobile-menu{transform:translateY(0);visibility:visible}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,52px);font-weight:500;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a span{font-family:'Manrope';font-size:14px;color:var(--red);font-weight:600}
+.mobile-menu a[aria-current="page"]{color:var(--red)}
+.mm-foot{margin-top:40px;font-size:15px;color:var(--paper-dim);display:flex;flex-direction:column;gap:6px}
+
+/* ---------- SUBPAGE HERO ---------- */
+.subhero{position:relative;min-height:58vh;display:flex;align-items:flex-end;padding-top:140px;padding-bottom:clamp(40px,6vw,72px);overflow:hidden}
+.subhero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:50vw;max-width:560px;z-index:0;pointer-events:none;background:radial-gradient(80% 70% at 0% 30%,rgba(211,31,38,.10),transparent 70%)}
+.subhero .wrap{position:relative;z-index:1;width:100%}
+.subhero-eyebrow{display:flex;align-items:center;gap:14px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-dim);font-weight:600;margin-bottom:30px;opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1) .1s}
+.subhero.lit .subhero-eyebrow{opacity:1;transform:none}
+.subhero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 14px var(--red);flex:none}
+.subhero h1{font-size:clamp(46px,8.4vw,118px);max-width:13ch}
+.subhero h1 .red{color:var(--red)}
+.subhero h1 em{font-style:italic;font-weight:400;color:var(--paper)}
+.subhero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:26px;margin-top:clamp(32px,4vw,48px);opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1) .45s}
+.subhero.lit .subhero-foot{opacity:1;transform:none}
+.subhero-foot p{max-width:46ch;font-size:clamp(16px,1.4vw,19px);color:var(--paper-dim)}
+.subhero-meta{display:flex;flex-wrap:wrap;gap:9px}
+.subhero-meta span{font-size:12.5px;font-weight:600;letter-spacing:.04em;color:var(--paper-dim);border:1px solid var(--line);border-radius:100px;padding:8px 16px}
+.subhero-meta span.on{border-color:var(--red);color:var(--paper)}
+/* masked line reveal */
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.subhero.lit .line>span{transform:translateY(0)}
+.subhero.lit .line:nth-child(1)>span{transition-delay:.05s}
+.subhero.lit .line:nth-child(2)>span{transition-delay:.14s}
+.subhero.lit .line:nth-child(3)>span{transition-delay:.23s}
+
+/* ---------- SECTION SHELL ---------- */
+section{position:relative}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(40px,5vw,64px)}
+.sec-num{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--red);padding-top:8px;flex:none}
+.sec-kicker{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:16px}
+.acc{color:var(--red-bright);font-weight:600}
+
+/* ---------- STORY (portrait + příběh) ---------- */
+.story{padding:clamp(70px,9vw,140px) 0;border-top:1px solid var(--line)}
+.story-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,72px);align-items:center}
+@media(min-width:960px){.story-grid{grid-template-columns:.85fr 1.15fr}}
+.story-photo{position:relative}
+.story-photo .frame{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1200/1500;min-height:340px}
+.story-photo .frame img{width:100%;height:100%;object-fit:cover;object-position:center 18%;filter:saturate(.92) contrast(1.03);will-change:transform;transform:scale(1.12)}
+.story-photo .frame::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 120px 30px rgba(12,12,15,.6);pointer-events:none;z-index:2}
+.story-photo .tag{position:absolute;left:-14px;bottom:34px;background:var(--red);color:#fff;font-weight:600;font-size:13px;letter-spacing:.04em;padding:11px 20px;border-radius:4px;box-shadow:0 18px 40px rgba(0,0,0,.45);z-index:3}
+.story-photo .badge{position:absolute;top:-18px;right:-12px;background:var(--ink-3);border:1px solid var(--line);border-radius:50%;width:96px;height:96px;display:grid;place-items:center;text-align:center;font-family:'Fraunces',serif;font-size:13px;line-height:1.15;color:var(--paper);z-index:3}
+.story-photo .badge b{display:block;font-size:30px;color:var(--red);font-weight:600}
+.badge-spin{animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.story-txt h2{font-size:clamp(30px,4.2vw,58px);max-width:16ch;margin-bottom:30px}
+.story-txt h2 .red{color:var(--red)}
+.story-txt p{color:var(--paper-dim);margin-bottom:20px;max-width:58ch}
+.story-txt p .ink{color:var(--paper)}
+.story-sign{display:flex;align-items:center;gap:18px;margin-top:34px;padding-top:30px;border-top:1px solid var(--line)}
+.story-sign .mk{width:48px;height:48px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.story-sign .mk img{width:30px;height:30px;object-fit:contain}
+.story-sign .nm{font-family:'Fraunces',serif;font-size:24px;font-weight:500;position:relative;display:inline-block;padding-bottom:5px}
+.story-sign .nm::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1) .25s}
+.story-sign.in .nm::after{transform:scaleX(1)}
+.story-sign .rl{font-size:13px;color:var(--paper-faint);letter-spacing:.06em}
+
+/* ---------- SUORIGO ---------- */
+.owner{padding:clamp(70px,9vw,130px) 0;border-top:1px solid var(--line);background:var(--ink-2)}
+.owner-grid{display:grid;grid-template-columns:1fr;gap:clamp(32px,5vw,64px);align-items:start}
+@media(min-width:900px){.owner-grid{grid-template-columns:.9fr 1.1fr}}
+.owner-txt h2{font-size:clamp(30px,4.2vw,56px);max-width:14ch;margin-bottom:26px}
+.owner-txt h2 .red{color:var(--red)}
+.owner-txt p{color:var(--paper-dim);max-width:54ch;margin-bottom:18px}
+.owner-txt p .ink{color:var(--paper)}
+.owner-aside{position:relative;border-left:1px solid var(--line);padding-left:clamp(24px,3vw,42px)}
+@media(max-width:899px){.owner-aside{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:34px}}
+.owner-aside .lead{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:clamp(21px,2.4vw,30px);line-height:1.4;max-width:24ch;color:var(--paper)}
+.owner-aside .lead .red{color:var(--red);font-style:normal;font-weight:500}
+.owner-aside .src{margin-top:24px;font-size:13px;letter-spacing:.06em;color:var(--paper-faint);text-transform:uppercase}
+
+/* ---------- PFP DEFINICE ---------- */
+.pfp{padding:clamp(80px,11vw,160px) 0;border-top:1px solid var(--line)}
+.pfp-head{max-width:24ch;margin-bottom:clamp(48px,6vw,80px)}
+.pfp-head h2{font-size:clamp(34px,5.4vw,80px);line-height:1.0}
+.pfp-head h2 .muted{color:var(--paper-dim)}
+.pfp-head h2 .red{color:var(--red)}
+.pfp-head .sub{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:clamp(18px,1.8vw,23px);color:var(--paper-dim);margin-top:24px;max-width:34ch}
+.pfp-list{border-top:1px solid var(--line)}
+.pfp-item{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);align-items:start;padding:clamp(30px,3.6vw,48px) 0;border-bottom:1px solid var(--line);position:relative}
+.pfp-item .ix{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--red);padding-top:10px}
+.pfp-item p{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(22px,3vw,40px);line-height:1.16;letter-spacing:-.01em;color:var(--paper);max-width:24ch}
+.pfp-item p .dim{color:var(--paper-faint)}
+
+/* ---------- MONEY2U FEATURE (full-bleed) ---------- */
+.feature{padding:clamp(70px,9vw,130px) 0;border-top:1px solid var(--line);position:relative;background:
+  radial-gradient(90% 120% at 8% 0%,rgba(211,31,38,.14),transparent 58%),
+  linear-gradient(180deg,#17131a 0%,#141118 100%)}
+.feature::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),transparent)}
+.feature-grid{display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,64px);align-items:center}
+@media(min-width:960px){.feature-grid{grid-template-columns:1.1fr .9fr}}
+@media(min-width:1180px){
+  .feature .feature-grid{max-width:none;width:auto;margin-right:calc(50% - 50vw);padding-right:0;grid-template-columns:1.05fr 1fr;gap:clamp(48px,6vw,80px);align-items:stretch}
+  .feature .feature-txt{align-self:center;max-width:560px}
+  .feature-photo{border-radius:6px 0 0 6px;min-height:clamp(420px,46vw,640px)}
+  .feature-photo img{position:absolute;inset:0}
+}
+.feature-txt h2{font-size:clamp(28px,3.8vw,52px);max-width:15ch;margin-bottom:24px}
+.feature-txt h2 .red{color:var(--red)}
+.feature-txt p{color:var(--paper-dim);max-width:52ch;margin-bottom:18px}
+.feature-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.feature-pills span{font-size:13px;font-weight:600;letter-spacing:.05em;border:1px solid var(--line);border-radius:100px;padding:9px 17px;color:var(--paper-dim)}
+.feature-pills span.on{border-color:var(--red);color:var(--paper)}
+.feature-photo{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1600/1067;min-height:300px}
+.feature-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(.95);will-change:transform;transform:scale(1.12)}
+.feature-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(12,12,15,.5));pointer-events:none}
+
+/* ---------- RECENZE ---------- */
+.reviews{padding:clamp(80px,10vw,150px) 0;border-top:1px solid var(--line);background:var(--ink-2)}
+.reviews-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:clamp(44px,5vw,68px)}
+.reviews-head h2{font-size:clamp(32px,4.6vw,64px);max-width:13ch}
+.reviews-head h2 .red{color:var(--red)}
+.reviews-rating{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.reviews-rating .stars{display:flex;gap:6px;color:var(--red);font-size:16px;letter-spacing:.1em}
+.reviews-rating .cnt{font-size:14px;color:var(--paper-dim);font-weight:500}
+.reviews-rating .cnt b{color:var(--paper);font-weight:600}
+.reviews-grid{display:grid;grid-template-columns:1fr;gap:clamp(18px,2vw,26px)}
+@media(min-width:680px){.reviews-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1080px){.reviews-grid{grid-template-columns:1fr 1fr 1fr}}
+.review{border:1px solid var(--line);border-radius:6px;padding:clamp(28px,3vw,40px);display:flex;flex-direction:column;background:rgba(255,255,255,.012);position:relative;transition:border-color .4s,transform .5s cubic-bezier(.16,1,.3,1)}
+.review:hover{border-color:rgba(211,31,38,.4);transform:translateY(-4px)}
+.review .mk-star{color:var(--red);font-size:18px;line-height:1;margin-bottom:22px}
+.review blockquote{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:clamp(17px,1.5vw,19.5px);line-height:1.5;color:var(--paper);margin-bottom:26px;flex:1}
+.review figcaption{display:flex;flex-direction:column;gap:3px;padding-top:22px;border-top:1px solid var(--line)}
+.review figcaption .who{font-family:'Fraunces',serif;font-weight:500;font-size:18px;letter-spacing:-.01em}
+.review figcaption .where{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);font-weight:600}
+.reviews-foot{margin-top:clamp(40px,5vw,56px);display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.reviews-link{display:inline-flex;align-items:center;gap:11px;border:1px solid var(--red);border-radius:100px;padding:14px 24px;font-weight:600;font-size:15px;transition:.35s}
+.reviews-link:hover{background:var(--red);color:#fff;transform:translateY(-2px)}
+.reviews-foot .note{font-size:14px;color:var(--paper-faint);max-width:40ch}
+
+/* ---------- CTA ---------- */
+.cta{padding:clamp(100px,13vw,200px) 0 clamp(60px,8vw,110px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
+.cta::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.2),transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.cta>.wrap{position:relative;z-index:2}
+.cta .lbl{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:30px}
+.cta h2{font-size:clamp(40px,7.5vw,118px);line-height:.96;margin-bottom:40px}
+.cta h2 em{font-style:italic;font-weight:400}
+.cta-btn{display:inline-flex;align-items:center;gap:16px;background:var(--red);color:#fff;padding:21px 38px;border-radius:100px;font-weight:600;font-size:18px;transition:background .35s,color .35s;will-change:transform}
+.cta-btn:hover{background:#fff;color:var(--ink)}
+.cta-btn .arr{transition:transform .35s}.cta-btn:hover .arr{transform:translateX(6px)}
+.cta-mark{position:relative;z-index:1;margin-top:clamp(60px,9vw,120px);overflow:hidden;line-height:.8;pointer-events:none;user-select:none}
+.cta-mark span{display:block;font-family:'Fraunces',serif;font-weight:600;font-size:clamp(54px,15.5vw,240px);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.07);text-stroke:1px rgba(239,233,226,.07);white-space:nowrap}
+.cta-sub{margin-top:40px;color:var(--paper-faint);font-size:16.5px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px}
+.cta-sub .sep{color:var(--line);font-size:14px}
+.cta-sub a{color:var(--paper);font-weight:600;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:2px;transition:.3s}
+.cta-sub a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,7vw,90px) 0 36px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-brand .brand{margin-bottom:22px}
+.foot-brand p{color:var(--paper-faint);max-width:34ch;font-size:15px}
+.foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:600}
+.foot-col p{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px}
+.foot-col{display:flex;flex-direction:column;align-items:flex-start}
+.foot-col a{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px;transition:color .3s;position:relative}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.foot-col a:hover{color:var(--red)}
+.foot-col a:hover::after{transform:scaleX(1);transform-origin:left}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(50px,6vw,80px);padding-top:30px;border-top:1px solid var(--line);font-size:13.5px;color:var(--paper-faint)}
+.foot-bottom a:hover{color:var(--paper-dim)}
+
+/* reveal — base fade/translate */
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
+
+/* reveal — masked line for headings */
+.rl-mask{display:block;overflow:hidden;padding-bottom:.05em}
+.rl-mask>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.rl-mask.in>span{transform:translateY(0)}
+
+/* reveal — clip-path wipe for images */
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path .95s cubic-bezier(.16,1,.3,1)}
+.clip.in{clip-path:inset(0 0 0 0)}
+
+/* parallax frame */
+.px{position:relative;overflow:hidden}
+.px>img,.px .px-inner{will-change:transform}
+
+@media(max-width:880px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+  .subhero-foot{flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.001s!important}
+  .rev{opacity:1;transform:none}
+  .line>span,.rl-mask>span{transform:none!important}
+  .subhero-eyebrow,.subhero-foot{opacity:1!important;transform:none!important}
+  .clip{clip-path:none!important}
+  .story-sign .nm::after{transform:scaleX(1)!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  body{cursor:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="/" class="brand" aria-label="Jan Kurdiovský — domů">
+      <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne" aria-current="page">O mně</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/portal">Klientský portál</a>
+    </nav>
+    <a href="/rezervace" class="nav-cta">Rezervovat konzultaci
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/sluzby">Služby <span>01</span></a>
+  <a href="/o-mne" aria-current="page">O mně <span>02</span></a>
+  <a href="/rezervace">Rezervace <span>03</span></a>
+  <a href="/kontakt">Kontakt <span>04</span></a>
+  <a href="/portal">Klientský portál <span>05</span></a>
+  <div class="mm-foot">
+    <span>jan@kurdiovsky.cz</span>
+    <span>+420 799 794 670</span>
+    <span>@jan_kurdiovsky</span>
+  </div>
+</div>
+
+<!-- SUBPAGE HERO -->
+<section class="subhero" id="subhero">
+  <div class="wrap">
+    <div class="subhero-eyebrow"><span class="dot"></span> O mně · Jan Kurdiovský</div>
+    <h1>
+      <span class="line"><span>Poradce, který</span></span>
+      <span class="line"><span>sám <span class="red">podniká.</span></span></span>
+    </h1>
+    <div class="subhero-foot">
+      <p>Finance beru jako řemeslo, ne jako prodej. A protože sám vedu firmu, znám je i&nbsp;z&nbsp;druhé strany stolu.</p>
+      <div class="subhero-meta">
+        <span class="on">Zkouška PFP</span>
+        <span>Člen komunity EFPA</span>
+        <span>Member of money2u</span>
+        <span>Brno</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div class="story-photo rev">
+      <div class="frame px clip"><img src="/assets/img/jan-portrait.webp" alt="Jan Kurdiovský ve své kanceláři" data-parallax="0.05" loading="lazy"></div>
+      <span class="tag">Brno · Tolstého 35</span>
+      <span class="badge badge-spin">složená<b>PFP</b>zkouška</span>
+    </div>
+    <div class="story-txt">
+      <div class="sec-kicker rev">01 — Kdo jsem</div>
+      <h2 class="rev d1">Finance jako řemeslo, <span class="red">ne jako prodej.</span></h2>
+      <p class="rev d1">Jsem Jan Kurdiovský&nbsp;— osobní finanční poradce z&nbsp;Brna. Mám složenou oborovou zkoušku <span class="acc">PFP</span> a&nbsp;jsem členem komunity EFPA. Díky absolvované zkoušce si za svou prací pevně stojím, a&nbsp;to&nbsp;i&nbsp;díky <span class="ink">referenci těch nejlepších v&nbsp;oboru.</span></p>
+      <p class="rev d2">Neprodávám produkty. Svým klientům tvořím smysluplné řešení a&nbsp;společně pak řešíme, kterou cestou se vydat. Produkt je až poslední krok&nbsp;— ne ten první.</p>
+      <p class="rev d2">V&nbsp;oboru mám v&nbsp;poměru ke svému věku bohaté zkušenosti. Spravuji několika firmám celé finanční portfolio a&nbsp;poradenství beru s&nbsp;důrazem na profesionalitu, bez přehnaných formalit.</p>
+      <div class="story-sign rev d3">
+        <span class="mk"><img src="/assets/img/jk-logo.webp" alt=""></span>
+        <div><div class="nm">Jan Kurdiovský</div><div class="rl">Finanční poradce · PFP · member of money2u</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUORIGO -->
+<section class="owner" id="suorigo">
+  <div class="wrap">
+    <div class="sec-head rev"><span class="sec-num">02</span>
+      <div><div class="sec-kicker">Pohled z&nbsp;druhé strany</div></div>
+    </div>
+    <div class="owner-grid">
+      <div class="owner-txt">
+        <h2 class="rev"><span class="red">SUORIGO</span> — firma, kterou vedu.</h2>
+        <p class="rev d1">S&nbsp;přítelkyní jsme založili firmu na potisk textilu&nbsp;— <span class="ink">SUORIGO.</span> Není to vedlejší poznámka v&nbsp;životopise: je&nbsp;to každodenní praxe podnikání se vším, co k&nbsp;němu patří.</p>
+        <p class="rev d2">Vím proto, jak vypadají finance z&nbsp;pohledu majitele firmy&nbsp;— cash flow, investice, rozhodování pod tlakem. Tu zkušenost přináším i&nbsp;do poradenství pro malé a&nbsp;střední firmy.</p>
+      </div>
+      <div class="owner-aside rev d2">
+        <p class="lead">Když radím firmě, radím z&nbsp;<span class="red">pozice</span>, kterou sám denně žiju.</p>
+        <div class="src">Jan Kurdiovský · zakladatel SUORIGO</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PFP DEFINICE -->
+<section class="pfp" id="pfp">
+  <div class="wrap">
+    <div class="sec-head rev"><span class="sec-num">03</span>
+      <div><div class="sec-kicker">Odbornost</div></div>
+    </div>
+    <div class="pfp-head">
+      <h2><span class="rl-mask"><span>Co je <span class="red">PFP?</span></span></span></h2>
+      <p class="sub rev d1">Poradce&nbsp;Finančního&nbsp;Plánování&nbsp;— oborová zkouška, kterou jsem složil.</p>
+    </div>
+    <div class="pfp-list">
+      <div class="pfp-item rev">
+        <span class="ix">01</span>
+        <p>Prestižní titul akreditovaný <span class="dim">nezávislou evropskou asociací.</span></p>
+      </div>
+      <div class="pfp-item rev d1">
+        <span class="ix">02</span>
+        <p>Součást skupiny mezinárodních nadsektorových certifikací (EIP, DEFS), <span class="dim">s&nbsp;více než 2&nbsp;800 absolventy v&nbsp;Evropě.</span></p>
+      </div>
+      <div class="pfp-item rev d2">
+        <span class="ix">03</span>
+        <p>Nástroj dalšího profesního rozvoje <span class="dim">pro odborníky na finančním trhu.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONEY2U FEATURE -->
+<section class="feature" id="money2u">
+  <div class="wrap feature-grid">
+    <div class="feature-txt">
+      <div class="sec-kicker rev">04 — Zázemí</div>
+      <h2 class="rev d1">Samostatnost s&nbsp;<span class="red">jistotou zázemí.</span></h2>
+      <p class="rev d1">Pracuji nezávisle&nbsp;— vybírám napříč trhem, ne jen z&nbsp;jedné stáje produktů. Za zády mám přitom zázemí money2u.</p>
+      <p class="rev d2">Je&nbsp;to kombinace, na které mi záleží: rozhoduji se za klienta volně, ale nikdy ne sám&nbsp;— se servisem a&nbsp;know-how silné značky v&nbsp;zádech.</p>
+      <div class="feature-pills rev d3">
+        <span class="on">Nezávislé poradenství</span>
+        <span>Member of money2u</span>
+        <span>Zkouška PFP</span>
+        <span>EFPA</span>
+      </div>
+    </div>
+    <div class="feature-photo px clip">
+      <img src="/assets/img/jan-money2u.webp" alt="Jan Kurdiovský před stěnou money2u" data-parallax="0.05" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- RECENZE -->
+<section class="reviews" id="recenze">
+  <div class="wrap">
+    <div class="reviews-head">
+      <div>
+        <div class="sec-kicker rev">05 — Reference</div>
+        <h2 class="rev d1">Co říkají <span class="red">klienti.</span></h2>
+      </div>
+      <div class="reviews-rating rev d2">
+        <div class="stars" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span><span>✦</span><span>✦</span></div>
+        <div class="cnt"><b>12 hodnocení</b> na&nbsp;Google</div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <figure class="review rev">
+        <span class="mk-star" aria-hidden="true">✦</span>
+        <blockquote>Jsem moc spokojená. Sestavili jsme kompletní finanční plán, s&nbsp;tím že tam kde se moc neorientuji, jsem si mohla nechat vše vysvětlit a&nbsp;pak se bez nátlaku rozhodnout (což není běžná praxe finančních poradců) a&nbsp;to vše ve velmi přátelském duchu. Děkuji za&nbsp;to!</blockquote>
+        <figcaption><span class="who">Alice Šurková</span><span class="where">Google recenze</span></figcaption>
+      </figure>
+      <figure class="review rev d1">
+        <span class="mk-star" aria-hidden="true">✦</span>
+        <blockquote>Doporučuju, jsem velmi spokojený klient několik let. Kluk ví o&nbsp;čem mluví, stará se o&nbsp;klienty a&nbsp;je férový, ne jak většina poradců.</blockquote>
+        <figcaption><span class="who">Pavel Ambrož</span><span class="where">Google recenze</span></figcaption>
+      </figure>
+      <figure class="review rev d2">
+        <span class="mk-star" aria-hidden="true">✦</span>
+        <blockquote>Investování je pro mě španělskou vesnicí, ale potřeba trochu se zajistit na&nbsp;blížící se důchod mě přiměla se o&nbsp;to začít zajímat.… Obdivuju jeho nadšení, je vidět, že ho jeho práce opravdu baví a&nbsp;trpělivě se snaží mi vše vysvětlit. Za&nbsp;mě naprostá spokojenost.</blockquote>
+        <figcaption><span class="who">Jana Kotherová</span><span class="where">Google recenze</span></figcaption>
+      </figure>
+      <figure class="review rev">
+        <span class="mk-star" aria-hidden="true">✦</span>
+        <blockquote>Spolupráce byla super! Jeňa mi pomohl dát dohromady komplexní finanční plán, který dává smysl&nbsp;– žádné zbytečnosti, žádná nesmyslná rizika atd., prostě řešení přesně pro mě… Líbí se mi jeho lidský přístup a&nbsp;snaha najít to nejlepší řešení bez tlaku.</blockquote>
+        <figcaption><span class="who">Tereza Kusá</span><span class="where">Google recenze</span></figcaption>
+      </figure>
+      <figure class="review rev d1">
+        <span class="mk-star" aria-hidden="true">✦</span>
+        <blockquote>Čeho si vážím u&nbsp;finančního poradce je především transparentnost a&nbsp;samozřejmě znalost oboru. Zde jsem našel obojí a&nbsp;jsem maximálně spokojen… bez nátlaku, naléhání, podsouvání a&nbsp;nucení nepotřebných produktů. Můžu jedině doporučit!</blockquote>
+        <figcaption><span class="who">Lukáš Kletzander</span><span class="where">Google recenze</span></figcaption>
+      </figure>
+      <figure class="review rev d2">
+        <span class="mk-star" aria-hidden="true">✦</span>
+        <blockquote>Probírali jsme investiční portfolio. Ikdyž je Honza mladý, o&nbsp;svém oboru ví více než dost. Doporučuji minimálně nezávaznou schůzku.</blockquote>
+        <figcaption><span class="who">Honza Čermák</span><span class="where">Google recenze</span></figcaption>
+      </figure>
+    </div>
+    <div class="reviews-foot rev">
+      <a class="reviews-link" href="https://admin.trustindex.io/api/googleWriteReview?place-id=ChIJ3QQhafKVEkcRevr1UBry4Wg" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        Napsat recenzi
+      </a>
+      <span class="note">Recenze pocházejí z&nbsp;profilu na&nbsp;Google.</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="lbl rev">Pojďme začít</div>
+    <h2><span class="rl-mask"><span>Domluvme si</span></span><span class="rl-mask"><span><em>konzultaci.</em></span></span></h2>
+    <a href="/rezervace" class="cta-btn magnetic rev d2" data-magnetic>Rezervovat konzultaci
+      <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="cta-sub rev d3">Nebo napište rovnou na <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a> <span class="sep">·</span> <a href="tel:+420799794670">+420 799 794 670</a></p>
+  </div>
+  <div class="cta-mark" aria-hidden="true"><span>KURDIOVSKÝ</span></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand">
+          <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+          <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+        </a>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="/sluzby">Služby</a>
+        <a href="/o-mne">O mně</a>
+        <a href="/rezervace">Rezervace</a>
+        <a href="/kontakt">Kontakt</a>
+        <a href="/portal">Klientský portál</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+        <a href="tel:+420799794670">+420 799 794 670</a>
+        <p>Tolstého 35<br>616 00 Brno</p>
+        <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jan Kurdiovský · member of money2u</span>
+      <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fineHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var motionOK=fineHover && !reduceMotion;
+  var lerp=function(a,b,t){return a+(b-a)*t};
+  var clamp=function(v,lo,hi){return v<lo?lo:(v>hi?hi:v)};
+
+  /* ---------- HEADER ---------- */
+  var header=document.getElementById('header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>40)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger=document.getElementById('burger');
+  var mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){document.body.classList.toggle('menu-open')});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+
+  /* ---------- SUBPAGE HERO LINE REVEAL ---------- */
+  var subhero=document.getElementById('subhero');
+  if(reduceMotion){subhero.classList.add('lit');}
+  else{requestAnimationFrame(function(){requestAnimationFrame(function(){subhero.classList.add('lit');})});}
+
+  /* ---------- REVEAL OBSERVER (fade / masked-line / sign) ---------- */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev,.rl-mask,.story-sign').forEach(function(el){io.observe(el);});
+
+  /* clip-path wipe: observe an UNCLIPPED parent and reveal the clipped child when parent enters view */
+  var clipMap=new WeakMap();
+  var clipIo=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var child=clipMap.get(e.target);
+        if(child)child.classList.add('in');
+        clipIo.unobserve(e.target);
+      }
+    });
+  },{threshold:.05,rootMargin:'0px 0px -8% 0px'});
+  [].slice.call(document.querySelectorAll('.clip')).forEach(function(el){
+    var trigger=el.parentElement||el;
+    clipMap.set(trigger,el);
+    clipIo.observe(trigger);
+  });
+
+  /* ---------- SHARED rAF: cursor + parallax + magnetic ---------- */
+  var mx=window.innerWidth/2,my=window.innerHeight/2;
+  var rdx=mx,rdy=my,ringx=mx,ringy=my;
+  var magnets=[].map.call(document.querySelectorAll('[data-magnetic]'),function(el){
+    return {el:el,bx:0,by:0,tx:0,ty:0};
+  });
+  var pxItems=[].map.call(document.querySelectorAll('[data-parallax]'),function(el){
+    return {el:el,frame:el.closest('.px')||el.parentElement,amt:parseFloat(el.dataset.parallax)||0.05,cur:0};
+  });
+
+  var cursorOn=false;
+  if(motionOK){
+    document.body.classList.add('cursor-on');cursorOn=true;
+    window.addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      var hot=e.target.closest('a,button');
+      var soft=e.target.closest('input,textarea,select,[contenteditable]');
+      document.body.classList.toggle('cursor-hot',!!hot && !soft);
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){document.body.classList.add('cursor-hidden');});
+    document.addEventListener('mouseenter',function(){document.body.classList.remove('cursor-hidden');});
+  }
+
+  var dotR=document.querySelector('.cursor-dot');
+  var ringR=document.querySelector('.cursor-ring');
+
+  function frame(){
+    if(cursorOn){
+      rdx=lerp(rdx,mx,0.55);rdy=lerp(rdy,my,0.55);
+      ringx=lerp(ringx,mx,0.14);ringy=lerp(ringy,my,0.14);
+      if(dotR)dotR.style.transform='translate('+rdx+'px,'+rdy+'px)';
+      if(ringR)ringR.style.transform='translate('+ringx+'px,'+ringy+'px)';
+    }
+    if(motionOK){
+      for(var i=0;i<magnets.length;i++){
+        var m=magnets[i],r=m.el.getBoundingClientRect();
+        var cx2=r.left+r.width/2,cy2=r.top+r.height/2;
+        var dx=mx-cx2,dy=my-cy2;
+        var dist=Math.hypot(dx,dy);
+        if(dist<r.width/2+80){m.tx=clamp(dx*0.3,-10,10);m.ty=clamp(dy*0.3,-10,10);}
+        else{m.tx=0;m.ty=0;}
+        m.bx=lerp(m.bx,m.tx,0.18);m.by=lerp(m.by,m.ty,0.18);
+        m.el.style.transform='translate('+m.bx.toFixed(2)+'px,'+m.by.toFixed(2)+'px)';
+      }
+      var vh=window.innerHeight;
+      for(var p=0;p<pxItems.length;p++){
+        var it=pxItems[p],fr=it.frame.getBoundingClientRect();
+        if(fr.bottom<-100||fr.top>vh+100)continue;
+        var center=fr.top+fr.height/2;
+        var prog=clamp((center-vh/2)/(vh/2+fr.height/2),-1,1);
+        var maxPx=fr.height*0.05;
+        var target=clamp(prog*it.amt*fr.height,-maxPx,maxPx);
+        it.cur=lerp(it.cur,target,0.12);
+        it.el.style.transform='translate3d(0,'+it.cur.toFixed(2)+'px,0) scale(1.12)';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

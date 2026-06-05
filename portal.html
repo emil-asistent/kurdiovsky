@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klientský portál — ukázka prostředí | Jan Kurdiovský</title>
+<meta name="description" content="Ukázka klientského prostředí Jana Kurdiovského — demo přihlášení a přehled finančního plánu. Reálná klientská aplikace MyPlann pro iOS a Android.">
+<link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
+<link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Klientský portál — ukázka prostředí | Jan Kurdiovský">
+<meta property="og:description" content="Ukázka klientského prostředí — demo přihlášení a přehled finančního plánu. Reálná aplikace MyPlann pro iOS a Android.">
+<meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/portal">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/hero-poster.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0c0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<style>
+:root{
+  --ink:#0c0c0f;
+  --ink-2:#131318;
+  --ink-3:#1b1b22;
+  --line:rgba(255,255,255,.10);
+  --paper:#efe9e2;
+  --paper-dim:#b6b2ac;
+  --paper-faint:#7d7a76;
+  --red:#d31f26;
+  --red-bright:#ff2d35;
+  --maxw:1340px;
+  --pad:clamp(20px,5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- CUSTOM CURSOR ---------- */
+.cursor-dot,.cursor-ring{display:none;position:fixed;top:0;left:0;z-index:9500;pointer-events:none;border-radius:50%;will-change:transform;opacity:0;transition:opacity .35s ease}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{display:block}
+.cursor-dot{width:8px;height:8px;background:var(--red);margin:-4px 0 0 -4px}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(239,233,226,.55);margin:-17px 0 0 -17px;transition:opacity .35s ease,width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background-color .3s}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{opacity:1}
+body.cursor-on.cursor-hot .cursor-ring{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red);background:rgba(211,31,38,.08)}
+body.cursor-on.cursor-hot .cursor-dot{opacity:0}
+body.cursor-on.cursor-hidden .cursor-dot,body.cursor-on.cursor-hidden .cursor-ring{opacity:0}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button,body.cursor-on .svc{cursor:none}
+  body.cursor-on input,body.cursor-on textarea,body.cursor-on select,body.cursor-on [contenteditable]{cursor:auto}
+}
+
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:.98;letter-spacing:-.02em}
+.serif-it{font-style:italic;font-weight:400}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s}
+header.scrolled{background:rgba(12,12,15,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .mark{width:42px;height:42px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.brand .mark img{width:26px;height:26px;object-fit:contain}
+.brand small{display:block;font-family:'Manrope';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint)}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--paper-dim);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--red);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+/* active nav item: permanent decent red underline */
+.nav-links a[aria-current="page"]{color:var(--paper)}
+.nav-links a[aria-current="page"]::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-size:14px;font-weight:600;transition:.3s}
+.nav-cta:hover{background:var(--red);border-color:var(--red)}
+.nav-cta::after{display:none}
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:20px;height:1.6px;background:var(--paper);transition:.3s}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:24px}.burger span:nth-child(3){top:30px}
+body.menu-open .burger span:nth-child(1){top:24px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){top:24px;transform:rotate(-45deg)}
+
+.mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ink);transform:translateY(-100%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);visibility:hidden}
+body.menu-open .mobile-menu{transform:translateY(0);visibility:visible}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,52px);font-weight:500;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a span{font-family:'Manrope';font-size:14px;color:var(--red);font-weight:600}
+.mobile-menu a[aria-current="page"]{color:var(--red)}
+.mm-foot{margin-top:40px;font-size:15px;color:var(--paper-dim);display:flex;flex-direction:column;gap:6px}
+
+/* ---------- SUBPAGE HERO ---------- */
+.subhero{position:relative;min-height:58vh;display:flex;align-items:flex-end;padding-top:120px;padding-bottom:clamp(40px,6vw,72px);overflow:hidden;border-bottom:1px solid var(--line)}
+.subhero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:60%;max-width:640px;background:radial-gradient(80% 100% at 0% 60%,rgba(211,31,38,.12),transparent 70%);pointer-events:none;z-index:0}
+.subhero .wrap{position:relative;z-index:1;width:100%}
+.subhero-eyebrow{display:flex;align-items:center;gap:14px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-dim);font-weight:600;margin-bottom:26px;opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.subhero.lit .subhero-eyebrow{opacity:1;transform:none;transition-delay:.1s}
+.subhero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 14px var(--red);flex:none}
+.subhero h1{font-size:clamp(40px,7vw,98px);max-width:16ch}
+.subhero h1 .red{color:var(--red-bright)}
+.subhero h1 em{font-style:italic;font-weight:400}
+/* masked line reveal */
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.subhero.lit .line>span{transform:translateY(0)}
+.subhero.lit .line:nth-child(1)>span{transition-delay:.05s}
+.subhero.lit .line:nth-child(2)>span{transition-delay:.14s}
+.subhero-foot{margin-top:36px;max-width:54ch;color:var(--paper-dim);font-size:clamp(16px,1.4vw,19px);opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.subhero.lit .subhero-foot{opacity:1;transform:none;transition-delay:.4s}
+
+/* ---------- DEMO BANNER (decent eyebrow strip) ---------- */
+.demo-banner{display:inline-flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:6px;padding:13px 20px;background:var(--ink-2);font-size:13.5px;color:var(--paper-dim);margin-bottom:30px;max-width:100%}
+.demo-banner .pip{flex:none;display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.demo-banner .pip i{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red);font-style:normal}
+.demo-banner b{color:var(--paper);font-weight:600}
+
+/* ---------- SECTION SHELL ---------- */
+section{position:relative}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(36px,5vw,56px)}
+.sec-num{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--red);padding-top:8px}
+.sec-kicker{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:16px}
+.sec-head h2{font-size:clamp(28px,4vw,52px)}
+.sec-head h2 .red{color:var(--red)}
+
+/* ---------- DEMO TAG (used to mark made-up data) ---------- */
+.dtag{display:inline-flex;align-items:center;gap:6px;font-family:'Manrope';font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);border:1px solid rgba(211,31,38,.4);border-radius:100px;padding:3px 10px;vertical-align:middle}
+
+/* ---------- LOGIN ---------- */
+.login{padding:clamp(40px,6vw,80px) 0 clamp(80px,11vw,150px)}
+.login-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,72px);align-items:start}
+@media(min-width:920px){.login-grid{grid-template-columns:1fr .9fr;gap:clamp(56px,6vw,96px)}}
+.login-aside .sec-kicker{margin-bottom:22px}
+.login-aside h2{font-size:clamp(28px,3.6vw,50px);max-width:14ch;margin-bottom:26px}
+.login-aside h2 .red{color:var(--red)}
+.login-aside p{color:var(--paper-dim);max-width:46ch;margin-bottom:18px}
+.login-points{margin-top:34px;border-top:1px solid var(--line)}
+.login-points li{list-style:none;display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.login-points li .n{font-family:'Manrope';font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--red);flex:none}
+.login-points li .t{color:var(--paper-dim)}
+.login-points li .t b{color:var(--paper);font-weight:600}
+
+.login-card{border:1px solid var(--line);border-radius:6px;background:var(--ink-2);padding:clamp(28px,3.4vw,44px);position:relative}
+.login-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),transparent);border-radius:6px 0 0 6px}
+.login-card .card-eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:14px}
+.login-card h3{font-family:'Fraunces',serif;font-size:clamp(26px,3vw,36px);font-weight:500;margin-bottom:8px}
+.login-card .card-note{color:var(--paper-dim);font-size:14.5px;margin-bottom:30px}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:10px}
+.field input{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:6px;color:var(--paper);font-family:'Manrope';font-size:16px;padding:15px 17px;transition:border-color .3s,box-shadow .3s}
+.field input::placeholder{color:var(--paper-faint)}
+.field input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(211,31,38,.14)}
+.field-row{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 26px}
+.field-row label{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;color:var(--paper-dim);cursor:pointer;text-transform:none;letter-spacing:0;font-weight:500}
+.field-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--red);cursor:pointer}
+.field-row .forgot{font-size:13.5px;color:var(--paper-dim);transition:color .3s;border-bottom:1px solid transparent;padding-bottom:1px}
+.field-row .forgot:hover{color:var(--red-bright);border-color:var(--red-bright)}
+.login-submit{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:13px;background:var(--red);color:#fff;border:none;border-radius:100px;font-family:'Manrope';font-weight:600;font-size:16px;padding:18px 30px;cursor:pointer;transition:background .35s,color .35s}
+.login-submit:hover{background:#fff;color:var(--ink)}
+.login-submit .arr{transition:transform .35s}
+.login-submit:hover .arr{transform:translateX(5px)}
+.login-disclaimer{margin-top:22px;font-size:12.5px;color:var(--paper-faint);line-height:1.5}
+
+/* ---------- DASHBOARD ---------- */
+.dash{display:none;padding:clamp(36px,5vw,72px) 0 clamp(60px,8vw,110px)}
+body.demo-in .login{display:none}
+body.demo-in .dash{display:block}
+.dash-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:clamp(28px,3.4vw,44px);border-bottom:1px solid var(--line);margin-bottom:clamp(36px,4.4vw,56px)}
+.dash-hi .sec-kicker{margin-bottom:14px}
+.dash-hi h2{font-size:clamp(28px,4.2vw,56px);max-width:18ch}
+.dash-hi h2 .red{color:var(--red)}
+.dash-hi p{color:var(--paper-dim);margin-top:14px;max-width:52ch}
+.logout{display:inline-flex;align-items:center;gap:11px;border:1px solid var(--line);color:var(--paper-dim);border-radius:100px;font-family:'Manrope';font-weight:600;font-size:14px;padding:12px 22px;background:transparent;cursor:pointer;transition:.3s;white-space:nowrap}
+.logout:hover{border-color:var(--red);color:var(--paper)}
+.logout svg{width:15px;height:15px}
+
+/* editorial dashboard grid — NO glassmorphism, 1px lines + flat panels */
+.dash-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+@media(min-width:760px){.dash-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1080px){.dash-grid{grid-template-columns:repeat(4,1fr)}}
+.dash-stat{background:var(--ink-2);padding:clamp(24px,2.6vw,34px)}
+.dash-stat .k{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:18px}
+.dash-stat .v{font-family:'Fraunces',serif;font-size:clamp(30px,3.4vw,44px);font-weight:500;line-height:1;letter-spacing:-.02em}
+.dash-stat .v .unit{font-size:.5em;color:var(--paper-dim);margin-left:6px}
+.dash-stat .sub{margin-top:12px;font-size:13.5px;color:var(--paper-dim)}
+.dash-stat .sub .up{color:var(--red-bright);font-weight:600}
+
+/* ---------- DASHBOARD: portfolio curve panel ---------- */
+.dash-block{margin-top:clamp(36px,4.4vw,60px)}
+.dash-2col{display:grid;grid-template-columns:1fr;gap:clamp(32px,3.6vw,52px);align-items:start}
+@media(min-width:980px){.dash-2col{grid-template-columns:1.4fr .85fr}}
+.panel{border:1px solid var(--line);border-radius:6px;background:var(--ink-2);overflow:hidden}
+.panel-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:14px;padding:clamp(22px,2.4vw,30px) clamp(24px,2.6vw,34px) 0}
+.panel-head h3{font-family:'Fraunces',serif;font-size:clamp(20px,2.2vw,28px);font-weight:500}
+.panel-head .meta{font-size:13px;color:var(--paper-faint)}
+
+/* portfolio curve — reuse of stmt-curve language */
+.pf-curve{position:relative;width:100%;height:clamp(220px,30vw,320px);margin-top:18px;padding:0 clamp(24px,2.6vw,34px) clamp(20px,2.4vw,30px)}
+.pf-curve svg{width:100%;height:100%;overflow:visible;display:block}
+.pf-curve .grid line{stroke:var(--line);stroke-width:1}
+.pf-curve .area{fill:url(#pfFill);opacity:.9}
+.pf-curve .ln{fill:none;stroke:var(--red);stroke-width:1.6;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(211,31,38,.35))}
+.pf-curve .dot{fill:var(--red-bright);transform-box:fill-box;transform-origin:center;transform:scale(0);filter:drop-shadow(0 0 8px rgba(255,45,53,.7))}
+.pf-axis{display:flex;justify-content:space-between;padding:0 clamp(24px,2.6vw,34px) clamp(22px,2.4vw,30px);font-size:11.5px;letter-spacing:.05em;color:var(--paper-faint)}
+
+/* goals list — editorial rows, not cards */
+.goals{border:1px solid var(--line);border-radius:6px;background:var(--ink-2);padding:clamp(8px,1vw,12px) clamp(24px,2.6vw,32px)}
+.goals h3{font-family:'Fraunces',serif;font-size:clamp(20px,2.2vw,28px);font-weight:500;padding:clamp(16px,1.8vw,22px) 0 clamp(14px,1.6vw,18px);border-bottom:1px solid var(--line)}
+.goal{padding:clamp(18px,2vw,24px) 0;border-bottom:1px solid var(--line)}
+.goal:last-child{border-bottom:none}
+.goal-top{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:14px}
+.goal-name{font-family:'Fraunces',serif;font-size:clamp(17px,1.7vw,21px);font-weight:500}
+.goal-pct{font-family:'Manrope';font-size:13px;font-weight:700;color:var(--red)}
+.goal-bar{height:4px;border-radius:100px;background:var(--ink-3);overflow:hidden}
+.goal-bar i{display:block;height:100%;border-radius:100px;background:linear-gradient(90deg,var(--red),var(--red-bright));width:0;transition:width 1.1s cubic-bezier(.16,1,.3,1)}
+.goal-meta{margin-top:11px;font-size:13px;color:var(--paper-dim);display:flex;flex-wrap:wrap;gap:6px 16px}
+
+/* documents — table-like editorial list */
+.docs{margin-top:clamp(36px,4.4vw,60px)}
+.doc-list{border-top:1px solid var(--line)}
+.doc{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(16px,3vw,40px);align-items:center;padding:clamp(18px,2vw,24px) 0;border-bottom:1px solid var(--line);position:relative;transition:padding-left .4s cubic-bezier(.2,.7,.2,1)}
+.doc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red);transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.doc:hover{padding-left:18px}
+.doc:hover::before{width:3px}
+.doc-ic{width:46px;height:46px;border-radius:6px;border:1px solid var(--line);display:grid;place-items:center;flex:none;color:var(--paper-dim);transition:border-color .3s,color .3s}
+.doc:hover .doc-ic{border-color:var(--red);color:var(--red)}
+.doc-ic svg{width:20px;height:20px}
+.doc-main .dn{font-family:'Fraunces',serif;font-size:clamp(17px,1.8vw,22px);font-weight:500}
+.doc-main .dm{font-size:13px;color:var(--paper-faint);margin-top:5px;display:flex;flex-wrap:wrap;gap:5px 14px}
+.doc-go{font-size:13px;font-weight:600;color:var(--paper-dim);display:inline-flex;align-items:center;gap:9px;white-space:nowrap;transition:color .3s}
+.doc:hover .doc-go{color:var(--red)}
+.doc-go svg{width:15px;height:15px;transition:transform .35s}
+.doc:hover .doc-go svg{transform:translate(2px,-2px)}
+
+/* advisor strip — flat editorial, not a card */
+.advisor{margin-top:clamp(36px,4.4vw,60px);border:1px solid var(--line);border-radius:6px;background:
+  radial-gradient(90% 130% at 6% 0%,rgba(211,31,38,.12),transparent 56%),
+  linear-gradient(180deg,#17131a 0%,#141118 100%);
+  padding:clamp(28px,3.4vw,46px);display:grid;grid-template-columns:1fr;gap:clamp(26px,3vw,42px);align-items:center}
+@media(min-width:760px){.advisor{grid-template-columns:auto 1fr auto}}
+.advisor-id{display:flex;align-items:center;gap:18px}
+.advisor-id .ph{width:62px;height:62px;border-radius:50%;background:#16161c;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.advisor-id .ph img{width:38px;height:38px;object-fit:contain}
+.advisor-id .nm{font-family:'Fraunces',serif;font-size:22px;font-weight:500}
+.advisor-id .rl{font-size:13px;color:var(--paper-faint);letter-spacing:.04em;margin-top:3px}
+.advisor-txt{color:var(--paper-dim);max-width:46ch}
+.advisor-actions{display:flex;flex-wrap:wrap;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-weight:600;font-size:14px;padding:13px 22px;transition:.35s;white-space:nowrap}
+.pill:hover{background:var(--red);color:#fff;transform:translateY(-2px)}
+.pill.ghost{border-color:var(--line);color:var(--paper-dim)}
+.pill.ghost:hover{border-color:var(--red);color:var(--paper);background:transparent;transform:translateY(-2px)}
+.pill svg{width:16px;height:16px}
+
+/* ---------- MYPLANN APP SECTION ---------- */
+.app{padding:clamp(70px,9vw,130px) 0;border-top:1px solid var(--line);background:var(--ink-2)}
+.app-grid{display:grid;grid-template-columns:1fr;gap:clamp(34px,5vw,64px);align-items:center}
+@media(min-width:880px){.app-grid{grid-template-columns:1.1fr .9fr}}
+.app-left .sec-kicker{margin-bottom:14px}
+.app-left h2{font-size:clamp(30px,4.4vw,60px);max-width:13ch;margin-bottom:24px}
+.app-left h2 .red{color:var(--red)}
+.app-left p{color:var(--paper-dim);max-width:50ch;margin-bottom:18px}
+.app-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+.app-note{margin-top:26px;font-size:13px;color:var(--paper-faint)}
+.app-feat{border-top:1px solid var(--line);margin-top:8px}
+.app-feat li{list-style:none;display:flex;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+.app-feat li .n{font-family:'Manrope';font-size:13px;font-weight:700;color:var(--red);flex:none;letter-spacing:.05em}
+.app-feat li .t{color:var(--paper-dim)}
+.app-feat li .t b{color:var(--paper);font-weight:600}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,7vw,90px) 0 36px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-brand .brand{margin-bottom:22px}
+.foot-brand p{color:var(--paper-faint);max-width:34ch;font-size:15px}
+.foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:600}
+.foot-col p{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px}
+.foot-col{display:flex;flex-direction:column;align-items:flex-start}
+.foot-col a{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px;transition:color .3s;position:relative}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.foot-col a:hover{color:var(--red)}
+.foot-col a:hover::after{transform:scaleX(1);transform-origin:left}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(50px,6vw,80px);padding-top:30px;border-top:1px solid var(--line);font-size:13.5px;color:var(--paper-faint)}
+.foot-bottom a:hover{color:var(--paper-dim)}
+
+/* reveal — base fade/translate */
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
+/* reveal — masked line for headings */
+.rl-mask{display:block;overflow:hidden;padding-bottom:.05em}
+.rl-mask>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.rl-mask.in>span{transform:translateY(0)}
+/* reveal — clip-path wipe for images */
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path .95s cubic-bezier(.16,1,.3,1)}
+.clip.in{clip-path:inset(0 0 0 0)}
+
+@media(max-width:880px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+}
+@media(max-width:560px){
+  .dash-top{align-items:flex-start}
+  .field-row{flex-direction:row}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.001s!important}
+  .rev{opacity:1;transform:none}
+  .line>span,.rl-mask>span{transform:none!important}
+  .subhero-eyebrow,.subhero-foot{opacity:1!important;transform:none!important}
+  .clip{clip-path:none!important}
+  .pf-curve .dot{transform:scale(1)!important}
+  .pf-curve .ln{stroke-dashoffset:0!important}
+  .goal-bar i{transition:none!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  body{cursor:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="/" class="brand" aria-label="Jan Kurdiovský — domů">
+      <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne">O mně</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/portal" aria-current="page">Klientský portál</a>
+    </nav>
+    <a href="/rezervace" class="nav-cta">Rezervovat konzultaci
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/sluzby">Služby <span>01</span></a>
+  <a href="/o-mne">O mně <span>02</span></a>
+  <a href="/rezervace">Rezervace <span>03</span></a>
+  <a href="/kontakt">Kontakt <span>04</span></a>
+  <a href="/portal" aria-current="page">Klientský portál <span>05</span></a>
+  <div class="mm-foot">
+    <span>jan@kurdiovsky.cz</span>
+    <span>+420 799 794 670</span>
+    <span>@jan_kurdiovsky</span>
+  </div>
+</div>
+
+<!-- SUBPAGE HERO -->
+<section class="subhero" id="subhero">
+  <div class="wrap">
+    <div class="demo-banner">
+      <span class="pip"><i></i> Ukázka</span>
+      <span>Tohle je <b>ukázka klientského prostředí</b>, ne ostrý systém. Data jsou smyšlená.</span>
+    </div>
+    <div class="subhero-eyebrow"><span class="dot"></span> Klientský portál · Demo</div>
+    <h1>
+      <span class="line"><span>Váš plán</span></span>
+      <span class="line"><span>na <em>jednom</em> <span class="red">místě.</span></span></span>
+    </h1>
+    <p class="subhero-foot">Takhle vypadá prostředí, ve kterém spolu vedeme váš finanční plán&nbsp;— cíle, vývoj portfolia, dokumenty. Níže si můžete ukázku vyzkoušet.</p>
+  </div>
+</section>
+
+<!-- LOGIN (DEMO) -->
+<section class="login" id="login">
+  <div class="wrap">
+    <div class="login-grid">
+      <div class="login-aside">
+        <div class="sec-kicker rev">01 — K&nbsp;čemu portál slouží</div>
+        <h2 class="rev d1">Přehled, ne <span class="red">papírování.</span></h2>
+        <p class="rev d1">Místo složek a&nbsp;e-mailů máte plán přehledně na&nbsp;jednom místě. Vidíte, kam směřujete, jak se vyvíjí portfolio a&nbsp;kde najdete podepsané dokumenty.</p>
+        <p class="rev d2">Skutečné klientské prostředí běží v&nbsp;aplikaci <b style="color:var(--paper);font-weight:600">MyPlann</b>. Tahle stránka je jen ukázka&nbsp;— bez přihlášení a&nbsp;bez vašich dat.</p>
+        <ul class="login-points rev d2">
+          <li><span class="n">01</span><span class="t"><b>Cíle a&nbsp;rozpočet</b> — kam směřujete a&nbsp;jak daleko jste.</span></li>
+          <li><span class="n">02</span><span class="t"><b>Vývoj portfolia</b> — hodnota v&nbsp;čase, srozumitelně.</span></li>
+          <li><span class="n">03</span><span class="t"><b>Dokumenty</b> — smlouvy a&nbsp;plán k&nbsp;nahlédnutí.</span></li>
+        </ul>
+      </div>
+
+      <div class="login-card rev d1">
+        <div class="card-eyebrow">Vstup do ukázky</div>
+        <h3>Přihlášení</h3>
+        <p class="card-note">Jen ukázka&nbsp;— stačí kliknout na&nbsp;tlačítko, žádné údaje se nikam neodesílají ani neukládají.</p>
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="vas@email.cz" autocomplete="off" inputmode="email">
+          </div>
+          <div class="field">
+            <label for="pass">Heslo</label>
+            <input type="password" id="pass" name="pass" placeholder="••••••••" autocomplete="off">
+          </div>
+          <div class="field-row">
+            <label><input type="checkbox" id="remember"> Zapamatovat ukázku</label>
+            <a href="#" class="forgot" id="forgot">Zapomenuté heslo?</a>
+          </div>
+          <button type="submit" class="login-submit">Vstoupit do ukázky
+            <svg class="arr" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+        <p class="login-disclaimer">Toto je demonstrační prostředí. Žádné heslo se neověřuje, neodesílá ani neukládá. Skutečné přihlášení probíhá v&nbsp;aplikaci MyPlann.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD (DEMO) -->
+<section class="dash" id="dash" aria-label="Ukázkový přehled klienta">
+  <div class="wrap">
+    <div class="dash-top">
+      <div class="dash-hi">
+        <div class="sec-kicker">Přehled plánu <span class="dtag">Demo</span></div>
+        <h2>Dobrý den, <span class="red">Kliente&nbsp;Ukázkový.</span></h2>
+        <p>Tohle je smyšlený přehled, který ukazuje, jak vypadá vedení plánu v&nbsp;reálném prostředí. Všechny hodnoty jsou ukázkové.</p>
+      </div>
+      <button class="logout" id="logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Odhlásit z&nbsp;ukázky
+      </button>
+    </div>
+
+    <!-- stat row -->
+    <div class="dash-grid">
+      <div class="dash-stat">
+        <div class="k">Hodnota portfolia <span class="dtag">Demo</span></div>
+        <div class="v">1 248 000<span class="unit">Kč</span></div>
+        <div class="sub"><span class="up">↑ 6,4 %</span> za posledních 12&nbsp;měsíců</div>
+      </div>
+      <div class="dash-stat">
+        <div class="k">Měsíční vklad</div>
+        <div class="v">9 500<span class="unit">Kč</span></div>
+        <div class="sub">Pravidelná investice · ukázka</div>
+      </div>
+      <div class="dash-stat">
+        <div class="k">Cílů v&nbsp;plánu</div>
+        <div class="v">3</div>
+        <div class="sub">2&nbsp;aktivní · 1&nbsp;rozpracovaný</div>
+      </div>
+      <div class="dash-stat">
+        <div class="k">Příští schůzka</div>
+        <div class="v" style="font-size:clamp(22px,2.4vw,30px)">14.&nbsp;7.</div>
+        <div class="sub">Online · ukázkový termín</div>
+      </div>
+    </div>
+
+    <!-- portfolio curve + goals -->
+    <div class="dash-block dash-2col">
+      <div class="panel" id="pfPanel">
+        <div class="panel-head">
+          <h3>Vývoj portfolia <span class="dtag">Demo</span></h3>
+          <span class="meta">Posledních 12&nbsp;měsíců · ukázková data</span>
+        </div>
+        <div class="pf-curve" aria-hidden="true">
+          <svg viewBox="0 0 1000 320" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="pfFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(211,31,38,.28)"/>
+                <stop offset="100%" stop-color="rgba(211,31,38,0)"/>
+              </linearGradient>
+            </defs>
+            <g class="grid">
+              <line x1="0" y1="60" x2="1000" y2="60"/>
+              <line x1="0" y1="140" x2="1000" y2="140"/>
+              <line x1="0" y1="220" x2="1000" y2="220"/>
+              <line x1="0" y1="300" x2="1000" y2="300"/>
+            </g>
+            <path class="area" d="M0,250 C120,244 200,236 300,212 C400,188 440,200 540,168 C640,136 700,150 800,104 C880,68 940,52 1000,40 L1000,320 L0,320 Z"/>
+            <path class="ln" id="pfCurve" d="M0,250 C120,244 200,236 300,212 C400,188 440,200 540,168 C640,136 700,150 800,104 C880,68 940,52 1000,40"/>
+            <circle class="dot" data-p="0.05" cx="0" cy="250" r="6"/>
+            <circle class="dot" data-p="0.34" cx="300" cy="212" r="6"/>
+            <circle class="dot" data-p="0.56" cx="540" cy="168" r="6"/>
+            <circle class="dot" data-p="0.80" cx="800" cy="104" r="6"/>
+            <circle class="dot" data-p="0.98" cx="1000" cy="40" r="6"/>
+          </svg>
+        </div>
+        <div class="pf-axis">
+          <span>VII</span><span>IX</span><span>XI</span><span>I</span><span>III</span><span>V</span>
+        </div>
+      </div>
+
+      <div class="goals" id="goals">
+        <h3>Vaše cíle <span class="dtag">Demo</span></h3>
+        <div class="goal">
+          <div class="goal-top"><span class="goal-name">Rezerva na&nbsp;3&nbsp;roky</span><span class="goal-pct">72&nbsp;%</span></div>
+          <div class="goal-bar"><i data-pct="72"></i></div>
+          <div class="goal-meta"><span>Ukázka</span><span>cíl 240 000&nbsp;Kč</span></div>
+        </div>
+        <div class="goal">
+          <div class="goal-top"><span class="goal-name">Vlastní bydlení</span><span class="goal-pct">41&nbsp;%</span></div>
+          <div class="goal-bar"><i data-pct="41"></i></div>
+          <div class="goal-meta"><span>Ukázka</span><span>akontace 2028</span></div>
+        </div>
+        <div class="goal">
+          <div class="goal-top"><span class="goal-name">Renta na&nbsp;důchod</span><span class="goal-pct">18&nbsp;%</span></div>
+          <div class="goal-bar"><i data-pct="18"></i></div>
+          <div class="goal-meta"><span>Ukázka</span><span>dlouhodobý horizont</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- documents -->
+    <div class="docs">
+      <div class="sec-head"><span class="sec-num">·</span>
+        <div><div class="sec-kicker">Dokumenty <span class="dtag">Demo</span></div>
+          <h2><span style="color:var(--paper)">Vaše složka</span></h2>
+        </div>
+      </div>
+      <div class="doc-list">
+        <div class="doc">
+          <span class="doc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span>
+          <div class="doc-main"><div class="dn">Finanční plán</div><div class="dm"><span>PDF · ukázka</span><span>aktualizováno 06/2026</span></div></div>
+          <span class="doc-go">Náhled <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        </div>
+        <div class="doc">
+          <span class="doc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span>
+          <div class="doc-main"><div class="dn">Investiční smlouva</div><div class="dm"><span>PDF · ukázka</span><span>podepsáno 03/2026</span></div></div>
+          <span class="doc-go">Náhled <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        </div>
+        <div class="doc">
+          <span class="doc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span>
+          <div class="doc-main"><div class="dn">Pojistná smlouva</div><div class="dm"><span>PDF · ukázka</span><span>platné do 2030</span></div></div>
+          <span class="doc-go">Náhled <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        </div>
+        <div class="doc">
+          <span class="doc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span>
+          <div class="doc-main"><div class="dn">Záznam ze&nbsp;schůzky</div><div class="dm"><span>PDF · ukázka</span><span>05/2026</span></div></div>
+          <span class="doc-go">Náhled <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- advisor contact -->
+    <div class="advisor">
+      <div class="advisor-id">
+        <span class="ph"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+        <div>
+          <div class="nm">Jan Kurdiovský</div>
+          <div class="rl">Finanční poradce · PFP · member of money2u</div>
+        </div>
+      </div>
+      <p class="advisor-txt">Váš poradce. Cokoli k&nbsp;plánu chcete probrat, napište nebo si rovnou domluvte konzultaci.</p>
+      <div class="advisor-actions">
+        <a href="/rezervace" class="pill">Rezervovat konzultaci
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="mailto:jan@kurdiovsky.cz" class="pill ghost">Napsat e-mail</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MYPLANN APP -->
+<section class="app">
+  <div class="wrap app-grid">
+    <div class="app-left">
+      <div class="sec-kicker rev">02 — Klientská aplikace</div>
+      <h2 class="rev d1">Skutečné prostředí: <span class="red">MyPlann.</span></h2>
+      <p class="rev d1">Reálný klientský portál běží v&nbsp;aplikaci MyPlann. Po&nbsp;naší první schůzce v&nbsp;ní najdete svůj plán, cíle a&nbsp;dokumenty&nbsp;— stejně jako v&nbsp;ukázce výše, ale s&nbsp;vašimi vlastními daty.</p>
+      <div class="app-actions rev d2">
+        <a href="https://apps.apple.com/cz/app/myplann/id6443604108?l=cs" class="pill" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.8-3.5.8-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-1.1 2.8-2.2.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.2 6.1c.6-.8 1-1.9.9-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-.9 2.9 1 .1 2-.5 2.7-1.3z"/></svg>
+          App Store
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=cz.sabservis.myplann" class="pill" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3.6 2.3c-.2.3-.3.7-.3 1.2v17c0 .5.1.9.3 1.2l.1.1L13 13.1v-.2L3.7 2.2l-.1.1zM16.5 16.3l-3-3v-.2l3-3 .1.1 3.6 2c1 .6 1 1.5 0 2.1l-3.6 2-.1-.1zM16.6 16.2 13.4 13l-9.1 9.1c.3.4.9.4 1.6.1l10.7-6zM4.3 1.9l9.1 9.1 3.2-3.2L5.9 1.8c-.7-.3-1.3-.3-1.6.1z"/></svg>
+          Google&nbsp;Play
+        </a>
+      </div>
+      <p class="app-note">MyPlann · klientská aplikace pro&nbsp;iOS a&nbsp;Android.</p>
+    </div>
+    <div class="app-right">
+      <ul class="app-feat rev d2">
+        <li><span class="n">01</span><span class="t"><b>Plán po&nbsp;ruce</b> — celý finanční plán v&nbsp;mobilu.</span></li>
+        <li><span class="n">02</span><span class="t"><b>Přehled cílů</b> — kam směřujete a&nbsp;jak daleko jste.</span></li>
+        <li><span class="n">03</span><span class="t"><b>Dokumenty</b> — smlouvy a&nbsp;podklady na&nbsp;jednom místě.</span></li>
+        <li><span class="n">04</span><span class="t"><b>Kontakt na&nbsp;poradce</b> — kdykoli se ozvete přímo mně.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand">
+          <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+          <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+        </a>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="/sluzby">Služby</a>
+        <a href="/o-mne">O mně</a>
+        <a href="/rezervace">Rezervace</a>
+        <a href="/kontakt">Kontakt</a>
+        <a href="/portal">Klientský portál</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+        <a href="tel:+420799794670">+420 799 794 670</a>
+        <p>Tolstého 35<br>616 00 Brno</p>
+        <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jan Kurdiovský · member of money2u</span>
+      <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fineHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var motionOK=fineHover && !reduceMotion;
+  var lerp=function(a,b,t){return a+(b-a)*t};
+  var clamp=function(v,lo,hi){return v<lo?lo:(v>hi?hi:v)};
+
+  /* ---------- HEADER ---------- */
+  var header=document.getElementById('header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>40)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger=document.getElementById('burger');
+  var mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){document.body.classList.toggle('menu-open')});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+
+  /* ---------- SUBHERO LINE REVEAL ---------- */
+  var subhero=document.getElementById('subhero');
+  if(reduceMotion){subhero.classList.add('lit');}
+  else{requestAnimationFrame(function(){requestAnimationFrame(function(){subhero.classList.add('lit');})});}
+
+  /* ---------- DEMO LOGIN ↔ DASHBOARD (no backend, no real auth) ---------- */
+  var DEMO_KEY='kurdiovsky-portal-demo';
+  var form=document.getElementById('loginForm');
+  var logout=document.getElementById('logout');
+  var remember=document.getElementById('remember');
+  var goalBars=[].slice.call(document.querySelectorAll('.goal-bar i'));
+
+  var fillGoals=function(){
+    goalBars.forEach(function(b){
+      var p=parseFloat(b.getAttribute('data-pct'))||0;
+      requestAnimationFrame(function(){requestAnimationFrame(function(){b.style.width=p+'%';});});
+    });
+  };
+  var resetGoals=function(){goalBars.forEach(function(b){b.style.width='0';});};
+
+  var enterDemo=function(scroll){
+    document.body.classList.add('demo-in');
+    fillGoals();
+    drawCurve();
+    if(scroll){
+      var d=document.getElementById('dash');
+      // jump above the dashboard top so the header doesn't cover it
+      var y=d.getBoundingClientRect().top+window.scrollY-90;
+      window.scrollTo({top:y<0?0:y,behavior:'smooth'});
+    }
+  };
+  var exitDemo=function(){
+    document.body.classList.remove('demo-in');
+    resetGoals();
+    try{localStorage.removeItem(DEMO_KEY);}catch(e){}
+    var l=document.getElementById('login');
+    var y=l.getBoundingClientRect().top+window.scrollY-90;
+    window.scrollTo({top:y<0?0:y,behavior:'smooth'});
+  };
+
+  if(form){
+    // ANY submit (even empty) flips to the dashboard, client-side only
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(remember&&remember.checked){try{localStorage.setItem(DEMO_KEY,'1');}catch(err){}}
+      enterDemo(true);
+    });
+  }
+  if(logout){logout.addEventListener('click',exitDemo);}
+  var forgot=document.getElementById('forgot');
+  if(forgot){forgot.addEventListener('click',function(e){e.preventDefault();enterDemo(true);});}
+
+  /* ---------- PORTFOLIO CURVE (scroll-driven draw, reuse of stmt-curve) ---------- */
+  var pfPanel=document.getElementById('pfPanel');
+  var curve=document.getElementById('pfCurve');
+  var dots=document.querySelectorAll('.pf-curve .dot');
+  var curveLen=0, curveDrawn=false;
+  if(curve){
+    try{curveLen=curve.getTotalLength();}catch(e){curveLen=2200;}
+    if(reduceMotion){
+      curve.style.strokeDasharray='none';curve.style.strokeDashoffset='0';
+      dots.forEach(function(d){d.style.transform='scale(1)';});
+    }else{
+      curve.style.strokeDasharray=curveLen;
+      curve.style.strokeDashoffset=curveLen;
+    }
+  }
+  function drawCurve(){
+    // called when dashboard appears (panel measurements only valid once visible)
+    if(curveDrawn||reduceMotion||!curve)return;
+    curveDrawn=true;
+  }
+
+  /* ---------- REVEAL OBSERVER ---------- */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev,.rl-mask').forEach(function(el){io.observe(el);});
+
+  /* clip-path wipe: observe an unclipped parent, reveal the clipped child */
+  var clipMap=new WeakMap();
+  var clipIo=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var child=clipMap.get(e.target);
+        if(child)child.classList.add('in');
+        clipIo.unobserve(e.target);
+      }
+    });
+  },{threshold:.05,rootMargin:'0px 0px -8% 0px'});
+  [].slice.call(document.querySelectorAll('.clip')).forEach(function(el){
+    var trigger=el.parentElement||el;
+    clipMap.set(trigger,el);
+    clipIo.observe(trigger);
+  });
+
+  /* ---------- SHARED rAF: cursor + magnetic + curve ---------- */
+  var mx=window.innerWidth/2,my=window.innerHeight/2;
+  var rdx=mx,rdy=my, ringx=mx,ringy=my;
+  var magnets=[].map.call(document.querySelectorAll('[data-magnetic]'),function(el){
+    return {el:el,bx:0,by:0,tx:0,ty:0};
+  });
+
+  var cursorOn=false;
+  if(motionOK){
+    document.body.classList.add('cursor-on');cursorOn=true;
+    window.addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      var hot=e.target.closest('a,button');
+      var soft=e.target.closest('input,textarea,select,[contenteditable]');
+      document.body.classList.toggle('cursor-hot',!!hot && !soft);
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){document.body.classList.add('cursor-hidden');});
+    document.addEventListener('mouseenter',function(){document.body.classList.remove('cursor-hidden');});
+  }
+
+  var dotR=document.querySelector('.cursor-dot');
+  var ringR=document.querySelector('.cursor-ring');
+
+  function frame(){
+    if(cursorOn){
+      rdx=lerp(rdx,mx,0.55);rdy=lerp(rdy,my,0.55);
+      ringx=lerp(ringx,mx,0.14);ringy=lerp(ringy,my,0.14);
+      if(dotR)dotR.style.transform='translate('+rdx+'px,'+rdy+'px)';
+      if(ringR)ringR.style.transform='translate('+ringx+'px,'+ringy+'px)';
+    }
+    if(motionOK){
+      for(var i=0;i<magnets.length;i++){
+        var m=magnets[i],r=m.el.getBoundingClientRect();
+        var cx2=r.left+r.width/2,cy2=r.top+r.height/2;
+        var dx=mx-cx2,dy=my-cy2;
+        if(Math.hypot(dx,dy)<r.width/2+80){m.tx=clamp(dx*0.3,-10,10);m.ty=clamp(dy*0.3,-10,10);}
+        else{m.tx=0;m.ty=0;}
+        m.bx=lerp(m.bx,m.tx,0.18);m.by=lerp(m.by,m.ty,0.18);
+        m.el.style.transform='translate('+m.bx.toFixed(2)+'px,'+m.by.toFixed(2)+'px)';
+      }
+    }
+    /* portfolio curve draw — only while dashboard is visible */
+    if(curve && pfPanel && !reduceMotion && document.body.classList.contains('demo-in')){
+      var sr=pfPanel.getBoundingClientRect();
+      var vh=window.innerHeight;
+      if(sr.bottom>0 && sr.top<vh){
+        var prog=clamp((vh*0.9-sr.top)/(sr.height*0.7+vh*0.2),0,1);
+        curve.style.strokeDashoffset=(curveLen*(1-prog)).toFixed(1);
+        for(var d=0;d<dots.length;d++){
+          var dp=parseFloat(dots[d].getAttribute('data-p'))||0;
+          dots[d].style.transform='scale('+(prog>=dp?1:0)+')';
+          dots[d].style.transition='transform .5s cubic-bezier(.2,.7,.2,1)';
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- restore demo state if remembered ---------- */
+  try{
+    if(localStorage.getItem(DEMO_KEY)==='1'){
+      if(remember)remember.checked=true;
+      enterDemo(false);
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

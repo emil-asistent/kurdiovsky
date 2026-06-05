@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ochrana osobních údajů — Jan Kurdiovský</title>
+<meta name="description" content="Informace o zpracování osobních údajů. Správce: Jan Kurdiovský, IČO 11762390, osobní finanční poradce z Brna.">
+<link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
+<link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ochrana osobních údajů — Jan Kurdiovský">
+<meta property="og:description" content="Informace o zpracování osobních údajů dle GDPR. Správce: Jan Kurdiovský, IČO 11762390.">
+<meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/ochrana-osobnich-udaju">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/hero-poster.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0c0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<style>
+:root{
+  --ink:#0c0c0f;
+  --ink-2:#131318;
+  --ink-3:#1b1b22;
+  --line:rgba(255,255,255,.10);
+  --paper:#efe9e2;
+  --paper-dim:#b6b2ac;
+  --paper-faint:#7d7a76;
+  --red:#d31f26;
+  --red-bright:#ff2d35;
+  --maxw:1340px;
+  --pad:clamp(20px,5vw,72px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red-bright);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+
+/* ---------- CUSTOM CURSOR ---------- */
+.cursor-dot,.cursor-ring{display:none;position:fixed;top:0;left:0;z-index:9500;pointer-events:none;border-radius:50%;will-change:transform;opacity:0;transition:opacity .35s ease}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{display:block}
+.cursor-dot{width:8px;height:8px;background:var(--red);margin:-4px 0 0 -4px}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(239,233,226,.55);margin:-17px 0 0 -17px;transition:opacity .35s ease,width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background-color .3s}
+body.cursor-on .cursor-dot,body.cursor-on .cursor-ring{opacity:1}
+body.cursor-on.cursor-hot .cursor-ring{width:54px;height:54px;margin:-27px 0 0 -27px;border-color:var(--red);background:rgba(211,31,38,.08)}
+body.cursor-on.cursor-hot .cursor-dot{opacity:0}
+body.cursor-on.cursor-hidden .cursor-dot,body.cursor-on.cursor-hidden .cursor-ring{opacity:0}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button{cursor:none}
+  body.cursor-on input,body.cursor-on textarea,body.cursor-on select,body.cursor-on [contenteditable]{cursor:auto}
+}
+
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:.98;letter-spacing:-.02em}
+.serif-it{font-style:italic;font-weight:400}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s}
+header.scrolled{background:rgba(12,12,15,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand .mark{width:42px;height:42px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.brand .mark img{width:26px;height:26px;object-fit:contain}
+.brand small{display:block;font-family:'Manrope';font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint)}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--paper-dim);position:relative;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--red);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+/* active nav item */
+.nav-links a[aria-current="page"]{color:var(--paper)}
+.nav-links a[aria-current="page"]::after{width:100%}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border:1px solid var(--red);color:var(--paper);border-radius:100px;font-size:14px;font-weight:600;transition:.3s}
+.nav-cta:hover{background:var(--red);border-color:var(--red)}
+.nav-cta::after{display:none}
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:20px;height:1.6px;background:var(--paper);transition:.3s}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:24px}.burger span:nth-child(3){top:30px}
+body.menu-open .burger span:nth-child(1){top:24px;transform:rotate(45deg)}
+body.menu-open .burger span:nth-child(2){opacity:0}
+body.menu-open .burger span:nth-child(3){top:24px;transform:rotate(-45deg)}
+
+.mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ink);transform:translateY(-100%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);visibility:hidden}
+body.menu-open .mobile-menu{transform:translateY(0);visibility:visible}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,52px);font-weight:500;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu a span{font-family:'Manrope';font-size:14px;color:var(--red);font-weight:600}
+.mm-foot{margin-top:40px;font-size:15px;color:var(--paper-dim);display:flex;flex-direction:column;gap:6px}
+
+/* ---------- SUBPAGE HERO ---------- */
+.subhero{
+  position:relative;
+  min-height:clamp(340px,58vh,620px);
+  display:flex;
+  align-items:flex-end;
+  padding-top:84px;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+/* atmospheric dark radial behind the type block */
+.subhero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(100% 120% at 0% 100%,rgba(211,31,38,.09),transparent 55%),
+    linear-gradient(180deg,rgba(12,12,15,.0) 0%,rgba(12,12,15,.55) 100%);
+  z-index:0;pointer-events:none;
+}
+.subhero-inner{
+  position:relative;z-index:1;width:100%;
+  padding-bottom:clamp(48px,6vw,80px);
+}
+.subhero-eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--paper-dim);font-weight:600;margin-bottom:26px;
+  opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1);
+}
+.subhero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 14px var(--red)}
+.subhero.lit .subhero-eyebrow{opacity:1;transform:none;transition-delay:.05s}
+
+/* masked line-reveal for the subpage H1 */
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.subhero.lit .line>span{transform:translateY(0)}
+.subhero.lit .line:nth-child(1)>span{transition-delay:.08s}
+.subhero.lit .line:nth-child(2)>span{transition-delay:.18s}
+
+.subhero h1{font-size:clamp(40px,7.2vw,104px);max-width:16ch}
+.subhero h1 em{font-style:italic;font-weight:400}
+
+/* ---------- LEGAL CONTENT ---------- */
+.legal{padding:clamp(72px,9vw,130px) 0 clamp(80px,10vw,150px)}
+.legal-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:clamp(48px,6vw,80px);
+  align-items:start;
+}
+@media(min-width:960px){
+  .legal-grid{grid-template-columns:200px 1fr;gap:clamp(48px,6vw,100px)}
+}
+
+/* sticky aside ToC */
+.legal-toc{
+  position:sticky;top:108px;
+  border-top:1px solid var(--line);
+  padding-top:22px;
+}
+.legal-toc h2{
+  font-family:'Manrope',sans-serif;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--paper-faint);font-weight:700;margin-bottom:16px;line-height:1.4
+}
+.legal-toc ul{list-style:none}
+.legal-toc li{margin-bottom:10px}
+.legal-toc a{
+  font-family:'Manrope',sans-serif;font-size:13px;font-weight:500;
+  color:var(--paper-faint);transition:color .3s;
+  border-left:2px solid transparent;padding-left:10px;display:block;
+  transition:color .3s,border-color .3s;
+}
+.legal-toc a:hover{color:var(--paper);border-color:var(--red)}
+.legal-toc a.active{color:var(--paper);border-color:var(--red)}
+
+/* content column */
+.legal-body{min-width:0}
+
+/* section block */
+.legal-section{
+  padding-top:clamp(48px,5vw,72px);
+  border-top:1px solid var(--line);
+}
+.legal-section:first-child{padding-top:0;border-top:none}
+
+.sec-label{
+  display:flex;align-items:baseline;gap:16px;margin-bottom:24px;
+}
+.sec-label .num{
+  font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.1em;color:var(--red);flex:none;padding-top:4px;
+}
+.sec-label h3{
+  font-size:clamp(22px,2.8vw,34px);font-weight:500;
+  line-height:1.08;letter-spacing:-.01em;
+}
+
+.legal-section p{
+  color:var(--paper-dim);
+  font-size:clamp(15.5px,1.2vw,17px);
+  line-height:1.72;
+  max-width:66ch;
+  margin-bottom:18px;
+}
+.legal-section p:last-child{margin-bottom:0}
+
+.legal-section dl{
+  max-width:66ch;
+  margin-bottom:18px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:4px 24px;
+}
+.legal-section dt{
+  font-weight:600;color:var(--paper);font-size:14.5px;
+  padding-top:2px;white-space:nowrap;
+}
+.legal-section dd{
+  color:var(--paper-dim);font-size:14.5px;line-height:1.65;
+}
+
+/* rights pill list */
+.rights-list{
+  display:flex;flex-wrap:wrap;gap:10px;
+  max-width:66ch;
+  margin:24px 0 18px;
+  list-style:none;
+}
+.rights-list li{
+  font-size:13.5px;font-weight:600;letter-spacing:.03em;
+  border:1px solid var(--line);border-radius:100px;
+  padding:8px 16px;color:var(--paper-dim);
+  transition:color .3s,border-color .3s;
+}
+.rights-list li:hover{color:var(--paper);border-color:rgba(255,255,255,.22)}
+
+/* third parties row */
+.third-parties{
+  display:flex;flex-wrap:wrap;gap:12px;
+  max-width:66ch;margin:24px 0 18px;
+  list-style:none;
+}
+.third-parties li{
+  font-size:13px;font-weight:600;letter-spacing:.04em;
+  border:1px solid rgba(211,31,38,.35);border-radius:6px;
+  padding:10px 18px;color:var(--paper-dim);
+  background:rgba(211,31,38,.06);
+}
+
+/* inline contact link */
+.contact-line{
+  display:inline-flex;flex-wrap:wrap;gap:6px 24px;
+  max-width:66ch;
+  border-top:1px solid var(--line);
+  padding-top:20px;margin-top:8px;
+}
+.contact-line a{
+  color:var(--paper);font-weight:600;font-size:15px;
+  border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:2px;
+  transition:color .3s,border-color .3s;
+}
+.contact-line a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+/* effective date badge */
+.eff-date{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-top:clamp(48px,5vw,72px);
+  border-top:1px solid var(--line);padding-top:26px;
+  font-size:13px;color:var(--paper-faint);
+}
+.eff-date strong{color:var(--paper);font-weight:600}
+
+/* ---------- CTA ---------- */
+.cta{padding:clamp(90px,11vw,160px) 0 clamp(56px,7vw,90px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
+.cta::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.2),transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.cta>.wrap{position:relative;z-index:2}
+.cta .lbl{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:30px}
+.cta h2{font-size:clamp(36px,6.5vw,100px);line-height:.96;margin-bottom:40px}
+.cta h2 em{font-style:italic;font-weight:400}
+.cta-btn{display:inline-flex;align-items:center;gap:16px;background:var(--red);color:#fff;padding:21px 38px;border-radius:100px;font-weight:600;font-size:18px;transition:background .35s,color .35s;will-change:transform}
+.cta-btn:hover{background:#fff;color:var(--ink)}
+.cta-btn .arr{transition:transform .35s}.cta-btn:hover .arr{transform:translateX(6px)}
+.cta-mark{position:relative;z-index:1;margin-top:clamp(54px,8vw,110px);overflow:hidden;line-height:.8;pointer-events:none;user-select:none}
+.cta-mark span{display:block;font-family:'Fraunces',serif;font-weight:600;font-size:clamp(48px,14vw,210px);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(239,233,226,.07);text-stroke:1px rgba(239,233,226,.07);white-space:nowrap}
+.cta-sub{margin-top:38px;color:var(--paper-faint);font-size:16.5px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px}
+.cta-sub .sep{color:var(--line);font-size:14px}
+.cta-sub a{color:var(--paper);font-weight:600;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:2px;transition:.3s}
+.cta-sub a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,7vw,90px) 0 36px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-brand .brand{margin-bottom:22px}
+.foot-brand p{color:var(--paper-faint);max-width:34ch;font-size:15px}
+.foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:600}
+.foot-col p{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px}
+.foot-col{display:flex;flex-direction:column;align-items:flex-start}
+.foot-col a{display:block;color:var(--paper-dim);font-size:15.5px;margin-bottom:13px;transition:color .3s;position:relative}
+.foot-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.foot-col a:hover{color:var(--red)}
+.foot-col a:hover::after{transform:scaleX(1);transform-origin:left}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(50px,6vw,80px);padding-top:30px;border-top:1px solid var(--line);font-size:13.5px;color:var(--paper-faint)}
+.foot-bottom a:hover{color:var(--paper-dim)}
+
+/* ---------- REVEAL ---------- */
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}.rev.d4{transition-delay:.32s}
+
+.rl-mask{display:block;overflow:hidden;padding-bottom:.05em}
+.rl-mask>span{display:block;transform:translateY(110%);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.rl-mask.in>span{transform:translateY(0)}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:959px){
+  .legal-toc{display:none}
+}
+@media(max-width:880px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.001s!important}
+  .rev{opacity:1;transform:none}
+  .line>span,.rl-mask>span{transform:none!important}
+  .subhero-eyebrow{opacity:1!important;transform:none!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  body{cursor:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="/" class="brand" aria-label="Jan Kurdiovský — domů">
+      <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+      <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Hlavní navigace">
+      <a href="/sluzby">Služby</a>
+      <a href="/o-mne">O mně</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/portal">Klientský portál</a>
+    </nav>
+    <a href="/rezervace" class="nav-cta">Rezervovat konzultaci
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/sluzby">Služby <span>01</span></a>
+  <a href="/o-mne">O mně <span>02</span></a>
+  <a href="/rezervace">Rezervace <span>03</span></a>
+  <a href="/kontakt">Kontakt <span>04</span></a>
+  <a href="/portal">Klientský portál <span>05</span></a>
+  <div class="mm-foot">
+    <span>jan@kurdiovsky.cz</span>
+    <span>+420 799 794 670</span>
+    <span>@jan_kurdiovsky</span>
+  </div>
+</div>
+
+<!-- SUBPAGE HERO -->
+<section class="subhero" id="subhero">
+  <div class="wrap subhero-inner">
+    <div class="subhero-eyebrow"><span class="dot"></span> Právní dokumenty · Kurdiovsky.cz</div>
+    <h1>
+      <span class="line"><span>Ochrana</span></span>
+      <span class="line"><span><em>osobních údajů.</em></span></span>
+    </h1>
+  </div>
+</section>
+
+<!-- LEGAL CONTENT -->
+<main class="legal">
+  <div class="wrap">
+    <div class="legal-grid">
+
+      <!-- TOC (sticky aside, desktop only) -->
+      <aside class="legal-toc" aria-label="Obsah stránky">
+        <h2>Obsah</h2>
+        <ul>
+          <li><a href="#spravce" class="toc-link">01 — Správce</a></li>
+          <li><a href="#jake-udaje" class="toc-link">02 — Jaké údaje</a></li>
+          <li><a href="#treti-strany" class="toc-link">03 — Třetí strany</a></li>
+          <li><a href="#doba-uchování" class="toc-link">04 — Doba uchování</a></li>
+          <li><a href="#prava" class="toc-link">05 — Vaše práva</a></li>
+          <li><a href="#kontakt-gdpr" class="toc-link">06 — Kontakt</a></li>
+        </ul>
+      </aside>
+
+      <!-- Body -->
+      <div class="legal-body">
+
+        <!-- 01 Správce -->
+        <article class="legal-section rev" id="spravce">
+          <div class="sec-label">
+            <span class="num">01</span>
+            <h3>Správce osobních údajů</h3>
+          </div>
+          <p>Správcem vašich osobních údajů ve smyslu nařízení GDPR je:</p>
+          <dl>
+            <dt>Jméno</dt><dd>Jan Kurdiovský</dd>
+            <dt>IČO</dt><dd>11762390</dd>
+            <dt>Sídlo</dt><dd>Svatopluka Čecha 1939/106a, Královo Pole, 612&nbsp;00 Brno</dd>
+            <dt>Korespondenčně</dt><dd>Tolstého 35, 616&nbsp;00 Brno</dd>
+            <dt>E-mail</dt><dd><a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a></dd>
+            <dt>Telefon</dt><dd><a href="tel:+420799794670">+420 799 794 670</a></dd>
+          </dl>
+        </article>
+
+        <!-- 02 Jaké údaje a proč -->
+        <article class="legal-section rev" id="jake-udaje">
+          <div class="sec-label">
+            <span class="num">02</span>
+            <h3>Jaké údaje zpracovávám a&nbsp;proč</h3>
+          </div>
+          <p>Zpracovávám výhradně osobní údaje, které mi sami poskytnete — prostřednictvím e-mailové nebo telefonické komunikace, případně při rezervaci konzultačního termínu. Jde zejména o&nbsp;jméno, kontaktní údaje a&nbsp;obsah vaší zprávy nebo dotazu.</p>
+          <p>Tyto údaje používám k&nbsp;následujícím účelům:</p>
+          <p>Domluvení schůzky a&nbsp;příprava konzultace — abych vás mohl co nejlépe připravit a&nbsp;efektivně využít společný čas. Poskytování finančního poradenství — v&nbsp;průběhu naší spolupráce. Plnění zákonných povinností — v&nbsp;rozsahu, který ukládají platné právní předpisy.</p>
+          <p>Právním základem pro zpracování je plnění smlouvy nebo přijetí opatření před uzavřením smlouvy (čl.&nbsp;6&nbsp;odst.&nbsp;1&nbsp;písm.&nbsp;b GDPR), popřípadě splnění právní povinnosti (čl.&nbsp;6&nbsp;odst.&nbsp;1&nbsp;písm.&nbsp;c GDPR).</p>
+        </article>
+
+        <!-- 03 Třetí strany -->
+        <article class="legal-section rev" id="treti-strany">
+          <div class="sec-label">
+            <span class="num">03</span>
+            <h3>Třetí strany na&nbsp;tomto webu</h3>
+          </div>
+          <p>Tento web je statický — nepoužívá vlastní sledovací cookies ani analytické nástroje. Pro fungování webu a&nbsp;rezervaci konzultací využívám tyto třetí strany, které mohou zpracovávat určité technické údaje dle svých vlastních podmínek:</p>
+          <ul class="third-parties" aria-label="Třetí strany">
+            <li>Calendly — rezervace termínů</li>
+            <li>Google Fonts — načítání písem</li>
+            <li>Google Maps — zobrazení mapy</li>
+          </ul>
+          <p>Doporučuji prostudovat podmínky ochrany soukromí každé z&nbsp;těchto služeb, pokud máte zájem o&nbsp;podrobnosti jejich zpracování.</p>
+        </article>
+
+        <!-- 04 Doba uchování -->
+        <article class="legal-section rev" id="doba-uchování">
+          <div class="sec-label">
+            <span class="num">04</span>
+            <h3>Jak dlouho údaje uchovávám</h3>
+          </div>
+          <p>Vaše údaje uchovávám po dobu trvání vzájemné komunikace nebo spolupráce. Po jejím ukončení zpracovávám pouze ty údaje, u&nbsp;nichž mi to ukládají zákonné lhůty stanovené platnými právními předpisy.</p>
+          <p>Jakmile pomine účel i&nbsp;zákonný důvod pro uchovávání, údaje bezpečně likviduji.</p>
+        </article>
+
+        <!-- 05 Práva -->
+        <article class="legal-section rev" id="prava">
+          <div class="sec-label">
+            <span class="num">05</span>
+            <h3>Vaše práva</h3>
+          </div>
+          <p>Jako subjekt údajů máte vůči správci tato práva:</p>
+          <ul class="rights-list" aria-label="Práva subjektu údajů">
+            <li>Právo na přístup</li>
+            <li>Právo na opravu</li>
+            <li>Právo na výmaz</li>
+            <li>Právo na omezení zpracování</li>
+            <li>Právo vznést námitku</li>
+            <li>Právo na přenositelnost</li>
+          </ul>
+          <p>Svá práva uplatňujte prostřednictvím kontaktů uvedených v&nbsp;oddílu&nbsp;01. Máte také právo podat stížnost u&nbsp;Úřadu pro ochranu osobních údajů: <a href="https://www.uoou.gov.cz" target="_blank" rel="noopener noreferrer" style="color:var(--paper);font-weight:600;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:2px">www.uoou.gov.cz</a>.</p>
+        </article>
+
+        <!-- 06 Kontakt -->
+        <article class="legal-section rev" id="kontakt-gdpr">
+          <div class="sec-label">
+            <span class="num">06</span>
+            <h3>Kontakt pro&nbsp;věci GDPR</h3>
+          </div>
+          <p>Jakékoli dotazy, žádosti nebo námitky k&nbsp;ochraně osobních údajů zasílejte přímo na:</p>
+          <div class="contact-line">
+            <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+            <a href="tel:+420799794670">+420 799 794 670</a>
+          </div>
+        </article>
+
+        <!-- Effective date -->
+        <div class="eff-date rev">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Datum účinnosti: <strong>5. června 2026</strong>
+        </div>
+
+      </div><!-- /.legal-body -->
+    </div><!-- /.legal-grid -->
+  </div>
+</main>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="lbl rev">Pojďme začít</div>
+    <h2><span class="rl-mask"><span>Domluvme si</span></span><span class="rl-mask"><span><em>konzultaci.</em></span></span></h2>
+    <a href="/rezervace" class="cta-btn magnetic rev d2" data-magnetic>Rezervovat konzultaci
+      <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="cta-sub rev d3">Nebo napište rovnou na <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a> <span class="sep">·</span> <a href="tel:+420799794670">+420 799 794 670</a></p>
+  </div>
+  <div class="cta-mark" aria-hidden="true"><span>KURDIOVSKÝ</span></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/" class="brand">
+          <span class="mark"><img src="/assets/img/jk-logo.webp" alt="JK logo"></span>
+          <span>Jan Kurdiovský<small>Finanční poradce · PFP</small></span>
+        </a>
+        <p>Finanční poradenství bez přehnaných formalit. Neprodávám produkty&nbsp;— tvořím plán.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="/sluzby">Služby</a>
+        <a href="/o-mne">O mně</a>
+        <a href="/rezervace">Rezervace</a>
+        <a href="/kontakt">Kontakt</a>
+        <a href="/portal">Klientský portál</a>
+      </div>
+      <div class="foot-col">
+        <h4>Kontakt</h4>
+        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
+        <a href="tel:+420799794670">+420 799 794 670</a>
+        <p>Tolstého 35<br>616&nbsp;00 Brno</p>
+        <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jan Kurdiovský · member of money2u</span>
+      <a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fineHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var motionOK=fineHover && !reduceMotion;
+  var lerp=function(a,b,t){return a+(b-a)*t};
+  var clamp=function(v,lo,hi){return v<lo?lo:(v>hi?hi:v)};
+
+  /* ---------- HEADER SCROLL ---------- */
+  var header=document.getElementById('header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>40)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- MOBILE MENU ---------- */
+  var burger=document.getElementById('burger');
+  var mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){document.body.classList.toggle('menu-open')});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+
+  /* ---------- SUBHERO LINE REVEAL ---------- */
+  var subhero=document.getElementById('subhero');
+  if(reduceMotion){subhero.classList.add('lit');}
+  else{requestAnimationFrame(function(){requestAnimationFrame(function(){subhero.classList.add('lit');})});}
+
+  /* ---------- REVEAL OBSERVER ---------- */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.1,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev,.rl-mask').forEach(function(el){io.observe(el);});
+
+  /* ---------- TOC ACTIVE STATE ---------- */
+  var tocLinks=document.querySelectorAll('.toc-link');
+  var sections=[];
+  tocLinks.forEach(function(link){
+    var id=link.getAttribute('href').replace('#','');
+    var sec=document.getElementById(id);
+    if(sec)sections.push({link:link,el:sec});
+  });
+  if(sections.length){
+    var tocObserver=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          tocLinks.forEach(function(l){l.classList.remove('active')});
+          var match=sections.find(function(s){return s.el===e.target});
+          if(match)match.link.classList.add('active');
+        }
+      });
+    },{rootMargin:'-20% 0px -70% 0px',threshold:0});
+    sections.forEach(function(s){tocObserver.observe(s.el);});
+  }
+
+  /* ---------- CUSTOM CURSOR + MAGNETIC ---------- */
+  var mx=window.innerWidth/2,my=window.innerHeight/2;
+  var rdx=mx,rdy=my,ringx=mx,ringy=my;
+  var magnets=[].map.call(document.querySelectorAll('[data-magnetic]'),function(el){
+    return {el:el,bx:0,by:0,tx:0,ty:0};
+  });
+  var cursorOn=false;
+  if(motionOK){
+    document.body.classList.add('cursor-on');cursorOn=true;
+    window.addEventListener('mousemove',function(e){
+      mx=e.clientX;my=e.clientY;
+      var hot=e.target.closest('a,button');
+      var soft=e.target.closest('input,textarea,select,[contenteditable]');
+      document.body.classList.toggle('cursor-hot',!!hot && !soft);
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){document.body.classList.add('cursor-hidden');});
+    document.addEventListener('mouseenter',function(){document.body.classList.remove('cursor-hidden');});
+  }
+  var dotR=document.querySelector('.cursor-dot');
+  var ringR=document.querySelector('.cursor-ring');
+
+  function frame(){
+    if(cursorOn){
+      rdx=lerp(rdx,mx,0.55);rdy=lerp(rdy,my,0.55);
+      ringx=lerp(ringx,mx,0.14);ringy=lerp(ringy,my,0.14);
+      if(dotR)dotR.style.transform='translate('+rdx+'px,'+rdy+'px)';
+      if(ringR)ringR.style.transform='translate('+ringx+'px,'+ringy+'px)';
+    }
+    if(motionOK){
+      for(var i=0;i<magnets.length;i++){
+        var m=magnets[i],r=m.el.getBoundingClientRect();
+        var cx=r.left+r.width/2,cy=r.top+r.height/2;
+        var dx=mx-cx,dy=my-cy;
+        var dist=Math.hypot(dx,dy);
+        if(dist<r.width/2+80){m.tx=clamp(dx*0.3,-10,10);m.ty=clamp(dy*0.3,-10,10);}
+        else{m.tx=0;m.ty=0;}
+        m.bx=lerp(m.bx,m.tx,0.18);m.by=lerp(m.by,m.ty,0.18);
+        m.el.style.transform='translate('+m.bx.toFixed(2)+'px,'+m.by.toFixed(2)+'px)';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
