@@ -151,31 +151,67 @@ section{position:relative}
   .step:last-child .step-arrow{display:none}
 }
 
-/* ---------- CALENDLY SECTION ---------- */
-.calendly-sec{padding:clamp(72px,10vw,130px) 0}
-.calendly-card{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper);position:relative}
-/* Calendly inline widget styling */
-.calendly-inline-widget{
-  min-height:700px;
-  width:100%;
-  display:block;
-}
-@media(max-width:640px){
-  .calendly-inline-widget{min-height:1000px}
-}
-/* loading placeholder shown before Calendly JS inits */
-.calendly-placeholder{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:18px;background:var(--paper);z-index:1;pointer-events:none;
-  transition:opacity .5s ease;
-}
-.calendly-placeholder.hidden{opacity:0;pointer-events:none}
-.calendly-placeholder .spin{
-  width:36px;height:36px;border:2px solid rgba(12,12,15,.15);border-top-color:var(--red);border-radius:50%;
-  animation:rotSpin .8s linear infinite;
-}
+/* ---------- REZERVACE — VLASTNÍ SYSTÉM ---------- */
+.booking-sec{padding:clamp(72px,10vw,130px) 0}
+.booking-meta{display:flex;flex-wrap:wrap;gap:10px 14px;margin-bottom:clamp(26px,3vw,38px)}
+.booking-meta span{font-size:13px;font-weight:600;letter-spacing:.05em;border:1px solid var(--line);border-radius:100px;padding:9px 17px;color:var(--paper-dim)}
+.booking-meta span.on{border-color:var(--red);color:var(--paper)}
+.booking{border:1px solid var(--line);border-radius:6px;background:var(--ink-2);position:relative;overflow:hidden;padding:clamp(24px,3.4vw,48px)}
+.booking-load{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:clamp(40px,6vw,80px) 0}
+.booking-load .spin{width:36px;height:36px;border:2px solid rgba(239,233,226,.15);border-top-color:var(--red);border-radius:50%;animation:rotSpin .8s linear infinite}
 @keyframes rotSpin{to{transform:rotate(360deg)}}
-.calendly-placeholder p{font-size:14px;color:var(--paper-faint);font-family:'Manrope',sans-serif}
+.booking-load p,.booking-err p{font-size:14px;color:var(--paper-faint)}
+.booking-err{text-align:center;padding:clamp(40px,6vw,80px) 0}
+.booking-err p{margin-bottom:18px}
+.booking-err button{background:transparent;border:1px solid var(--red);color:var(--paper);border-radius:100px;padding:11px 24px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .3s}
+.booking-err button:hover{background:var(--red)}
+.bk-month{margin-bottom:clamp(26px,3.4vw,40px)}
+.bk-month:last-child{margin-bottom:0}
+.bk-month h3{font-family:'Fraunces',serif;font-size:clamp(19px,2vw,24px);font-weight:500;margin-bottom:16px;color:var(--paper)}
+.bk-month h3 small{font-family:'Manrope',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-left:12px}
+.bk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.slot{appearance:none;background:var(--ink);border:1px solid var(--line);border-radius:6px;padding:14px 8px 12px;text-align:center;cursor:pointer;font-family:'Manrope',sans-serif;color:var(--paper);transition:border-color .3s,background .3s,transform .3s;position:relative}
+.slot:hover:not(:disabled){border-color:var(--red);transform:translateY(-2px)}
+.slot.sel{border-color:var(--red);background:rgba(211,31,38,.1)}
+.slot.sel::after{content:"";position:absolute;left:10px;right:10px;bottom:6px;height:2px;background:var(--red);border-radius:2px}
+.slot:disabled{cursor:default;opacity:.38}
+.slot:disabled .slot-day{text-decoration:line-through;text-decoration-color:rgba(211,31,38,.6)}
+.slot-dow{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:6px}
+.slot:disabled .slot-dow{color:var(--paper-faint)}
+.slot-day{display:block;font-family:'Fraunces',serif;font-size:26px;font-weight:500;line-height:1.05}
+.slot-mon{display:block;font-size:12px;color:var(--paper-dim);margin-top:3px}
+.slot-time{display:block;font-size:11px;color:var(--paper-faint);margin-top:6px;letter-spacing:.06em}
+.slot:disabled .slot-time{visibility:hidden}
+/* formulář po výběru */
+.bk-form{border-top:1px solid var(--line);margin-top:clamp(26px,3.4vw,40px);padding-top:clamp(26px,3.4vw,40px)}
+.bk-sel{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;margin-bottom:clamp(22px,2.6vw,32px)}
+.bk-sel strong{font-family:'Fraunces',serif;font-size:clamp(21px,2.4vw,30px);font-weight:500;color:var(--paper)}
+.bk-sel strong .red{color:var(--red)}
+.bk-sel button{appearance:none;background:none;border:none;color:var(--paper-dim);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.25);padding:0 0 2px;transition:color .3s}
+.bk-sel button:hover{color:var(--red-bright);border-color:var(--red-bright)}
+.bk-fields{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.bk-fields{grid-template-columns:1fr 1fr}.bk-fields .full{grid-column:1/-1}}
+.bk-field label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);font-weight:600;margin-bottom:8px}
+.bk-field input,.bk-field textarea{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:6px;color:var(--paper);font-family:'Manrope',sans-serif;font-size:15.5px;padding:14px 16px;transition:border-color .3s;outline:none}
+.bk-field input:focus,.bk-field textarea:focus{border-color:var(--red)}
+.bk-field textarea{min-height:96px;resize:vertical}
+.bk-hp{position:absolute;left:-9999px;top:-9999px;height:1px;width:1px;overflow:hidden}
+.bk-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:clamp(22px,2.6vw,30px)}
+.bk-submit{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;border:none;border-radius:100px;padding:17px 32px;font-family:'Manrope',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:background .35s,color .35s,opacity .3s}
+.bk-submit:hover:not(:disabled){background:#fff;color:var(--ink)}
+.bk-submit:disabled{opacity:.55;cursor:wait}
+.bk-note{font-size:13px;color:var(--paper-faint);max-width:46ch;line-height:1.6}
+.bk-note a{color:var(--paper-dim);border-bottom:1px solid rgba(255,255,255,.2)}
+.bk-note a:hover{color:var(--red-bright)}
+.bk-msg{margin-top:16px;font-size:14.5px;color:var(--red-bright);min-height:1.4em}
+/* potvrzení */
+.bk-done{text-align:center;padding:clamp(36px,5vw,70px) 0}
+.bk-done .tick{width:64px;height:64px;border-radius:50%;border:1px solid var(--red);display:grid;place-items:center;margin:0 auto 26px;background:rgba(211,31,38,.08)}
+.bk-done .tick svg{color:var(--red-bright)}
+.bk-done h3{font-family:'Fraunces',serif;font-size:clamp(26px,3.4vw,42px);font-weight:500;margin-bottom:14px}
+.bk-done h3 em{font-style:italic;font-weight:400}
+.bk-done .when{font-family:'Fraunces',serif;font-size:clamp(20px,2.4vw,28px);color:var(--red-bright);margin-bottom:18px}
+.bk-done p{color:var(--paper-dim);font-size:15.5px;max-width:46ch;margin:0 auto}
 
 /* ---------- DIRECT CONTACT SECTION ---------- */
 .direct{padding:clamp(72px,10vw,130px) 0;border-top:1px solid var(--line)}
@@ -330,7 +366,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
       <div class="step rev">
         <span class="step-n" aria-hidden="true">01</span>
         <h3>Vyberte si <span class="red">termín</span></h3>
-        <p>V&nbsp;kalendáři níže si vyberte den a&nbsp;čas, který vám vyhovuje. Online i&nbsp;osobně v&nbsp;Brně.</p>
+        <p>V&nbsp;kalendáři níže si vyberte volné úterý, středu nebo čtvrtek. Konzultace začínají v&nbsp;15:00&nbsp;— online i&nbsp;osobně v&nbsp;Brně.</p>
       </div>
       <div class="step rev d1">
         <span class="step-n" aria-hidden="true">02</span>
@@ -346,8 +382,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   </div>
 </section>
 
-<!-- 02 CALENDLY -->
-<section class="calendly-sec" id="calendly-sec">
+<!-- 02 REZERVACE -->
+<section class="booking-sec" id="calendly-sec">
   <div class="wrap">
     <div class="sec-head rev">
       <span class="sec-num">02</span>
@@ -358,18 +394,64 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         </h2>
       </div>
     </div>
-    <div class="calendly-card rev d1" id="calendlyCard">
-      <div class="calendly-placeholder" id="calendlyPlaceholder" aria-hidden="true">
-        <span class="spin"></span>
-        <p>Načítám kalendář&hellip;</p>
+    <div class="booking-meta rev">
+      <span class="on">Úterý · středa · čtvrtek</span>
+      <span>Vždy v&nbsp;15:00</span>
+      <span>Nejdříve týden, nejdéle dva měsíce dopředu</span>
+    </div>
+    <div class="booking rev d1" id="bookingCard">
+      <div class="booking-load" id="bkLoad">
+        <span class="spin" aria-hidden="true"></span>
+        <p>Načítám volné termíny&hellip;</p>
       </div>
-      <!-- Calendly inline widget — načteno lazy přes IntersectionObserver -->
-      <div
-        class="calendly-inline-widget"
-        id="calendlyWidget"
-        data-url="https://calendly.com/kurdiovsky?hide_landing_page_details=1&hide_gdpr_banner=1&primary_color=d31f26"
-        aria-label="Calendly rezervační kalendář"
-      ></div>
+      <div class="booking-err" id="bkErr" hidden>
+        <p>Termíny se nepodařilo načíst.</p>
+        <button type="button" id="bkRetry">Zkusit znovu</button>
+      </div>
+      <div id="bkSlots" hidden aria-label="Volné termíny konzultací"></div>
+      <form class="bk-form" id="bkForm" hidden novalidate>
+        <div class="bk-sel">
+          <strong>Vybraný termín: <span class="red" id="bkSelLabel"></span></strong>
+          <button type="button" id="bkChange">Změnit termín</button>
+        </div>
+        <div class="bk-fields">
+          <div class="bk-field">
+            <label for="bkName">Jméno a&nbsp;příjmení *</label>
+            <input type="text" id="bkName" name="name" autocomplete="name" required>
+          </div>
+          <div class="bk-field">
+            <label for="bkEmail">E-mail *</label>
+            <input type="email" id="bkEmail" name="email" autocomplete="email" required>
+          </div>
+          <div class="bk-field">
+            <label for="bkPhone">Telefon</label>
+            <input type="tel" id="bkPhone" name="phone" autocomplete="tel">
+          </div>
+          <div class="bk-field full">
+            <label for="bkNote">Co chcete probrat? <span style="text-transform:none;letter-spacing:0">(nepovinné)</span></label>
+            <textarea id="bkNote" name="note" placeholder="Např. první hypotéka, investiční byt, refinancování…"></textarea>
+          </div>
+          <div class="bk-hp" aria-hidden="true">
+            <label for="bkWeb">Web</label>
+            <input type="text" id="bkWeb" name="web" tabindex="-1" autocomplete="off">
+          </div>
+        </div>
+        <div class="bk-actions">
+          <button type="submit" class="bk-submit" id="bkSubmit">Rezervovat termín
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="bk-note">Potvrzení přijde e-mailem. Odesláním souhlasíte se zpracováním údajů pro domluvení konzultace&nbsp;— <a href="/ochrana-osobnich-udaju">více zde</a>.</p>
+        </div>
+        <p class="bk-msg" id="bkMsg" role="alert"></p>
+      </form>
+      <div class="bk-done" id="bkDone" hidden>
+        <span class="tick" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <h3>Termín je <em>rezervovaný.</em></h3>
+        <div class="when" id="bkDoneWhen"></div>
+        <p>Potvrzení s&nbsp;pozvánkou do kalendáře právě míří na váš e-mail. Pokud by vám termín přestal vyhovovat, stačí na něj odpovědět.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -544,40 +626,179 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
     clipIo.observe(trigger);
   });
 
-  /* ---------- CALENDLY LAZY LOAD ---------- */
-  var calendlyCard = document.getElementById('calendlyCard');
-  var calendlyWidget = document.getElementById('calendlyWidget');
-  var calendlyPlaceholder = document.getElementById('calendlyPlaceholder');
-  var calendlyLoaded = false;
+  /* ---------- REZERVACE — vlastní systém ---------- */
+  var bkCard = document.getElementById('bookingCard');
+  var bkLoad = document.getElementById('bkLoad');
+  var bkErr = document.getElementById('bkErr');
+  var bkSlots = document.getElementById('bkSlots');
+  var bkForm = document.getElementById('bkForm');
+  var bkDone = document.getElementById('bkDone');
+  var bkMsg = document.getElementById('bkMsg');
+  var bkSelLabel = document.getElementById('bkSelLabel');
+  var bkSubmit = document.getElementById('bkSubmit');
+  var bkSelected = null;
+  var bkLoaded = false;
 
-  function loadCalendly(){
-    if(calendlyLoaded) return;
-    calendlyLoaded = true;
-    var script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    script.onload = function(){
-      /* Calendly JS scans the DOM for .calendly-inline-widget and inits it */
-      if(calendlyPlaceholder){
-        /* short delay so Calendly iframe has a moment to appear */
-        setTimeout(function(){
-          calendlyPlaceholder.classList.add('hidden');
-        }, 600);
-      }
-    };
-    document.head.appendChild(script);
+  var DOW = ['Ne','Po','Út','St','Čt','Pá','So'];
+  var DOW_FULL = ['neděle','pondělí','úterý','středa','čtvrtek','pátek','sobota'];
+  var MON = ['led','úno','bře','dub','kvě','čvn','čvc','srp','zář','říj','lis','pro'];
+  var MON_FULL = ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
+  var MON_GEN = ['ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+
+  function dParts(iso){
+    var p = iso.split('-');
+    var d = new Date(Date.UTC(+p[0], +p[1]-1, +p[2], 12));
+    return {y:+p[0], m:+p[1]-1, day:+p[2], dow:d.getUTCDay()};
+  }
+  function czLong(iso){
+    var p = dParts(iso);
+    return DOW_FULL[p.dow] + ' ' + p.day + '. ' + MON_GEN[p.m] + ' ' + p.y;
   }
 
-  if(calendlyCard){
-    var calIo = new IntersectionObserver(function(es){
+  function bkShow(view){
+    bkLoad.hidden = view !== 'load';
+    bkErr.hidden = view !== 'err';
+    bkSlots.hidden = view !== 'slots' && view !== 'form';
+    bkForm.hidden = view !== 'form';
+    bkDone.hidden = view !== 'done';
+    bkLoad.style.display = view === 'load' ? '' : 'none';
+  }
+
+  function renderSlots(dates){
+    bkSlots.innerHTML = '';
+    var byMonth = {};
+    dates.forEach(function(s){
+      var p = dParts(s.date);
+      var k = p.y + '-' + p.m;
+      (byMonth[k] = byMonth[k] || {y:p.y, m:p.m, items:[]}).items.push(s);
+    });
+    Object.keys(byMonth).sort().forEach(function(k){
+      var g = byMonth[k];
+      var sec = document.createElement('div');
+      sec.className = 'bk-month';
+      var h = document.createElement('h3');
+      h.textContent = MON_FULL[g.m] + ' ' + g.y;
+      var free = g.items.filter(function(s){return s.available}).length;
+      var small = document.createElement('small');
+      small.textContent = free ? free + (free === 1 ? ' volný termín' : (free < 5 ? ' volné termíny' : ' volných termínů')) : 'obsazeno';
+      h.appendChild(small);
+      sec.appendChild(h);
+      var grid = document.createElement('div');
+      grid.className = 'bk-grid';
+      g.items.forEach(function(s){
+        var p = dParts(s.date);
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'slot';
+        b.disabled = !s.available;
+        b.dataset.date = s.date;
+        b.setAttribute('aria-label', czLong(s.date) + ' v 15:00' + (s.available ? '' : ' — obsazeno'));
+        b.innerHTML = '<span class="slot-dow">' + DOW[p.dow] + '</span>' +
+                      '<span class="slot-day">' + p.day + '.</span>' +
+                      '<span class="slot-mon">' + MON[p.m] + '</span>' +
+                      '<span class="slot-time">' + (s.available ? '15:00' : 'obsazeno') + '</span>';
+        if(s.available){
+          b.addEventListener('click', function(){ selectSlot(s.date, b); });
+        }
+        grid.appendChild(b);
+      });
+      sec.appendChild(grid);
+      bkSlots.appendChild(sec);
+    });
+  }
+
+  function selectSlot(date, btn){
+    bkSelected = date;
+    bkSlots.querySelectorAll('.slot.sel').forEach(function(el){ el.classList.remove('sel'); });
+    btn.classList.add('sel');
+    bkSelLabel.textContent = czLong(date) + ' v 15:00';
+    bkMsg.textContent = '';
+    bkForm.hidden = false;
+    bkForm.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest'});
+  }
+
+  function loadSlots(){
+    bkShow('load');
+    fetch('/api/slots').then(function(r){
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function(data){
+      renderSlots(data.dates || []);
+      bkShow(bkSelected ? 'form' : 'slots');
+      if(bkSelected){
+        var still = (data.dates || []).some(function(s){ return s.date === bkSelected && s.available; });
+        if(!still){ bkSelected = null; bkShow('slots'); }
+        else {
+          var btn = bkSlots.querySelector('.slot[data-date="' + bkSelected + '"]');
+          if(btn) btn.classList.add('sel');
+        }
+      }
+    }).catch(function(){
+      bkShow('err');
+    });
+  }
+
+  document.getElementById('bkRetry').addEventListener('click', loadSlots);
+  document.getElementById('bkChange').addEventListener('click', function(){
+    bkForm.hidden = true;
+    bkSelected = null;
+    bkSlots.querySelectorAll('.slot.sel').forEach(function(el){ el.classList.remove('sel'); });
+    bkSlots.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest'});
+  });
+
+  bkForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    bkMsg.textContent = '';
+    var name = document.getElementById('bkName').value.trim();
+    var email = document.getElementById('bkEmail').value.trim();
+    if(!bkSelected){ bkMsg.textContent = 'Vyberte si prosím termín.'; return; }
+    if(name.length < 3){ bkMsg.textContent = 'Vyplňte prosím jméno a příjmení.'; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ bkMsg.textContent = 'Vyplňte prosím platný e-mail.'; return; }
+    bkSubmit.disabled = true;
+    bkSubmit.firstChild.textContent = 'Rezervuji… ';
+    fetch('/api/book', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: bkSelected,
+        name: name,
+        email: email,
+        phone: document.getElementById('bkPhone').value.trim(),
+        note: document.getElementById('bkNote').value.trim(),
+        web: document.getElementById('bkWeb').value
+      })
+    }).then(function(r){
+      return r.json().then(function(d){ return {ok: r.ok, status: r.status, data: d}; });
+    }).then(function(res){
+      if(res.ok && res.data && res.data.ok){
+        document.getElementById('bkDoneWhen').textContent = czLong(bkSelected) + ' v 15:00';
+        bkSlots.hidden = true;
+        bkForm.hidden = true;
+        bkShow('done');
+        bkDone.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'center'});
+      } else {
+        bkMsg.textContent = (res.data && res.data.error) || 'Rezervaci se nepodařilo dokončit. Zkuste to prosím znovu.';
+        if(res.status === 409){ bkSelected = null; loadSlots(); }
+      }
+    }).catch(function(){
+      bkMsg.textContent = 'Spojení selhalo. Zkuste to prosím znovu, nebo napište na jan@kurdiovsky.cz.';
+    }).finally(function(){
+      bkSubmit.disabled = false;
+      bkSubmit.firstChild.textContent = 'Rezervovat termín ';
+    });
+  });
+
+  if(bkCard){
+    var bkIo = new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if(e.isIntersecting){
-          loadCalendly();
-          calIo.unobserve(e.target);
+        if(e.isIntersecting && !bkLoaded){
+          bkLoaded = true;
+          loadSlots();
+          bkIo.unobserve(e.target);
         }
       });
-    }, {threshold:0, rootMargin:'0px 0px 200px 0px'});
-    calIo.observe(calendlyCard);
+    }, {threshold:0, rootMargin:'0px 0px 300px 0px'});
+    bkIo.observe(bkCard);
   }
 
   /* ---------- CUSTOM CURSOR ---------- */

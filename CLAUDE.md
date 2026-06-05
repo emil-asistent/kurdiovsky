@@ -88,8 +88,16 @@ Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP
 - Ověřeno Playwright (desktop 1440 + mobil 390): 0 console errors, 0 failed requests, 0 h-overflow, revealy 100 % (POZOR: full-page screenshot s rychlým smooth-scrollem ukáže černé pásy — artefakt; pro screenshoty použít reduced_motion='reduce'), demo login/logout funkční, mapa se načítá (lazy, nutno scroll_into_view)
 - Deploy Vercel prod, všech 9 URL 200
 
+### 2026-06-05 (odpoledne) — Přecílení na hypotéky + investiční nemovitosti, uhlazení
+- Emil: web byl „přeplácaný" + nové zaměření: investice, příprava na vlastní bydlení, investiční nemovitosti, financování s myšlením na DALŠÍ hypotéky (FACTS.md sekce ZAMĚŘENÍ — přepisuje starou strukturu služeb; firemní/auta pryč ze služeb)
+- Hero video BEZ tváře: FLUX kontext-pro still-life (svíčka+klíče+půdorysy+červená křivka, grade-match na starý hero) → seedance-1-pro (Veo stále 403! Google API: listing 200, ale generativní modely denied) → 1. pokus měl artefakt (stoupající světelná tečka nad plamenem) → regenerace s „no sparks/embers/particles" = čistá → ping-pong loop 10 s, eq brightness +0.0217, 1,5 MB
+- Nové AI fotky služeb: svc-klice/svc-pudorys/svc-dum.webp (1100×817), hero-poster + hero-table-mobile nahrazeny (stejné názvy = beze změny markup)
+- Uhlazení: dvojitý marquee ODSTRANĚN, badge-spin → statický, pills max 3, breathe glow → statický gradient, kratší texty
+- Workflow 18 agentů (rework→kritika→fix), pak ověřeno Playwright: 0 chyb, 0 overflow, video hraje, revealy 100 %; deploy Vercel prod OK
+- a.html zůstává PŮVODNÍ varianta A (archiv) — aktuální web jen v index.html + podstránky
+
 ## Open Threads
-- **Emil: schválit celý web** → pak přepnout kurdiovsky.cz (DNS v CF účtu cbe463a934abec056b2f9c9cb951f116; rozhodnout Vercel vs Coolify dle deploy-routing pravidla)
+- **Emil: schválit přecílený web** → pak přepnout kurdiovsky.cz (DNS v CF účtu cbe463a934abec056b2f9c9cb951f116; rozhodnout Vercel vs Coolify dle deploy-routing pravidla)
 - Ověřit s Janem přesný vztah k EFPA (certifikace vs reference) PŘED ostrým nasazením
 - Portál je DEMO — ostrý klientský portál = samostatná budoucí fáze
 - Varianty B/C nechány živé na /b /c pro porovnání (zatím bez video/motion upgradu)
