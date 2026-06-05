@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Služby — Jan Kurdiovský · Finanční poradenství bez přehnaných formalit</title>
-<meta name="description" content="Čtyři oblasti, jeden plán. Osobní a firemní finanční poradenství, financování a pojištění automobilů, investice konzervativní i moderní. Jan Kurdiovský, PFP, Brno — neprodávám produkty, tvořím řešení.">
+<meta name="description" content="Čtyři oblasti, jeden plán. Příprava na vlastní bydlení, hypotéky a financování s myšlením na další úvěry, investiční nemovitosti a investice. Jan Kurdiovský, PFP, Brno — neprodávám produkty, tvořím řešení.">
 <link rel="icon" type="image/webp" href="/assets/img/jk-logo.webp">
 <link rel="apple-touch-icon" href="/assets/img/jk-logo.webp">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Služby — Jan Kurdiovský · Finanční poradenství bez přehnaných formalit">
-<meta property="og:description" content="Čtyři oblasti, jeden plán. Osobní i firemní poradenství, automobily, investice. Produkt je až poslední krok — ne ten první.">
+<meta property="og:description" content="Čtyři oblasti, jeden plán. Vlastní bydlení, hypotéky, investiční nemovitosti, investice. Produkt je až poslední krok — ne ten první.">
 <meta property="og:url" content="https://kurdiovsky-redesign.vercel.app/sluzby">
-<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/svc-plan.webp">
+<meta property="og:image" content="https://kurdiovsky-redesign.vercel.app/assets/img/svc-dum.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0c0c0f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -181,8 +181,7 @@ section{position:relative}
 
 /* ---------- CTA ---------- */
 .cta{padding:clamp(100px,13vw,200px) 0 clamp(60px,8vw,110px);border-top:1px solid var(--line);position:relative;overflow:hidden;text-align:center}
-.cta::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.2),transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite}
-@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.cta::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:140%;height:100%;background:radial-gradient(60% 70% at 50% 18%,rgba(211,31,38,.15),transparent 70%);pointer-events:none}
 .cta>.wrap{position:relative;z-index:2}
 .cta .lbl{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:30px}
 .cta h2{font-size:clamp(40px,7.5vw,118px);line-height:.96;margin-bottom:40px}
@@ -286,17 +285,17 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <!-- SUBPAGE HERO -->
 <section class="subhero" id="subhero">
   <div class="wrap">
-    <div class="subhero-eyebrow"><span class="dot"></span> Služby · Finanční poradenství</div>
+    <div class="subhero-eyebrow"><span class="dot"></span> Služby · Bydlení, hypotéky a&nbsp;nemovitosti</div>
     <h1>
       <span class="line"><span>Čtyři oblasti,</span></span>
       <span class="line"><span><span class="red">jeden plán.</span></span></span>
     </h1>
     <div class="subhero-foot">
-      <p>Neprodávám produkty. Nejdřív rozumím vašim cílům, pak stavím plán&nbsp;— produkt je až poslední krok.</p>
+      <p>Neprodávám produkty. Nejdřív rozumím tomu, kam míříte&nbsp;— k&nbsp;vlastnímu bydlení i&nbsp;dál&nbsp;— a&nbsp;teprve pak stavím financování.</p>
       <div class="subhero-meta">
-        <span>Osobní poradenství</span>
-        <span>Firemní poradenství</span>
-        <span>Automobily</span>
+        <span>Vlastní bydlení</span>
+        <span>Hypotéky</span>
+        <span>Investiční nemovitosti</span>
         <span>Investice</span>
       </div>
     </div>
@@ -307,7 +306,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <section class="intro">
   <div class="wrap">
     <div class="sec-head rev"><span class="sec-num">00</span>
-      <div><div class="sec-kicker">Jak k tomu přistupuji</div></div>
+      <div><div class="sec-kicker">Jak k&nbsp;tomu přistupuji</div></div>
     </div>
     <div class="intro-grid">
       <h2 class="display big">
@@ -315,7 +314,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         <span class="rl-mask"><span>Tvořím <span class="red">řešení,</span></span></span>
         <span class="rl-mask"><span>která dávají smysl.</span></span>
       </h2>
-      <p class="lead rev d2">Společně řešíme, kterou cestou se vydat. Konkrétní produkt přichází až tehdy, když dává smysl v&nbsp;rámci celého plánu&nbsp;— ne dřív.</p>
+      <p class="lead rev d2">Cesta k&nbsp;vlastnímu bydlení, hypotéka i&nbsp;první investiční byt patří do jednoho plánu. Konkrétní produkt přichází až tehdy, když v&nbsp;něm dává smysl&nbsp;— ne dřív.</p>
     </div>
   </div>
 </section>
@@ -323,53 +322,54 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <!-- SERVICE EDITORIAL BLOCKS -->
 <section class="svc-blocks">
 
-  <!-- 01 — Osobní finanční poradenství -->
+  <!-- 01 — Příprava na vlastní bydlení -->
   <div class="svcb wrap">
     <div class="svcb-grid">
       <div class="svcb-txt">
-        <div class="svcb-num rev"><span class="n">01</span><span class="k">Pro jednotlivce a rodiny</span></div>
-        <h2 class="rev d1">Osobní finanční <span class="red">poradenství.</span></h2>
-        <p class="rev d1">Začínám u&nbsp;vašich cílů, ne u&nbsp;nabídky. Vznikne přehledný finanční plán, ve kterém spolu řešíme, kterou cestou se vydat&nbsp;— bez nátlaku a&nbsp;bez prodejních řečí.</p>
-        <p class="rev d2">Tomu, čemu nerozumíte, si můžete nechat v&nbsp;klidu vysvětlit a&nbsp;teprve pak se rozhodnout. Konkrétní produkt&nbsp;— ať hypotéka, investice nebo pojištění&nbsp;— je až poslední krok, ne ten první.</p>
-        <div class="svcb-tags rev d3"><span class="on">Finanční plán</span><span>Hypotéky</span><span>Investice</span><span>Pojištění</span></div>
+        <div class="svcb-num rev"><span class="n">01</span><span class="k">Cesta k&nbsp;první nemovitosti</span></div>
+        <h2 class="rev d1">Příprava na vlastní <span class="red">bydlení.</span></h2>
+        <p class="rev d1">Než přijde první hypotéka, projdeme vaši situaci&nbsp;— příjmy, výdaje, rezervu a&nbsp;to, kde reálně stojí vaše bonita. Z&nbsp;toho vznikne plán cesty k&nbsp;první nemovitosti, krok za krokem.</p>
+        <p class="rev d2">Společně řešíme, co si připravit dopředu, aby žádost o&nbsp;úvěr nebyla skok do neznáma. Cílem je dojít k&nbsp;vlastnímu bydlení s&nbsp;klidem, ne pod tlakem.</p>
+        <div class="svcb-tags rev d3"><span class="on">Finanční rezerva</span><span>Bonita</span><span>První hypotéka</span></div>
       </div>
       <figure class="svcb-media px clip">
-        <img src="/assets/img/svc-plan.webp" alt="Vytištěný finanční plán u svíčky" loading="lazy" width="1344" height="1008" data-parallax="0.06">
-        <span class="mtag">Plán na míru</span>
+        <img src="/assets/img/svc-klice.webp" alt="Klíče od bytu položené u svíčky" loading="lazy" width="1344" height="1008" data-parallax="0.06">
+        <span class="mtag">Plán cesty k&nbsp;bydlení</span>
       </figure>
     </div>
   </div>
 
-  <!-- 02 — Firemní poradenství -->
+  <!-- 02 — Hypotéky a financování -->
   <div class="svcb wrap">
     <div class="svcb-grid">
       <div class="svcb-txt">
-        <div class="svcb-num rev"><span class="n">02</span><span class="k">Malé a střední firmy</span></div>
-        <h2 class="rev d1">Firemní <span class="red">poradenství.</span></h2>
-        <p class="rev d1">Několika firmám spravuji celé finanční portfolio. V&nbsp;oboru mám v&nbsp;poměru ke svému věku bohaté zkušenosti&nbsp;— firemní finance neřeším od stolu, ale jako celek, který musí dávat smysl.</p>
-        <p class="rev d2">S&nbsp;přítelkyní jsme založili firmu na potisk textilu SUORIGO. Vím proto, jak vypadají finance z&nbsp;druhé strany&nbsp;— z&nbsp;pohledu majitele, který nese odpovědnost za fungování firmy.</p>
-        <div class="svcb-tags rev d3"><span class="on">Malé a střední firmy</span><span>Firemní portfolio</span><span>Financování</span></div>
+        <div class="svcb-num rev"><span class="n">02</span><span class="k">S myšlením na další úvěry</span></div>
+        <h2 class="rev d1">Hypotéky a&nbsp;<span class="red">financování.</span></h2>
+        <p class="rev d1">Hypotéku nestavím jen na dnešek. Strukturu úvěru, výši LTV i&nbsp;délku splatnosti volíme tak, aby dnešní financování nezavřelo dveře té příští&nbsp;— vaše bonita zůstane prostorem, ne stropem.</p>
+        <p class="rev d2">Řešíme poměr splátky a&nbsp;cash flow, ne jen nejnižší číslo na papíře. Refinancování beru jako nástroj, který se časem hodí, když se mění úroky i&nbsp;vaše plány.</p>
+        <p class="rev d3">To celé proto, abyste si v&nbsp;budoucnu mohli dovolit i&nbsp;další krok&nbsp;— třeba investiční byt&nbsp;— bez toho, že vás první hypotéka zablokuje.</p>
+        <div class="svcb-tags rev d4"><span class="on">Struktura úvěru</span><span>LTV · splatnost</span><span>Refinancování</span></div>
       </div>
       <figure class="svcb-media px clip">
-        <img src="/assets/img/svc-notebook.webp" alt="Otevřený zápisník s perem u svíčky" loading="lazy" width="1344" height="1008" data-parallax="0.06">
-        <span class="mtag">Pohled majitele</span>
+        <img src="/assets/img/svc-pudorys.webp" alt="Půdorys nemovitosti rozložený u svíčky" loading="lazy" width="1344" height="1008" data-parallax="0.06">
+        <span class="mtag">Stavěno na další kroky</span>
       </figure>
     </div>
   </div>
 
-  <!-- 03 — Financování a pojištění automobilů -->
+  <!-- 03 — Investiční nemovitosti -->
   <div class="svcb wrap">
     <div class="svcb-grid">
       <div class="svcb-txt">
-        <div class="svcb-num rev"><span class="n">03</span><span class="k">Vozový park i jedno auto</span></div>
-        <h2 class="rev d1">Financování a&nbsp;pojištění <span class="red">automobilů.</span></h2>
-        <p class="rev d1">Pomohu s&nbsp;financováním vozu&nbsp;— ať úvěrem, nebo leasingem&nbsp;— i&nbsp;s&nbsp;jeho pojištěním. Procházíme nabídku napříč trhem a&nbsp;hledáme variantu, která sedí na váš rozpočet a&nbsp;situaci.</p>
-        <p class="rev d2">I&nbsp;tady platí stejný princip: nejdřív kontext, pak řešení. Auto je součást vašeho finančního plánu, ne izolovaná smlouva.</p>
-        <div class="svcb-tags rev d3"><span class="on">Úvěr · leasing</span><span>Pojištění vozidel</span></div>
+        <div class="svcb-num rev"><span class="n">03</span><span class="k">Nemovitost jako nástroj</span></div>
+        <h2 class="rev d1">Investiční <span class="red">nemovitosti.</span></h2>
+        <p class="rev d1">Nemovitost beru jako nástroj budování majetku, ne jako jednorázový nákup. Procházíme, jak do sebe zapadá pořizovací cena, nájemní výnos a&nbsp;financování, aby celek dával dlouhodobě smysl.</p>
+        <p class="rev d2">Stavíme strukturu tak, aby vám první byt otevřel cestu k&nbsp;dalšímu&nbsp;— postupné budování portfolia, kde každý krok připravuje ten následující.</p>
+        <div class="svcb-tags rev d3"><span class="on">Nájemní výnos</span><span>Financování</span><span>Cesta k&nbsp;dalšímu bytu</span></div>
       </div>
       <figure class="svcb-media px clip">
-        <img src="/assets/img/svc-carkey.webp" alt="Klíč od auta na tmavém dřevě u svíčky" loading="lazy" width="1344" height="1008" data-parallax="0.06">
-        <span class="mtag">Úvěr · leasing · pojištění</span>
+        <img src="/assets/img/svc-dum.webp" alt="Model činžovního domu se svítícími okny" loading="lazy" width="1344" height="1008" data-parallax="0.06">
+        <span class="mtag">Budování portfolia</span>
       </figure>
     </div>
   </div>
@@ -378,11 +378,11 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   <div class="svcb wrap">
     <div class="svcb-grid">
       <div class="svcb-txt">
-        <div class="svcb-num rev"><span class="n">04</span><span class="k">Konzervativní i moderní</span></div>
-        <h2 class="rev d1">Investice&nbsp;— konzervativní <span class="red">i moderní.</span></h2>
-        <p class="rev d1">Stavím investiční řešení podle vašeho vztahu k&nbsp;riziku a&nbsp;časového horizontu&nbsp;— od konzervativních po dynamické. Žádná nesmyslná rizika, žádné zbytečnosti.</p>
-        <p class="rev d2">Orientuji se i&nbsp;v&nbsp;moderních možnostech včetně kryptoměn a&nbsp;NFT. I&nbsp;u&nbsp;nich srozumitelně vysvětlím, jak fungují a&nbsp;kam patří, abyste se mohli rozhodnout bez tlaku.</p>
-        <div class="svcb-tags rev d3"><span class="on">Konzervativní</span><span>Dynamické</span><span>Krypto · NFT</span></div>
+        <div class="svcb-num rev"><span class="n">04</span><span class="k">Konzervativní i&nbsp;dynamické</span></div>
+        <h2 class="rev d1">Investice a&nbsp;budování <span class="red">kapitálu.</span></h2>
+        <p class="rev d1">Investiční řešení stavím podle vašeho vztahu k&nbsp;riziku a&nbsp;časového horizontu&nbsp;— od konzervativních po dynamické. Žádná nesmyslná rizika, žádné zbytečnosti.</p>
+        <p class="rev d2">Investice často slouží i&nbsp;jako příprava vlastních zdrojů na nemovitost&nbsp;— kapitál, který se hodí ve chvíli, kdy přijde vlastní bydlení nebo další byt. Vše srozumitelně vysvětlím, abyste se rozhodli bez tlaku.</p>
+        <div class="svcb-tags rev d3"><span class="on">Konzervativní</span><span>Dynamické</span><span>Zdroje na nemovitost</span></div>
       </div>
       <figure class="svcb-media px clip">
         <img src="/assets/img/chart-red.webp" alt="Stoupající červená křivka na tmavém papíře" loading="lazy" width="1344" height="1008" data-parallax="0.06">
@@ -405,17 +405,17 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
       <div class="step rev">
         <div class="step-n">01</div>
         <div class="step-h">Úvodní konzultace</div>
-        <p class="step-b">Sejdeme se a&nbsp;projdeme vaši situaci, cíle a&nbsp;to, co vás trápí. Ptám se, poslouchám a&nbsp;vysvětluji&nbsp;— bez nátlaku a&nbsp;bez podsouvání produktů.</p>
+        <p class="step-b">Sejdeme se a&nbsp;projdeme vaši situaci a&nbsp;cíle&nbsp;— ať míříte na první bydlení, nebo na další byt. Ptám se, poslouchám a&nbsp;vysvětluji, bez nátlaku a&nbsp;bez podsouvání produktů.</p>
       </div>
       <div class="step rev d1">
         <div class="step-n">02</div>
         <div class="step-h">Analýza a&nbsp;plán</div>
-        <p class="step-b">Z&nbsp;toho, co jste mi řekli, sestavím přehledný finanční plán. Společně pak řešíme, kterou cestou se vydat&nbsp;— co, proč a&nbsp;v&nbsp;jakém pořadí.</p>
+        <p class="step-b">Z&nbsp;toho, co jste mi řekli, sestavím přehledný plán financování. Hypotéku i&nbsp;investice stavím s&nbsp;ohledem na další kroky&nbsp;— co, proč a&nbsp;v&nbsp;jakém pořadí.</p>
       </div>
       <div class="step rev d2">
         <div class="step-n">03</div>
         <div class="step-h">Realizace a&nbsp;dlouhodobá péče</div>
-        <p class="step-b">Teprve když plán dává smysl, řešíme konkrétní kroky a&nbsp;produkty. Zůstávám u&nbsp;toho i&nbsp;dál&nbsp;— finance se časem mění a&nbsp;plán s&nbsp;nimi.</p>
+        <p class="step-b">Teprve když plán dává smysl, řešíme konkrétní kroky a&nbsp;produkty. Zůstávám u&nbsp;toho i&nbsp;dál&nbsp;— při refinancování i&nbsp;při cestě k&nbsp;dalšímu bytu se plán mění s&nbsp;vámi.</p>
       </div>
     </div>
   </div>

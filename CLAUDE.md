@@ -4,9 +4,9 @@
 Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP). Nahrazuje starý WordPress/Elementor web i rozdělaný teal/gold návrh (`~/Desktop/Projekty Mac Mini/4 - Webové projekty (dev)/kurdiovsky-web`, preview kurdiovsky-web.djai.cz).
 
 ## Current State
-- Status: VARIANTA A VYBRÁNA a po de-AI přestavbě (text −50 %, AI grafika) — další krok: dotáhnout celý web
+- Status: CELÝ WEB POSTAVEN (homepage A na / + 6 podstránek), živý na preview — čeká na Emilovo OK a přepnutí kurdiovsky.cz
 - Created: 2026-06-04
-- Last session: 2026-06-04
+- Last session: 2026-06-05
 
 ## AI grafika — POZOR
 - Google/Gemini API MRTVÉ (403 denied oba GCP projekty, i text modely) → grafika se generuje přes **Replicate FLUX**: `flux-kontext-pro` s `input_image` = živá URL hero fotky (grade-match) + „no readable text" v promptu; token v `~/Desktop/Claude code project/AI-API-KEYS.md`; na 429 rate-limit jet sekvenčně s retry (vzor /tmp/kurdiovsky-redesign/gen_replicate2.py)
@@ -79,8 +79,17 @@ Redesign webu kurdiovsky.cz — Jan Kurdiovský, osobní finanční poradce (PFP
 - Můj fix navíc: svc hover-reveal obrázky lazy+hidden = probliknutí na 1. hover → desktop idle preload (requestIdleCallback)
 - POZN. pro testy: hover v headless Playwright vyžaduje mouse.move se steps PŘES element, hover() teleport eventy nespustí
 
+### 2026-06-05 — Celý web postaven (podstránky + portál demo)
+- FACTS.md = jediný zdroj faktů (vytěženo ze živého webu + ARES): IČO 11762390, reálné Google recenze (12, Trustindex), Calendly calendly.com/kurdiovsky, klientská appka MyPlann (App Store/Google Play), TikTok @jankurdiovsk; Facebook na živém webu nefunkční → nepoužívat; Reservio existuje, ale primární je Calendly
+- Workflow 19 agentů: 6× build (sonnet jednoduché / opus složité) → 6× adversariální kritika → opravy → kontrola konzistence napříč
+- Nové stránky: /sluzby (4 oblasti + 3 kroky spolupráce), /o-mne (příběh, SUORIGO, Co je PFP, money2u, 6 reálných recenzí), /rezervace (Calendly inline lazy embed v rámované kartě), /kontakt (velké kontakty, tmavá mapa lazy, fakturační údaje), /portal (DEMO login→dashboard, SVG křivka, jasně značená ukázková data + reálné MyPlann odkazy), /ochrana-osobnich-udaju (správce dle ARES, bez vymyšlených lhůt)
+- index.html = varianta A (rozcestník přesunut na /varianty); a.html převedeno na absolutní /assets/ cesty
+- Konzistence sjednocena: absolutní cesty, aria-current jen v nav (ne footer), „O mně" bez nbsp, CTA labely
+- Ověřeno Playwright (desktop 1440 + mobil 390): 0 console errors, 0 failed requests, 0 h-overflow, revealy 100 % (POZOR: full-page screenshot s rychlým smooth-scrollem ukáže černé pásy — artefakt; pro screenshoty použít reduced_motion='reduce'), demo login/logout funkční, mapa se načítá (lazy, nutno scroll_into_view)
+- Deploy Vercel prod, všech 9 URL 200
+
 ## Open Threads
-- **Dotáhnout celý web ve stylu A**: služby, o mně, rezervace, kontakt, portál (login+dashboard)
+- **Emil: schválit celý web** → pak přepnout kurdiovsky.cz (DNS v CF účtu cbe463a934abec056b2f9c9cb951f116; rozhodnout Vercel vs Coolify dle deploy-routing pravidla)
 - Ověřit s Janem přesný vztah k EFPA (certifikace vs reference) PŘED ostrým nasazením
-- Rozhodnutí o produkci (nahradit WordPress) — viz coolify-migrace-mapa
+- Portál je DEMO — ostrý klientský portál = samostatná budoucí fáze
 - Varianty B/C nechány živé na /b /c pro porovnání (zatím bez video/motion upgradu)

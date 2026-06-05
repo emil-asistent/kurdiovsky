@@ -22,11 +22,22 @@ PFP – Poradce Finančního Plánování
 - Součást skupiny mezinárodních nadsektorových certifikací (EIP, DEFS), s více než 2 800 absolventy v Evropě.
 - Nástroj dalšího profesního rozvoje pro odborníky na finančním trhu.
 
-## Služby (4 oblasti — dle homepage redesignu, fakta sedí na živý web)
-1. Osobní finanční poradenství — finanční plán, hypotéky, investice, pojištění
-2. Firemní poradenství — malé a střední firmy, firemní portfolio, financování
-3. Financování a pojištění automobilů — úvěr/leasing, pojištění vozidel
-4. Investice — konzervativní i moderní (vč. krypto/NFT)
+## ZAMĚŘENÍ WEBU (zadání Emila 5. 6. 2026 — PŘEPISUJE původní strukturu služeb)
+Celý web cílí na **hypotéky a investiční nemovitosti**. Hlavní témata:
+- investice
+- příprava na vlastní bydlení
+- využití investičních nemovitostí
+- propracované financování s myšlením na DALŠÍ hypotéky (strategie: dnešní hypotéka se staví tak, aby nezavřela dveře té příští — bonita, struktura úvěrů, budování nemovitostního portfolia krok za krokem)
+
+## Služby (4 oblasti — NOVÉ dle zadání 5. 6.)
+1. Příprava na vlastní bydlení — plán cesty k první nemovitosti, finanční rezerva, bonita, první hypotéka
+2. Hypotéky a financování — propracovaná struktura financování s myšlením na další hypotéky (refinancování, LTV, splátky vs. cash flow)
+3. Investiční nemovitosti — využití nemovitostí pro budování majetku, nájemní výnos, financování dalšího bytu
+4. Investice — konzervativní i dynamické budování kapitálu (vč. přípravy vlastních zdrojů na nemovitost)
+POZN.: Firemní poradenství a auta z webu MIZÍ jako samostatné služby (firemní zkušenost zůstává jen v příběhu na /o-mne). Žádné sliby sazeb, výnosů, „zdarma" ani konkrétní čísla — popisovat přístup, ne výsledky.
+
+## Design směr (zadání Emila 5. 6.): UHLADIT
+Web byl „přeplácaný" → zklidnit: méně ozdob naráz, klidnější hero, vypustit/ztišit nejhlasitější prvky (dvojité skloněné marquee, rotující badge, přemíra pills), víc vzduchu, kratší stránky. Editorial eleganci a custom cursor/revealy zachovat, ale decentně. Hero video na homepage BEZ Janova obličeje — finance/nemovitosti still-life.
 
 ## Rezervace
 - **Calendly: https://calendly.com/kurdiovsky** (živý web používá popup widget s `primary_color=ff0000`; inline embed: `https://calendly.com/kurdiovsky?hide_landing_page_details=1&hide_gdpr_banner=1&primary_color=d31f26`)
