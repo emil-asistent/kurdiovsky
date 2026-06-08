@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Přihlášení — Správa webu</title>
+<style>
+  :root { --bg:#111113; --card:#1a1a1d; --line:#2a2a2e; --red:#d31f26; --txt:#f2f2f2; --mut:#9a9aa0; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:var(--bg); color:var(--txt);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+  .card { width:min(92vw,380px); background:var(--card); border:1px solid var(--line); border-radius:16px; padding:32px 28px; }
+  .logo { font-weight:800; letter-spacing:-.02em; font-size:22px; }
+  .logo b { color:var(--red); }
+  h1 { font-size:17px; font-weight:600; margin:18px 0 4px; }
+  p.sub { color:var(--mut); font-size:13px; margin:0 0 22px; }
+  label { display:block; font-size:13px; color:var(--mut); margin-bottom:6px; }
+  input { width:100%; padding:13px 14px; border-radius:10px; border:1px solid var(--line); background:#0e0e10; color:var(--txt); font-size:16px; }
+  input:focus { outline:none; border-color:var(--red); }
+  button { width:100%; margin-top:16px; padding:13px; border:0; border-radius:10px; background:var(--red); color:#fff; font-size:16px; font-weight:600; cursor:pointer; }
+  button:disabled { opacity:.6; cursor:default; }
+  .err { color:#ff8a8a; font-size:13px; min-height:18px; margin-top:10px; }
+</style>
+</head>
+<body>
+  <form class="card" id="f">
+    <div class="logo">J<b>K</b> · správa webu</div>
+    <h1>Přihlášení</h1>
+    <p class="sub">Zadej heslo, které ti dal Emil.</p>
+    <label for="p">Heslo</label>
+    <input id="p" name="password" type="password" autocomplete="current-password" autofocus>
+    <button id="b" type="submit">Přihlásit</button>
+    <div class="err" id="e"></div>
+  </form>
+<script>
+  const f=document.getElementById('f'), b=document.getElementById('b'), e=document.getElementById('e');
+  f.addEventListener('submit', async (ev)=>{
+    ev.preventDefault(); e.textContent=''; b.disabled=true; b.textContent='Přihlašuji…';
+    try {
+      const r = await fetch('/admin/login', {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({password: document.getElementById('p').value})});
+      if (r.ok) { location.href='/admin/app'; return; }
+      const j = await r.json().catch(()=>({}));
+      e.textContent = j.error || 'Přihlášení selhalo.';
+    } catch { e.textContent='Chyba spojení.'; }
+    b.disabled=false; b.textContent='Přihlásit';
+  });
+</script>
+</body>
+</html>

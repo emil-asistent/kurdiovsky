@@ -401,20 +401,20 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   <div class="hero-bg">
     <picture>
       <source media="(max-width:760px)" srcset="/assets/img/hero-table-mobile.webp">
-      <img src="/assets/img/hero-poster.webp" alt="Klíče, půdorys bytu a červená růstová křivka u svíčky na tmavém stole" fetchpriority="high">
+      <img src="<!--cms:home.hero.image type=image label="Hlavní fotka hero (desktop)"-->/assets/img/hero-poster.webp<!--/cms:home.hero.image-->" alt="Klíče, půdorys bytu a červená růstová křivka u svíčky na tmavém stole" fetchpriority="high">
     </picture>
     <video id="heroVideo" muted loop playsinline preload="none" poster="/assets/img/hero-poster.webp" data-src="/assets/video/hero-loop.mp4" aria-hidden="true"></video>
   </div>
   <div class="wrap hero-inner">
-    <div class="hero-eyebrow"><span class="dot"></span> Hypotéky · Investiční nemovitosti · Brno</div>
+    <div class="hero-eyebrow"><span class="dot"></span> <!--cms:home.hero.eyebrow type=text label="Úvodní popisek (eyebrow)"-->Hypotéky · Investiční nemovitosti · Brno<!--/cms:home.hero.eyebrow--></div>
     <h1>
       <span class="line"><span>Finance bez</span></span>
       <span class="line"><span><em>přehnaných</em></span></span>
       <span class="line"><span><span class="red">formalit.</span></span></span>
     </h1>
     <div class="hero-foot">
-      <p>Od první hypotéky k&nbsp;investičnímu bytu. Plán, který myslí o&nbsp;krok dál.</p>
-      <a href="/rezervace" class="hero-cta magnetic" data-magnetic>Rezervovat konzultaci
+      <p><!--cms:home.hero.lead type=text label="Podnadpis pod hero nadpisem"-->Od první hypotéky k&nbsp;investičnímu bytu. Plán, který myslí o&nbsp;krok dál.<!--/cms:home.hero.lead--></p>
+      <a href="/rezervace" class="hero-cta magnetic" data-magnetic><!--cms:home.hero.cta type=text label="Hero CTA tlačítko — text"-->Rezervovat konzultaci<!--/cms:home.hero.cta-->
         <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -436,7 +436,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   </div>
   <div class="wrap">
     <div class="sec-head rev"><span class="sec-num">01</span>
-      <div><div class="sec-kicker">Jak to dělám</div></div>
+      <div><div class="sec-kicker"><!--cms:home.statement.kicker type=text label="Statement sekce — kicker"-->Jak to dělám<!--/cms:home.statement.kicker--></div></div>
     </div>
     <div class="stmt-grid">
       <div class="stmt-txt">
@@ -445,10 +445,10 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
           <span class="rl-mask"><span>Dnešní <span class="red">hypotéku</span> stavím tak,</span></span>
           <span class="rl-mask"><span>aby nezavřela dveře té&nbsp;příští.</span></span>
         </h2>
-        <p class="lead rev d2">Nejdřív rozumím tomu, kam míříte&nbsp;— k&nbsp;vlastnímu bydlení i&nbsp;k&nbsp;dalšímu bytu. Pak stavím financování, které s&nbsp;tím počítá.</p>
+        <p class="lead rev d2"><!--cms:home.statement.lead type=text label="Statement sekce — lead odstavec"-->Nejdřív rozumím tomu, kam míříte&nbsp;— k&nbsp;vlastnímu bydlení i&nbsp;k&nbsp;dalšímu bytu. Pak stavím financování, které s&nbsp;tím počítá.<!--/cms:home.statement.lead--></p>
       </div>
       <figure class="stmt-fig px clip">
-        <img src="/assets/img/stmt-graph.webp" alt="Detail stoupající červené datové linie na tmavém povrchu" loading="lazy" width="1344" height="768" data-parallax="0.06">
+        <img src="<!--cms:home.statement.image type=image label="Statement sekce — fotka grafu"-->/assets/img/stmt-graph.webp<!--/cms:home.statement.image-->" alt="Detail stoupající červené datové linie na tmavém povrchu" loading="lazy" width="1344" height="768" data-parallax="0.06">
       </figure>
     </div>
   </div>
@@ -458,7 +458,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <section class="services" id="sluzby-anchor">
   <div class="wrap">
     <div class="sec-head rev"><span class="sec-num">02</span>
-      <div><div class="sec-kicker">S čím pomáhám</div>
+      <div><div class="sec-kicker"><!--cms:home.services.kicker type=text label="Služby sekce — kicker"-->S čím pomáhám<!--/cms:home.services.kicker--></div>
         <h2 style="font-size:clamp(30px,4.4vw,60px)"><span class="rl-mask"><span>Čtyři oblasti, <span style="color:var(--red)">jeden plán.</span></span></span></h2>
       </div>
     </div>
@@ -467,7 +467,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         <span class="svc-ghost" aria-hidden="true">01</span>
         <span class="svc-n">01</span>
         <div class="svc-main">
-          <h3>Příprava na vlastní bydlení</h3>
+          <h3><!--cms:home.svc1.title type=text label="Služba 1 — název"-->Příprava na vlastní bydlení<!--/cms:home.svc1.title--></h3>
           <div class="svc-tags"><span>Plán cesty</span><span>Rezerva</span><span>První hypotéka</span></div>
         </div>
         <span class="svc-thumb"><img src="/assets/img/svc-klice.webp" alt="Klíče od bytu u svíčky na tmavém stole" loading="lazy" width="320" height="140"></span>
@@ -477,7 +477,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         <span class="svc-ghost" aria-hidden="true">02</span>
         <span class="svc-n">02</span>
         <div class="svc-main">
-          <h3>Hypotéky a&nbsp;financování</h3>
+          <h3><!--cms:home.svc2.title type=text label="Služba 2 — název"-->Hypotéky a&nbsp;financování<!--/cms:home.svc2.title--></h3>
           <div class="svc-tags"><span>Struktura úvěrů</span><span>Refinancování</span><span>Cash flow</span></div>
         </div>
         <span class="svc-thumb"><img src="/assets/img/svc-pudorys.webp" alt="Půdorys bytu u svíčky na tmavém stole" loading="lazy" width="320" height="140"></span>
@@ -487,7 +487,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         <span class="svc-ghost" aria-hidden="true">03</span>
         <span class="svc-n">03</span>
         <div class="svc-main">
-          <h3>Investiční nemovitosti</h3>
+          <h3><!--cms:home.svc3.title type=text label="Služba 3 — název"-->Investiční nemovitosti<!--/cms:home.svc3.title--></h3>
           <div class="svc-tags"><span>Nájemní výnos</span><span>Budování majetku</span><span>Další byt</span></div>
         </div>
         <span class="svc-thumb"><img src="/assets/img/svc-dum.webp" alt="Model činžovního domu se svítícími okny" loading="lazy" width="320" height="140"></span>
@@ -497,7 +497,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
         <span class="svc-ghost" aria-hidden="true">04</span>
         <span class="svc-n">04</span>
         <div class="svc-main">
-          <h3>Investice</h3>
+          <h3><!--cms:home.svc4.title type=text label="Služba 4 — název"-->Investice<!--/cms:home.svc4.title--></h3>
           <div class="svc-tags"><span>Konzervativní</span><span>Dynamické</span><span>Vlastní zdroje</span></div>
         </div>
         <span class="svc-thumb"><img src="/assets/img/chart-red.webp" alt="Stoupající červená křivka na tmavém papíře" loading="lazy" width="320" height="140"></span>
@@ -517,15 +517,15 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <section class="about" id="o-mne-anchor">
   <div class="wrap about-grid">
     <div class="about-photo rev">
-      <div class="frame px clip"><img src="/assets/img/jan-portrait.webp" alt="Jan Kurdiovský ve své kanceláři" data-parallax="0.05" loading="lazy"></div>
+      <div class="frame px clip"><img src="<!--cms:home.about.image type=image label="Portrét Jana Kurdiovského"-->/assets/img/jan-portrait.webp<!--/cms:home.about.image-->" alt="Jan Kurdiovský ve své kanceláři" data-parallax="0.05" loading="lazy"></div>
       <span class="tag">Brno · Tolstého 35</span>
       <span class="badge">složená<b>PFP</b>zkouška</span>
     </div>
     <div class="about-txt">
-      <div class="sec-kicker rev">02 — O mně</div>
-      <h2 class="rev d1">Poradce, který sám <span class="red">podniká.</span></h2>
-      <p class="rev d1">Jsem Jan Kurdiovský&nbsp;— finanční poradce se složenou oborovou zkouškou <span class="acc">PFP</span>. Jsem také členem komunity EFPA. Hypotéky a&nbsp;nemovitosti beru jako řemeslo, ne jako prodej.</p>
-      <p class="rev d2">S přítelkyní jsme založili firmu na potisk textilu <span class="acc">SUORIGO</span>. Vím proto, jak vypadají finance z&nbsp;druhé strany&nbsp;— z&nbsp;pohledu majitele i&nbsp;žadatele o&nbsp;úvěr.</p>
+      <div class="sec-kicker rev"><!--cms:home.about.kicker type=text label="O mně sekce — kicker"-->02 — O mně<!--/cms:home.about.kicker--></div>
+      <h2 class="rev d1"><!--cms:home.about.heading type=richtext label="O mně — nadpis"-->Poradce, který sám <span class="red">podniká.</span><!--/cms:home.about.heading--></h2>
+      <p class="rev d1"><!--cms:home.about.p1 type=richtext label="O mně — první odstavec"-->Jsem Jan Kurdiovský&nbsp;— finanční poradce se složenou oborovou zkouškou <span class="acc">PFP</span>. Jsem také členem komunity EFPA. Hypotéky a&nbsp;nemovitosti beru jako řemeslo, ne jako prodej.<!--/cms:home.about.p1--></p>
+      <p class="rev d2"><!--cms:home.about.p2 type=richtext label="O mně — druhý odstavec"-->S přítelkyní jsme založili firmu na potisk textilu <span class="acc">SUORIGO</span>. Vím proto, jak vypadají finance z&nbsp;druhé strany&nbsp;— z&nbsp;pohledu majitele i&nbsp;žadatele o&nbsp;úvěr.<!--/cms:home.about.p2--></p>
       <div class="about-sign rev d3">
         <span class="mark" style="width:48px;height:48px;border-radius:50%;background:#16161c;display:grid;place-items:center;border:1px solid var(--line)"><img src="/assets/img/jk-logo.webp" alt="" style="width:30px;height:30px;object-fit:contain"></span>
         <div><div class="nm">Jan Kurdiovský</div><div class="rl">Finanční poradce · PFP · member of money2u</div></div>
@@ -538,9 +538,9 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <section class="feature">
   <div class="wrap feature-grid">
     <div class="feature-txt">
-      <div class="sec-kicker rev">03 — Zázemí</div>
-      <h2 class="rev d1">Síla samostatnosti, <span class="red">jistota zázemí.</span></h2>
-      <p class="rev d1">Hypotéku porovnám napříč trhem, ne jen z&nbsp;jedné stáje produktů. Za zády mám přitom zázemí money2u.</p>
+      <div class="sec-kicker rev"><!--cms:home.feature.kicker type=text label="Zázemí sekce — kicker"-->03 — Zázemí<!--/cms:home.feature.kicker--></div>
+      <h2 class="rev d1"><!--cms:home.feature.heading type=richtext label="Zázemí sekce — nadpis"-->Síla samostatnosti, <span class="red">jistota zázemí.</span><!--/cms:home.feature.heading--></h2>
+      <p class="rev d1"><!--cms:home.feature.lead type=text label="Zázemí sekce — odstavec"-->Hypotéku porovnám napříč trhem, ne jen z&nbsp;jedné stáje produktů. Za zády mám přitom zázemí money2u.<!--/cms:home.feature.lead--></p>
       <div class="feature-pills rev d3">
         <span class="on">Nezávislé poradenství</span>
         <span>member of money2u</span>
@@ -548,7 +548,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
       </div>
     </div>
     <div class="feature-photo px clip">
-      <img src="/assets/img/jan-money2u.webp" alt="Jan Kurdiovský před stěnou money2u" data-parallax="0.05" loading="lazy">
+      <img src="<!--cms:home.feature.image type=image label="Zázemí sekce — fotka money2u"-->/assets/img/jan-money2u.webp<!--/cms:home.feature.image-->" alt="Jan Kurdiovský před stěnou money2u" data-parallax="0.05" loading="lazy">
     </div>
   </div>
 </section>
@@ -557,9 +557,9 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <section class="insta">
   <div class="wrap insta-grid">
     <div class="insta-left">
-      <div class="sec-kicker rev">04 — Sociální sítě</div>
+      <div class="sec-kicker rev"><!--cms:home.insta.kicker type=text label="Instagram sekce — kicker"-->04 — Sociální sítě<!--/cms:home.insta.kicker--></div>
       <h2><span class="rl-mask"><span>Finance <span class="red">srozumitelně,</span></span></span><span class="rl-mask"><span>bez žargonu.</span></span></h2>
-      <p class="insta-lead rev d2">Na Instagramu sdílím osvětu o&nbsp;hypotékách a&nbsp;nemovitostech.</p>
+      <p class="insta-lead rev d2"><!--cms:home.insta.lead type=text label="Instagram sekce — lead odstavec"-->Na Instagramu sdílím osvětu o&nbsp;hypotékách a&nbsp;nemovitostech.<!--/cms:home.insta.lead--></p>
       <div class="insta-actions rev d3">
         <a href="https://instagram.com/jan_kurdiovsky" class="insta-handle" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
@@ -580,9 +580,9 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 <!-- CTA -->
 <section class="cta">
   <div class="wrap">
-    <div class="lbl rev">Pojďme začít</div>
+    <div class="lbl rev"><!--cms:home.cta.lbl type=text label="CTA sekce — kicker label"-->Pojďme začít<!--/cms:home.cta.lbl--></div>
     <h2><span class="rl-mask"><span>Domluvme si</span></span><span class="rl-mask"><span><em>konzultaci.</em></span></span></h2>
-    <a href="/rezervace" class="cta-btn magnetic rev d2" data-magnetic>Rezervovat konzultaci
+    <a href="/rezervace" class="cta-btn magnetic rev d2" data-magnetic><!--cms:home.cta.btn type=text label="CTA sekce — tlačítko text"-->Rezervovat konzultaci<!--/cms:home.cta.btn-->
       <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
     <p class="cta-sub rev d3">Nebo napište rovnou na <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a> <span class="sep">·</span> <a href="tel:+420799794670">+420 799 794 670</a></p>
@@ -611,9 +611,9 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
       </div>
       <div class="foot-col">
         <h4>Kontakt</h4>
-        <a href="mailto:jan@kurdiovsky.cz">jan@kurdiovsky.cz</a>
-        <a href="tel:+420799794670">+420 799 794 670</a>
-        <p>Tolstého 35<br>616 00 Brno</p>
+        <a href="<!--cms:global.contact.email_mailto type=url label="E-mail (odkaz mailto:)"-->mailto:jan@kurdiovsky.cz<!--/cms:global.contact.email_mailto-->"><!--cms:global.contact.email type=text label="E-mail (zobrazený)"-->jan@kurdiovsky.cz<!--/cms:global.contact.email--></a>
+        <a href="<!--cms:global.contact.phone_tel type=url label="Telefon (odkaz tel:)"-->tel:+420799794670<!--/cms:global.contact.phone_tel-->"><!--cms:global.contact.phone type=text label="Telefon (zobrazený)"-->+420 799 794 670<!--/cms:global.contact.phone--></a>
+        <p><!--cms:global.contact.address type=text label="Adresa (zobrazená)"-->Tolstého 35<br>616 00 Brno<!--/cms:global.contact.address--></p>
         <a href="https://instagram.com/jan_kurdiovsky" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>

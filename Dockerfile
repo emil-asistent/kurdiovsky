@@ -7,14 +7,19 @@ WORKDIR /app
 COPY package.json ./
 COPY server.js ./
 COPY lib ./lib
+COPY admin ./admin
 COPY assets ./assets
 # jen produkční stránky (archivní varianty a.html/b.html/c.html/varianty.html se nenasazují)
 COPY index.html sluzby.html o-mne.html rezervace.html kontakt.html portal.html ochrana-osobnich-udaju.html ./
 
 ENV NODE_ENV=production
 ENV PORT=3000
-# rezervace na persistent volume (Coolify: mount /data)
+# rezervace + obsah CMS na persistent volume (Coolify: mount /data)
 ENV BOOKINGS_DIR=/data/bookings
+ENV CMS_DIR=/data/cms
+ENV UPLOADS_DIR=/data/cms/uploads
+ENV ADMIN_DATA_DIR=/data/admin
+# tajné hodnoty (OPENROUTER_API_KEY, ADMIN_PASSWORD, SESSION_SECRET, TELEGRAM_*) se nastavují v Coolify env, NE zde
 
 EXPOSE 3000
 

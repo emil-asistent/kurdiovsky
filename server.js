@@ -8,6 +8,9 @@ import {
   SLOT_TIME, bookingWindow, validDates, bookedDates, isValidDate,
   formatCz, buildIcs, sendMail, saveBooking, BOOKINGS_DIR,
 } from './lib/booking.js';
+import { handleAdmin } from './lib/admin.js';
+import { startTelegram } from './lib/telegram.js';
+import { renderPage, uploadAbs } from './lib/cms.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const WEBROOT = __dirname;
@@ -81,6 +84,31 @@ async function resolveStatic(urlPath) {
   if (path.dirname(abs) !== WEBROOT) return null;
   try { const st = await fs.stat(abs); if (st.isFile()) return { abs, ext: '.html', cache: 'no-cache' }; } catch {}
   return null;
+}
+
+// HTML servírujeme přes CMS render (vloží přepisy obsahu do značek; bez značek = beze změny).
+async function serveHtml(res, abs, isHead) {
+  try {
+    const html = await renderPage(abs, { mode: 'live' });
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' });
+    if (isHead) return res.end();
+    return res.end(html);
+  } catch (e) {
+    console.error('render error', e);
+    return serveFile(res, { abs, ext: '.html', cache: 'no-cache' }, isHead);
+  }
+}
+
+// Servírování nahraných obrázků z /data (mimo zapékané /assets).
+async function serveUpload(res, pathname, isHead) {
+  const name = decodeURIComponent(pathname.slice('/data-uploads/'.length));
+  const abs = uploadAbs(name);
+  if (!abs) return serve404(res, isHead);
+  try { const st = await fs.stat(abs); if (!st.isFile()) return serve404(res, isHead); } catch { return serve404(res, isHead); }
+  const ext = path.extname(abs).toLowerCase();
+  res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream', 'Cache-Control': 'public, max-age=31536000, immutable', 'X-Content-Type-Options': 'nosniff' });
+  if (isHead) return res.end();
+  createReadStream(abs).pipe(res);
 }
 
 function serveFile(res, { abs, ext, cache }, isHead) {
@@ -236,10 +264,18 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/book') return apiBook(req, res);
     if (pathname.startsWith('/api/')) return sendJson(res, 404, { error: 'Not found' });
 
+    // admin (vč. POST) — musí být před GET-only guardem
+    if (pathname === '/admin' || pathname.startsWith('/admin/')) return handleAdmin(req, res);
+
     if (req.method !== 'GET' && !isHead) return send(res, 405, 'Method not allowed', { Allow: 'GET, HEAD' });
 
+    if (pathname.startsWith('/data-uploads/')) return serveUpload(res, pathname, isHead);
+
     const file = await resolveStatic(pathname);
-    if (file) return serveFile(res, file, isHead);
+    if (file) {
+      if (file.ext === '.html') return serveHtml(res, file.abs, isHead);
+      return serveFile(res, file, isHead);
+    }
     return serve404(res, isHead);
   } catch (e) {
     console.error('request error', e);
@@ -250,4 +286,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`kurdiovsky.cz server na portu ${PORT}, rezervace v ${BOOKINGS_DIR}`);
+  startTelegram();
 });

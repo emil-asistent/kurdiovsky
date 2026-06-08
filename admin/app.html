@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Správa webu kurdiovsky.cz</title>
+<style>
+  :root { --bg:#0e0e10; --panel:#1a1a1d; --panel2:#151517; --line:#2a2a2e; --red:#d31f26; --green:#1f9d57;
+    --txt:#f2f2f2; --mut:#9a9aa0; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; }
+  body { background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    display:flex; flex-direction:column; height:100vh; }
+  header { display:flex; align-items:center; gap:14px; padding:12px 18px; border-bottom:1px solid var(--line); background:var(--panel2); }
+  header .logo { font-weight:800; letter-spacing:-.02em; }
+  header .logo b { color:var(--red); }
+  header .spacer { flex:1; }
+  header .cost { color:var(--mut); font-size:12px; }
+  header button { background:transparent; border:1px solid var(--line); color:var(--mut); padding:7px 12px; border-radius:8px; cursor:pointer; font-size:13px; }
+  main { flex:1; display:grid; grid-template-columns:minmax(320px,420px) 1fr; gap:0; min-height:0; }
+  .left { display:flex; flex-direction:column; border-right:1px solid var(--line); min-height:0; }
+  .right { display:flex; flex-direction:column; min-height:0; background:var(--panel2); }
+  .chat { flex:1; overflow:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .msg { max-width:90%; padding:10px 13px; border-radius:12px; font-size:14px; line-height:1.5; white-space:pre-wrap; }
+  .msg.user { align-self:flex-end; background:var(--red); color:#fff; border-bottom-right-radius:4px; }
+  .msg.bot { align-self:flex-start; background:var(--panel); border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .msg.sys { align-self:center; color:var(--mut); font-size:12px; background:transparent; }
+  .composer { border-top:1px solid var(--line); padding:12px; display:flex; gap:8px; }
+  .composer textarea { flex:1; resize:none; height:46px; max-height:140px; padding:12px; border-radius:10px; border:1px solid var(--line); background:#0b0b0d; color:var(--txt); font-size:15px; font-family:inherit; }
+  .composer textarea:focus { outline:none; border-color:var(--red); }
+  .composer button { border:0; background:var(--red); color:#fff; border-radius:10px; padding:0 18px; font-weight:600; cursor:pointer; }
+  .pvbar { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); }
+  .pvbar select { background:#0b0b0d; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:13px; }
+  .pvbar .tag { font-size:11px; color:var(--mut); border:1px solid var(--line); padding:3px 8px; border-radius:20px; }
+  iframe { flex:1; border:0; width:100%; background:#000; }
+  .drawer { border-top:1px solid var(--line); background:var(--panel); max-height:42vh; overflow:auto; padding:14px 16px; }
+  .drawer h3 { margin:0 0 8px; font-size:13px; color:var(--mut); text-transform:uppercase; letter-spacing:.04em; }
+  .change { font-size:13px; border:1px solid var(--line); border-radius:10px; padding:9px 11px; margin-bottom:7px; background:var(--panel2); }
+  .change .k { color:var(--mut); font-size:11px; }
+  .change .before { color:#c98; text-decoration:line-through; opacity:.7; }
+  .change .after { color:#9d9; }
+  .actions { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+  .btn { border:0; border-radius:10px; padding:11px 16px; font-weight:600; cursor:pointer; font-size:14px; }
+  .btn.publish { background:var(--green); color:#fff; }
+  .btn.ghost { background:transparent; border:1px solid var(--line); color:var(--mut); }
+  .empty { color:var(--mut); font-size:13px; }
+  details { margin-top:12px; } summary { cursor:pointer; color:var(--mut); font-size:13px; }
+  .quick { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+  .quick select, .quick textarea { background:#0b0b0d; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:9px; font-size:14px; font-family:inherit; }
+  .quick textarea { height:70px; resize:vertical; }
+  .ver { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12px; border-bottom:1px solid var(--line); padding:7px 0; }
+  .ver button { background:transparent; border:1px solid var(--line); color:var(--mut); border-radius:7px; padding:5px 9px; cursor:pointer; font-size:12px; }
+  @media (max-width:820px){ main{grid-template-columns:1fr;} .right{display:none;} }
+</style>
+</head>
+<body>
+  <header>
+    <span class="logo">J<b>K</b> · správa webu</span>
+    <span class="tag" style="font-size:11px;color:var(--mut);border:1px solid var(--line);padding:3px 8px;border-radius:20px">kurdiovsky.cz</span>
+    <span class="spacer"></span>
+    <span class="cost" id="cost"></span>
+    <button id="logout">Odhlásit</button>
+  </header>
+  <main>
+    <section class="left">
+      <div class="chat" id="chat">
+        <div class="msg bot">Ahoj! Napiš mi vlastními slovy, co chceš na webu změnit — třeba „změň telefon na 777 123 456" nebo „zkrať text na úvodu". Připravím to jako koncept a ukážu náhled. Zveřejní se to, až klikneš na <b>Zveřejnit</b>.</div>
+      </div>
+      <div class="composer">
+        <textarea id="input" placeholder="Napiš, co chceš změnit…"></textarea>
+        <button id="send">Poslat</button>
+      </div>
+    </section>
+    <section class="right">
+      <div class="pvbar">
+        <span class="tag">Náhled konceptu</span>
+        <select id="pageSel"></select>
+        <span class="spacer" style="flex:1"></span>
+        <button onclick="refreshPreview()" style="background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:13px">Obnovit</button>
+      </div>
+      <iframe id="preview" src="/admin/preview/index"></iframe>
+    </section>
+  </main>
+
+  <div class="drawer" id="drawer">
+    <h3>Neuložené změny (koncept)</h3>
+    <div id="changes"><div class="empty">Zatím žádné změny. Napiš mi, co upravit.</div></div>
+    <div class="actions" id="pubActions" style="display:none">
+      <button class="btn publish" id="publish">Zveřejnit na web</button>
+      <button class="btn ghost" id="discard">Zahodit změny</button>
+    </div>
+
+    <details>
+      <summary>Rychlé úpravy (telefon, e-mail, jeden text)</summary>
+      <div class="quick">
+        <select id="qkey"><option value="">— vyber, co upravit —</option></select>
+        <textarea id="qval" placeholder="Nová hodnota…"></textarea>
+        <button class="btn publish" style="background:var(--red)" id="qsave">Uložit do konceptu</button>
+      </div>
+    </details>
+
+    <details>
+      <summary>Historie verzí (vrácení zpět)</summary>
+      <div id="versions"></div>
+    </details>
+  </div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+const chat=$('chat');
+function add(role, text){ const d=document.createElement('div'); d.className='msg '+role; d.textContent=text; chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d; }
+function esc(s){ return String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+function refreshPreview(){ const slug=$('pageSel').value||'index'; $('preview').src='/admin/preview/'+slug+'?r='+Date.now(); }
+
+async function loadState(){
+  const r = await fetch('/admin/api/state'); if(!r.ok) return; const s = await r.json();
+  // cost
+  if (s.cost) $('cost').textContent = 'AI dnes: '+ (s.cost.usd? s.cost.usd.toFixed(3):'0.000') +' $';
+  // page selector
+  const sel=$('pageSel'); if (sel.options.length<=0 || sel.dataset.init!=='1'){ sel.innerHTML=''; (s.pages||['index']).forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);}); sel.dataset.init='1'; }
+  // changes
+  const c=$('changes');
+  if (!s.changes || !s.changes.length){ c.innerHTML='<div class="empty">Zatím žádné změny. Napiš mi, co upravit.</div>'; $('pubActions').style.display='none'; }
+  else {
+    c.innerHTML = s.changes.map(ch=>`<div class="change"><div class="k">${esc(ch.label||ch.key)} · ${esc(ch.page||'')}</div><div class="before">${esc(String(ch.before||'').slice(0,160))}</div><div class="after">${esc(String(ch.after||'').slice(0,160))}</div></div>`).join('');
+    $('pubActions').style.display='flex';
+  }
+  // versions
+  $('versions').innerHTML = (s.versions||[]).map(v=>`<div class="ver"><span>${esc((v.updatedAt||'').replace('T',' ').slice(0,16))} · ${esc(v.summary||'')}</span><button onclick="doRevert('${esc(v.version)}')">Vrátit</button></div>`).join('') || '<div class="empty">Zatím žádná zveřejněná verze.</div>';
+}
+
+async function loadKeys(){
+  const r = await fetch('/admin/api/content'); if(!r.ok) return; const s = await r.json();
+  const sel=$('qkey'); sel.innerHTML='<option value="">— vyber, co upravit —</option>';
+  (s.content||[]).filter(it=>it.type!=='image').forEach(it=>{ const o=document.createElement('option'); o.value=it.key; o.textContent=(it.label||it.key)+' ('+it.page+')'; o.dataset.cur=it.draft!==undefined?it.draft:(it.current||''); sel.appendChild(o); });
+  sel.onchange=()=>{ const o=sel.selectedOptions[0]; $('qval').value = o? (o.dataset.cur||'') : ''; };
+}
+
+async function sendMsg(){
+  const t=$('input').value.trim(); if(!t) return;
+  $('input').value=''; add('user',t); const thinking=add('sys','přemýšlím…'); $('send').disabled=true;
+  try {
+    const r=await fetch('/admin/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t})});
+    const j=await r.json(); thinking.remove();
+    if(!r.ok){ add('bot','⚠️ '+(j.error||'Chyba.')); } else { add('bot', j.reply||'Hotovo.'); refreshPreview(); }
+  } catch { thinking.remove(); add('bot','⚠️ Chyba spojení.'); }
+  $('send').disabled=false; loadState();
+}
+
+async function doPublish(){
+  if(!confirm('Opravdu zveřejnit změny na živý web?')) return;
+  const r=await fetch('/admin/api/publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:'Úprava obsahu'})});
+  const j=await r.json(); if(!r.ok){ alert(j.error||'Nepodařilo se zveřejnit.'); return; }
+  add('sys','✅ Zveřejněno na web.'); refreshPreview(); loadState();
+}
+async function doDiscard(){ if(!confirm('Zahodit všechny neuložené změny?'))return; await fetch('/admin/api/discard',{method:'POST'}); add('sys','Změny zahozeny.'); refreshPreview(); loadState(); }
+async function doRevert(v){ if(!confirm('Vrátit web na tuto verzi?'))return; const r=await fetch('/admin/api/revert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({version:v})}); const j=await r.json(); if(!r.ok){alert(j.error||'Chyba');return;} add('sys','↩ Web vrácen na vybranou verzi.'); refreshPreview(); loadState(); }
+window.doRevert=doRevert; window.refreshPreview=refreshPreview;
+
+async function quickSave(){
+  const k=$('qkey').value, v=$('qval').value; if(!k){alert('Vyber, co upravit.');return;}
+  const r=await fetch('/admin/api/quick',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,value:v})});
+  const j=await r.json(); if(!r.ok){alert(j.error||'Chyba');return;}
+  add('sys','Uloženo do konceptu: '+($('qkey').selectedOptions[0].textContent)); refreshPreview(); loadState();
+}
+
+$('send').onclick=sendMsg;
+$('input').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} });
+$('publish').onclick=doPublish; $('discard').onclick=doDiscard; $('qsave').onclick=quickSave;
+$('pageSel').onchange=refreshPreview;
+$('logout').onclick=async()=>{ await fetch('/admin/logout',{method:'POST'}); location.href='/admin/login'; };
+loadState(); loadKeys();
+setInterval(loadState, 20000);
+</script>
+</body>
+</html>
