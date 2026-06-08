@@ -6,173 +6,232 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Správa webu kurdiovsky.cz</title>
 <style>
-  :root { --bg:#0e0e10; --panel:#1a1a1d; --panel2:#151517; --line:#2a2a2e; --red:#d31f26; --green:#1f9d57;
-    --txt:#f2f2f2; --mut:#9a9aa0; }
-  * { box-sizing:border-box; }
-  html,body { margin:0; height:100%; }
-  body { background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    display:flex; flex-direction:column; height:100vh; }
-  header { display:flex; align-items:center; gap:14px; padding:12px 18px; border-bottom:1px solid var(--line); background:var(--panel2); }
-  header .logo { font-weight:800; letter-spacing:-.02em; }
-  header .logo b { color:var(--red); }
-  header .spacer { flex:1; }
-  header .cost { color:var(--mut); font-size:12px; }
-  header button { background:transparent; border:1px solid var(--line); color:var(--mut); padding:7px 12px; border-radius:8px; cursor:pointer; font-size:13px; }
-  main { flex:1; display:grid; grid-template-columns:minmax(320px,420px) 1fr; gap:0; min-height:0; }
-  .left { display:flex; flex-direction:column; border-right:1px solid var(--line); min-height:0; }
-  .right { display:flex; flex-direction:column; min-height:0; background:var(--panel2); }
-  .chat { flex:1; overflow:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
-  .msg { max-width:90%; padding:10px 13px; border-radius:12px; font-size:14px; line-height:1.5; white-space:pre-wrap; }
-  .msg.user { align-self:flex-end; background:var(--red); color:#fff; border-bottom-right-radius:4px; }
-  .msg.bot { align-self:flex-start; background:var(--panel); border:1px solid var(--line); border-bottom-left-radius:4px; }
-  .msg.sys { align-self:center; color:var(--mut); font-size:12px; background:transparent; }
-  .composer { border-top:1px solid var(--line); padding:12px; display:flex; gap:8px; }
-  .composer textarea { flex:1; resize:none; height:46px; max-height:140px; padding:12px; border-radius:10px; border:1px solid var(--line); background:#0b0b0d; color:var(--txt); font-size:15px; font-family:inherit; }
-  .composer textarea:focus { outline:none; border-color:var(--red); }
-  .composer button { border:0; background:var(--red); color:#fff; border-radius:10px; padding:0 18px; font-weight:600; cursor:pointer; }
-  .pvbar { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); }
-  .pvbar select { background:#0b0b0d; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:13px; }
-  .pvbar .tag { font-size:11px; color:var(--mut); border:1px solid var(--line); padding:3px 8px; border-radius:20px; }
-  iframe { flex:1; border:0; width:100%; background:#000; }
-  .drawer { border-top:1px solid var(--line); background:var(--panel); max-height:42vh; overflow:auto; padding:14px 16px; }
-  .drawer h3 { margin:0 0 8px; font-size:13px; color:var(--mut); text-transform:uppercase; letter-spacing:.04em; }
-  .change { font-size:13px; border:1px solid var(--line); border-radius:10px; padding:9px 11px; margin-bottom:7px; background:var(--panel2); }
-  .change .k { color:var(--mut); font-size:11px; }
-  .change .before { color:#c98; text-decoration:line-through; opacity:.7; }
-  .change .after { color:#9d9; }
-  .actions { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
-  .btn { border:0; border-radius:10px; padding:11px 16px; font-weight:600; cursor:pointer; font-size:14px; }
-  .btn.publish { background:var(--green); color:#fff; }
-  .btn.ghost { background:transparent; border:1px solid var(--line); color:var(--mut); }
-  .empty { color:var(--mut); font-size:13px; }
-  details { margin-top:12px; } summary { cursor:pointer; color:var(--mut); font-size:13px; }
-  .quick { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
-  .quick select, .quick textarea { background:#0b0b0d; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:9px; font-size:14px; font-family:inherit; }
-  .quick textarea { height:70px; resize:vertical; }
-  .ver { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12px; border-bottom:1px solid var(--line); padding:7px 0; }
-  .ver button { background:transparent; border:1px solid var(--line); color:var(--mut); border-radius:7px; padding:5px 9px; cursor:pointer; font-size:12px; }
-  @media (max-width:820px){ main{grid-template-columns:1fr;} .right{display:none;} }
+  :root{
+    --bg:#0d0d0f; --panel:#16161a; --panel2:#121215; --line:#26262c; --line2:#33333b;
+    --red:#e0242b; --green:#22a35c; --txt:#f3f3f5; --mut:#9a9aa4; --soft:#b9b9c2;
+    --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:radial-gradient(1200px 600px at 70% -10%, #1a1320 0%, var(--bg) 55%);
+    color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    display:flex;flex-direction:column;height:100vh}
+  header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line);background:rgba(18,18,21,.7);backdrop-filter:blur(8px)}
+  header .logo{font-weight:800;letter-spacing:-.02em;font-size:16px}
+  header .logo b{color:var(--red)}
+  header .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:7px;vertical-align:middle}
+  header .spacer{flex:1}
+  header .cost{color:var(--mut);font-size:12px}
+  header button{background:transparent;border:1px solid var(--line);color:var(--mut);padding:8px 14px;border-radius:11px;cursor:pointer;font-size:13px}
+  header button:hover{color:var(--txt);border-color:var(--line2)}
+  main{flex:1;display:grid;grid-template-columns:minmax(360px,1fr) 1.05fr;min-height:0}
+  .left{display:flex;flex-direction:column;border-right:1px solid var(--line);min-height:0;position:relative}
+  .right{display:flex;flex-direction:column;min-height:0;background:var(--panel2)}
+
+  .chat{flex:1;overflow:auto;padding:24px 22px;display:flex;flex-direction:column;gap:14px}
+  .row{display:flex;gap:11px;max-width:90%}
+  .row.user{align-self:flex-end;flex-direction:row-reverse}
+  .av{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;font-size:14px;font-weight:800}
+  .av.bot{background:#221016;color:var(--red);border:1px solid #3a1a1f}
+  .av.user{background:var(--red);color:#fff}
+  .bubble{padding:13px 16px;border-radius:16px;font-size:15px;line-height:1.55;white-space:pre-wrap}
+  .row.bot .bubble{background:var(--panel);border:1px solid var(--line);border-top-left-radius:5px}
+  .row.user .bubble{background:var(--red);color:#fff;border-top-right-radius:5px}
+  .bubble img{max-width:200px;border-radius:10px;display:block;margin-top:6px}
+  .sys{align-self:center;color:var(--mut);font-size:12.5px}
+
+  .suggest{display:flex;flex-wrap:wrap;gap:8px;padding:0 22px 10px}
+  .suggest button{background:var(--panel);border:1px solid var(--line);color:var(--soft);border-radius:999px;padding:9px 15px;font-size:13.5px;cursor:pointer}
+  .suggest button:hover{border-color:var(--red);color:var(--txt)}
+
+  .composer{padding:14px 18px 18px;border-top:1px solid var(--line)}
+  .inputwrap{display:flex;align-items:flex-end;gap:8px;background:#0a0a0c;border:1px solid var(--line2);border-radius:18px;padding:8px 8px 8px 10px}
+  .inputwrap:focus-within{border-color:var(--red)}
+  .iconbtn{flex:none;width:42px;height:42px;border-radius:12px;border:0;background:transparent;color:var(--mut);font-size:19px;cursor:pointer}
+  .iconbtn:hover{background:#1a1a1f;color:var(--txt)}
+  .composer textarea{flex:1;resize:none;height:42px;max-height:160px;padding:11px 4px;border:0;background:transparent;color:var(--txt);font-size:15px;font-family:inherit;outline:none}
+  .send{flex:none;width:42px;height:42px;border-radius:12px;border:0;background:var(--red);color:#fff;font-size:18px;cursor:pointer}
+  .send:disabled{opacity:.45}
+  .hint{color:var(--mut);font-size:11.5px;text-align:center;margin-top:8px}
+
+  .dropmask{position:absolute;inset:0;background:rgba(224,36,43,.12);border:2.5px dashed var(--red);border-radius:0;display:none;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;z-index:5;pointer-events:none}
+  .left.dragover .dropmask{display:flex}
+
+  .pvbar{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line)}
+  .pvbar .tag{font-size:12px;color:var(--mut)}
+  .pvbar select{background:#0a0a0c;color:var(--txt);border:1px solid var(--line);border-radius:11px;padding:8px 12px;font-size:13px}
+  .pvbar .refresh{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:11px;padding:8px 13px;cursor:pointer;font-size:13px}
+  iframe{flex:1;border:0;width:100%;background:#000}
+
+  .tray{border-top:1px solid var(--line);background:var(--panel);padding:16px 20px;max-height:42vh;overflow:auto}
+  .none{color:var(--mut);font-size:14px;text-align:center;padding:10px}
+  .banner{background:linear-gradient(180deg,#14241b,#11201a);border:1px solid #1f4d36;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .banner .head{font-size:15px;font-weight:700;margin-bottom:13px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .chip{background:#0e1a14;border:1px solid #285f43;color:#cdeada;border-radius:999px;padding:8px 14px;font-size:13px}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{border:0;border-radius:14px;padding:14px 22px;font-weight:700;cursor:pointer;font-size:15px}
+  .btn.publish{background:var(--green);color:#fff;flex:1;min-width:170px}
+  .btn.publish:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--mut)}
+  .btn.ghost:hover{color:var(--txt)}
+  .history{margin-top:14px}
+  .history summary{cursor:pointer;color:var(--mut);font-size:13px;list-style:none}
+  .history summary::-webkit-details-marker{display:none}
+  .verlist{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .vercard{display:flex;align-items:center;gap:12px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13px}
+  .vercard .vtxt{flex:1;color:var(--mut)}
+  .vercard button{background:transparent;border:1px solid var(--line2);color:var(--txt);border-radius:10px;padding:8px 13px;cursor:pointer;font-size:13px}
+  @media (max-width:880px){main{grid-template-columns:1fr}.right{display:none}.btn.publish{min-width:0}}
 </style>
 </head>
 <body>
   <header>
     <span class="logo">J<b>K</b> · správa webu</span>
-    <span class="tag" style="font-size:11px;color:var(--mut);border:1px solid var(--line);padding:3px 8px;border-radius:20px">kurdiovsky.cz</span>
     <span class="spacer"></span>
-    <span class="cost" id="cost"></span>
+    <span class="cost"><span class="dot"></span><span id="cost">připraveno</span></span>
     <button id="logout">Odhlásit</button>
   </header>
+
   <main>
-    <section class="left">
+    <section class="left" id="leftPane">
+      <div class="dropmask">Pusťte fotku sem 📷</div>
       <div class="chat" id="chat">
-        <div class="msg bot">Ahoj! Napiš mi vlastními slovy, co chceš na webu změnit — třeba „změň telefon na 777 123 456" nebo „zkrať text na úvodu". Připravím to jako koncept a ukážu náhled. Zveřejní se to, až klikneš na <b>Zveřejnit</b>.</div>
+        <div class="row bot"><div class="av bot">JK</div><div class="bubble">Dobrý den 👋 Napište mi normálně, co chcete na webu změnit — třeba <b>„změňte telefon na 777 123 456"</b>, <b>„udělejte nadpisy větší"</b> nebo <b>„vyměňte fotku v úvodu"</b>.<br><br>Fotku můžete rovnou <b>přetáhnout sem</b> nebo přidat přes 📎. Připravím změnu a ukážu náhled vpravo — na web se dostane, až kliknete na <b>Zveřejnit</b>.</div></div>
+      </div>
+      <div class="suggest" id="suggest">
+        <button data-fill="Změňte text na úvodní stránce na: ">✏️ Upravit text</button>
+        <button data-up="1">🖼️ Nahrát fotku</button>
+        <button data-fill="Změňte telefon na ">📞 Změnit telefon</button>
+        <button data-send="Vraťte prosím poslední změnu zpět.">↩️ Vrátit poslední změnu</button>
       </div>
       <div class="composer">
-        <textarea id="input" placeholder="Napiš, co chceš změnit…"></textarea>
-        <button id="send">Poslat</button>
+        <div class="inputwrap">
+          <button class="iconbtn" id="attach" title="Přidat fotku">📎</button>
+          <textarea id="input" placeholder="Napište, co chcete změnit…"></textarea>
+          <button class="send" id="send" title="Poslat">↑</button>
+        </div>
+        <div class="hint">Fotku přidáte přes 📎 nebo přetažením. Nic se nezveřejní bez vašeho potvrzení.</div>
       </div>
+      <input type="file" id="file" accept="image/*" style="display:none">
     </section>
+
     <section class="right">
       <div class="pvbar">
-        <span class="tag">Náhled konceptu</span>
-        <select id="pageSel"></select>
-        <span class="spacer" style="flex:1"></span>
-        <button onclick="refreshPreview()" style="background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:13px">Obnovit</button>
+        <span class="tag">Náhled (zatím nezveřejněno)</span>
+        <select id="pageSel" title="Stránka"></select>
+        <button class="refresh" onclick="refreshPreview()">Obnovit</button>
       </div>
       <iframe id="preview" src="/admin/preview/index"></iframe>
     </section>
   </main>
 
-  <div class="drawer" id="drawer">
-    <h3>Neuložené změny (koncept)</h3>
-    <div id="changes"><div class="empty">Zatím žádné změny. Napiš mi, co upravit.</div></div>
-    <div class="actions" id="pubActions" style="display:none">
-      <button class="btn publish" id="publish">Zveřejnit na web</button>
-      <button class="btn ghost" id="discard">Zahodit změny</button>
-    </div>
-
-    <details>
-      <summary>Rychlé úpravy (telefon, e-mail, jeden text)</summary>
-      <div class="quick">
-        <select id="qkey"><option value="">— vyber, co upravit —</option></select>
-        <textarea id="qval" placeholder="Nová hodnota…"></textarea>
-        <button class="btn publish" style="background:var(--red)" id="qsave">Uložit do konceptu</button>
-      </div>
-    </details>
-
-    <details>
-      <summary>Historie verzí (vrácení zpět)</summary>
-      <div id="versions"></div>
-    </details>
-  </div>
+  <div class="tray" id="tray"><div id="trayInner"><div class="none">Zatím nemáte žádné rozpracované úpravy.</div></div></div>
 
 <script>
-const $ = (id)=>document.getElementById(id);
+const $=(id)=>document.getElementById(id);
 const chat=$('chat');
-function add(role, text){ const d=document.createElement('div'); d.className='msg '+role; d.textContent=text; chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d; }
-function esc(s){ return String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+let pendingUpload=null; // cesta k právě nahrané fotce, čeká na umístění
 
-function refreshPreview(){ const slug=$('pageSel').value||'index'; $('preview').src='/admin/preview/'+slug+'?r='+Date.now(); }
+function esc(s){return String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function add(role,html){const d=document.createElement('div');
+  if(role==='sys'){d.className='sys';d.innerHTML=html;}
+  else{d.className='row '+role;d.innerHTML=`<div class="av ${role}">${role==='user'?'Vy':'JK'}</div><div class="bubble">${html}</div>`;}
+  chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;}
+function refreshPreview(){const slug=$('pageSel').value||'index';$('preview').src='/admin/preview/'+slug+'?r='+Date.now()}
+window.refreshPreview=refreshPreview;
 
+// ---- nahrávání fotek (klientsky zmenšit + webp) ----
+async function processImage(file){
+  try{
+    const img=await createImageBitmap(file); const max=1600; let w=img.width,h=img.height;
+    if(w>max||h>max){const s=max/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s);}
+    const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+    const blob=await new Promise(r=>c.toBlob(r,'image/webp',0.85));
+    return blob||file;
+  }catch{return file;}
+}
+async function uploadFile(file){
+  if(!file||!file.type.startsWith('image/')){add('sys','⚠️ Tohle nevypadá jako obrázek.');return;}
+  const note=add('sys','nahrávám fotku…');
+  try{
+    const blob=await processImage(file);
+    const name=(file.name||'fotka').replace(/\.[a-z0-9]+$/i,'')+'.webp';
+    const r=await fetch('/admin/api/upload?name='+encodeURIComponent(name),{method:'POST',headers:{'Content-Type':'image/webp'},body:blob});
+    const j=await r.json(); note.remove();
+    if(!r.ok){add('sys','⚠️ '+esc(j.error||'Nahrání selhalo.'));return;}
+    pendingUpload=j.path;
+    add('user',`Nahrál(a) jsem fotku:<img src="${esc(j.path)}" alt="">`);
+    add('bot','Fotka je nahraná. Napište mi, <b>kam ji mám dát</b> — třeba „dej ji do úvodní fotky" nebo „nahraď portrét v sekci O mně".');
+  }catch(e){note.remove();add('sys','⚠️ Chyba při nahrávání.');}
+}
+
+// ---- spodní pruh úprav ----
+function renderTray(s){
+  const t=$('trayInner');const ch=s.changes||[];let html='';
+  if(ch.length){
+    const chips=ch.map(c=>{const look=c.page==='vzhled'||/vzhled/i.test(c.label||'');
+      return `<span class="chip">${look?'🎨':'✏️'} ${esc(look?'Úprava vzhledu webu':(c.label||c.key))}</span>`;}).join('');
+    html+=`<div class="banner"><div class="head">✅ Máte připravené úpravy (${ch.length}) — vpravo je vidíte v náhledu.</div>
+      <div class="chips">${chips}</div>
+      <div class="cta-row"><button class="btn publish" id="publish">Zveřejnit na web</button><button class="btn ghost" id="discard">Zahodit</button></div></div>`;
+  }else{html+=`<div class="none">Zatím nemáte žádné rozpracované úpravy. Napište mi vlevo, co změnit 🙂</div>`;}
+  const vers=s.versions||[];
+  if(vers.length){html+=`<details class="history"><summary>↩️ Dřívější verze webu (${vers.length}) — vrátit zpět</summary><div class="verlist">`+
+    vers.map(v=>`<div class="vercard"><span class="vtxt">${esc((v.updatedAt||'').replace('T',' ').slice(0,16))} — ${esc(v.summary||'úprava')}</span><button onclick="doRevert('${esc(v.version)}')">Vrátit na tuto</button></div>`).join('')+`</div></details>`;}
+  t.innerHTML=html;
+  if($('publish'))$('publish').onclick=doPublish;
+  if($('discard'))$('discard').onclick=doDiscard;
+}
 async function loadState(){
-  const r = await fetch('/admin/api/state'); if(!r.ok) return; const s = await r.json();
-  // cost
-  if (s.cost) $('cost').textContent = 'AI dnes: '+ (s.cost.usd? s.cost.usd.toFixed(3):'0.000') +' $';
-  // page selector
-  const sel=$('pageSel'); if (sel.options.length<=0 || sel.dataset.init!=='1'){ sel.innerHTML=''; (s.pages||['index']).forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);}); sel.dataset.init='1'; }
-  // changes
-  const c=$('changes');
-  if (!s.changes || !s.changes.length){ c.innerHTML='<div class="empty">Zatím žádné změny. Napiš mi, co upravit.</div>'; $('pubActions').style.display='none'; }
-  else {
-    c.innerHTML = s.changes.map(ch=>`<div class="change"><div class="k">${esc(ch.label||ch.key)} · ${esc(ch.page||'')}</div><div class="before">${esc(String(ch.before||'').slice(0,160))}</div><div class="after">${esc(String(ch.after||'').slice(0,160))}</div></div>`).join('');
-    $('pubActions').style.display='flex';
-  }
-  // versions
-  $('versions').innerHTML = (s.versions||[]).map(v=>`<div class="ver"><span>${esc((v.updatedAt||'').replace('T',' ').slice(0,16))} · ${esc(v.summary||'')}</span><button onclick="doRevert('${esc(v.version)}')">Vrátit</button></div>`).join('') || '<div class="empty">Zatím žádná zveřejněná verze.</div>';
+  const r=await fetch('/admin/api/state');if(!r.ok)return;const s=await r.json();
+  if(s.cost)$('cost').textContent='AI dnes '+(s.cost.usd?s.cost.usd.toFixed(2):'0.00')+' $';
+  const sel=$('pageSel');
+  if(sel.dataset.init!=='1'){sel.innerHTML='';const nm={index:'Úvod',sluzby:'Služby','o-mne':'O mně',kontakt:'Kontakt',rezervace:'Rezervace',portal:'Portál','ochrana-osobnich-udaju':'Ochrana údajů'};
+    (s.pages||['index']).forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=nm[p]||p;sel.appendChild(o);});sel.dataset.init='1';}
+  renderTray(s);
 }
 
-async function loadKeys(){
-  const r = await fetch('/admin/api/content'); if(!r.ok) return; const s = await r.json();
-  const sel=$('qkey'); sel.innerHTML='<option value="">— vyber, co upravit —</option>';
-  (s.content||[]).filter(it=>it.type!=='image').forEach(it=>{ const o=document.createElement('option'); o.value=it.key; o.textContent=(it.label||it.key)+' ('+it.page+')'; o.dataset.cur=it.draft!==undefined?it.draft:(it.current||''); sel.appendChild(o); });
-  sel.onchange=()=>{ const o=sel.selectedOptions[0]; $('qval').value = o? (o.dataset.cur||'') : ''; };
+async function sendMsg(text){
+  text=(text!==undefined?text:$('input').value).trim();
+  if(!text&&!pendingUpload)return;
+  let payload=text;
+  if(pendingUpload){payload=(text||'Použij tu fotku.')+`\n\n[Uživatel právě nahrál fotku na cestě ${pendingUpload} — pokud má jít na web, použij ji (nástroj set_image) na místo, které uživatel popsal.]`;pendingUpload=null;}
+  if(text)add('user',esc(text));
+  $('input').value='';const think=add('sys','přemýšlím…');$('send').disabled=true;
+  try{
+    const r=await fetch('/admin/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:payload})});
+    const j=await r.json();think.remove();
+    if(!r.ok)add('bot','⚠️ '+esc(j.error||'Něco se nepovedlo.'));else{add('bot',esc(j.reply||'Hotovo.'));refreshPreview();}
+  }catch{think.remove();add('bot','⚠️ Chyba spojení.');}
+  $('send').disabled=false;loadState();
 }
-
-async function sendMsg(){
-  const t=$('input').value.trim(); if(!t) return;
-  $('input').value=''; add('user',t); const thinking=add('sys','přemýšlím…'); $('send').disabled=true;
-  try {
-    const r=await fetch('/admin/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t})});
-    const j=await r.json(); thinking.remove();
-    if(!r.ok){ add('bot','⚠️ '+(j.error||'Chyba.')); } else { add('bot', j.reply||'Hotovo.'); refreshPreview(); }
-  } catch { thinking.remove(); add('bot','⚠️ Chyba spojení.'); }
-  $('send').disabled=false; loadState();
-}
-
-async function doPublish(){
-  if(!confirm('Opravdu zveřejnit změny na živý web?')) return;
+async function doPublish(){if(!confirm('Opravdu zveřejnit úpravy na živý web?'))return;const b=$('publish');if(b){b.disabled=true;b.textContent='Zveřejňuji…';}
   const r=await fetch('/admin/api/publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({summary:'Úprava obsahu'})});
-  const j=await r.json(); if(!r.ok){ alert(j.error||'Nepodařilo se zveřejnit.'); return; }
-  add('sys','✅ Zveřejněno na web.'); refreshPreview(); loadState();
-}
-async function doDiscard(){ if(!confirm('Zahodit všechny neuložené změny?'))return; await fetch('/admin/api/discard',{method:'POST'}); add('sys','Změny zahozeny.'); refreshPreview(); loadState(); }
-async function doRevert(v){ if(!confirm('Vrátit web na tuto verzi?'))return; const r=await fetch('/admin/api/revert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({version:v})}); const j=await r.json(); if(!r.ok){alert(j.error||'Chyba');return;} add('sys','↩ Web vrácen na vybranou verzi.'); refreshPreview(); loadState(); }
-window.doRevert=doRevert; window.refreshPreview=refreshPreview;
+  const j=await r.json();if(!r.ok){alert(j.error||'Nepodařilo se zveřejnit.');loadState();return;}add('sys','✅ Zveřejněno na web.');refreshPreview();loadState();}
+async function doDiscard(){if(!confirm('Zahodit rozpracované úpravy?'))return;await fetch('/admin/api/discard',{method:'POST'});add('sys','Úpravy zahozeny.');refreshPreview();loadState();}
+async function doRevert(v){if(!confirm('Vrátit web na tuto verzi?'))return;const r=await fetch('/admin/api/revert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({version:v})});const j=await r.json();if(!r.ok){alert(j.error||'Chyba');return;}add('sys','↩️ Web vrácen na vybranou verzi.');refreshPreview();loadState();}
+window.doRevert=doRevert;
 
-async function quickSave(){
-  const k=$('qkey').value, v=$('qval').value; if(!k){alert('Vyber, co upravit.');return;}
-  const r=await fetch('/admin/api/quick',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,value:v})});
-  const j=await r.json(); if(!r.ok){alert(j.error||'Chyba');return;}
-  add('sys','Uloženo do konceptu: '+($('qkey').selectedOptions[0].textContent)); refreshPreview(); loadState();
-}
-
-$('send').onclick=sendMsg;
-$('input').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} });
-$('publish').onclick=doPublish; $('discard').onclick=doDiscard; $('qsave').onclick=quickSave;
+$('send').onclick=()=>sendMsg();
+$('input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
 $('pageSel').onchange=refreshPreview;
-$('logout').onclick=async()=>{ await fetch('/admin/logout',{method:'POST'}); location.href='/admin/login'; };
-loadState(); loadKeys();
-setInterval(loadState, 20000);
+$('logout').onclick=async()=>{await fetch('/admin/logout',{method:'POST'});location.href='/admin/login';};
+$('attach').onclick=()=>$('file').click();
+$('file').onchange=e=>{if(e.target.files[0])uploadFile(e.target.files[0]);e.target.value='';};
+$('suggest').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.up)$('file').click();
+  else if(b.dataset.send)sendMsg(b.dataset.send);
+  else if(b.dataset.fill){$('input').value=b.dataset.fill;$('input').focus();}});
+
+// drag & drop fotek
+const lp=$('leftPane');
+['dragenter','dragover'].forEach(ev=>lp.addEventListener(ev,e=>{e.preventDefault();lp.classList.add('dragover');}));
+['dragleave','drop'].forEach(ev=>lp.addEventListener(ev,e=>{e.preventDefault();if(ev==='drop'||!lp.contains(e.relatedTarget))lp.classList.remove('dragover');}));
+lp.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)uploadFile(f);});
+
+loadState();
+setInterval(loadState,25000);
 </script>
 </body>
 </html>
